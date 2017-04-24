@@ -114,7 +114,7 @@ $data = array(
       "user_id" => "usuario",
       "payment_method_id" => 1,
       "bin" => "450799",
-      "amount" => 500,
+      "amount" => 5.00,
       "currency" => "ARS",
       "installments" => 1,
       "description" => "",
@@ -254,7 +254,7 @@ Mediante este recurso, se genera una solicitud de devolución parcial de un pago
 ```php
 
 $data = array(
-	"amount" => 100
+	"amount" => 1.00
 	);
 $response = $connector->payment()->partialRefund($data,'574673'); //574671 id de la operacion de compra
 $response->getId();
@@ -420,7 +420,7 @@ Los parámetros comunes a todas las verticales deben enviarse junto con los dato
     'street1'=>'Cerrito 740', //Domicilio de facturación (calle y nro). MANDATORIO.
     'street2'=>'Piso 8', //Complemento del domicilio. (piso, departamento). NO MANDATORIO.
     'currency'=>'ARS', //Moneda. MANDATORIO.
-    'amount'=>'125.38', //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
+    'amount'=>'5.00', //Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO. (Ejemplos:$125,38-> 125.38 $12-> 12 o 12.00)
   );
 ```
 
@@ -485,7 +485,7 @@ $data = array(
       "user_id" => "usuario",
       "payment_method_id" => 1,
       "bin" => "450799",
-      "amount" => 500,
+      "amount" => 5.00,
       "currency" => "ARS",
       "installments" => 1,
       "description" => "",
@@ -551,7 +551,7 @@ $data = array(
       "user_id" => "usuario",
       "payment_method_id" => 1,
       "bin" => "450799",
-      "amount" => 500,
+      "amount" => 5.00,
       "currency" => "ARS",
       "installments" => 1,
       "description" => "",
