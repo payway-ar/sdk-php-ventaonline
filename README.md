@@ -670,16 +670,13 @@ $response = $connector->payment()->ExecutePayment($data);
 | 62 | CREDIGUIA |
 | 63 | CABAL PRISMA |
 | 64 | TARJETA SOL |
-| 65 | AMEX MT<sup>2</sup> |
+| 65 | AMEX MT |
 | 66 | MC DEBIT |
 | 67 | CABAL DEBITO (Cabal24) |
 | 99 | MAESTRO |
 
 1. Visa Debito no acepta devoluciones parciales en ecommerce.
-2. En el caso de AMEX se debe seleccionar solo una de las dos opciones. El uso del IdMediodePago = 65, en lugar del IdMediodePago=6, le permite al comercio operar en su Idsite con Multiples terminales provistas por  American Express, favoreciendo la alta disponibilidad de terminales cuando el volumen de transacciones del medio de pago es importante.ndo el volumen de transacciones del medio de pago es importante.
 
-
-*Para la marca American Express, se deberá optar únicamente por uno de los dos IDs. El uso del ID = 65 le permite al comercio operar con múltiples terminales, favoreciendo la alta disponibilidad cuando el volumen de transacciones del medio de pago es importante. DECIDIR recomienda la utilización del ID = 65.
 
 [Volver al inicio](#decidir-sdk-php)
 
