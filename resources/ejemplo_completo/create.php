@@ -12,7 +12,6 @@ if($_POST){
 	$key_private = $_POST['key_private'];
 	$status = "PENDIENTE";
 	$data = array(
-				"monto" => $_POST['monto'],
 				"currency" => $_POST['currency'],
 				"user_id" => $_POST['user_id'],
 				"cuotas" => $_POST['cuotas']
@@ -72,9 +71,6 @@ box-shadow: 0 0 7px black;
 			  	</tr>
 				<tr>
 				  <td><b>Operacion</b></td><td><input type="text" name="operacion" value="<?php echo "sdk_php".rand(99999,9999999); ?>"></input></td>
-				</tr>
-				<tr>
-				  <td><b>Monto</b></td><td><input type="text" name="monto" value="50.00"></input></td>
 				</tr>
 				<tr>
 				  <td><b>Currency</b></td><td><input type="text" name="currency" value="ARS"></input></td>

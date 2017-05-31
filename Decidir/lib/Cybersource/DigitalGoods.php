@@ -10,7 +10,7 @@ class DigitalGoods extends AbstractData
 	protected $channel;
 	protected $dataSet = array();
 	protected $products_data = null;
-	
+
 	public function __construct($retailData, $productsData) {
 
 		$this->setRequiredFields(array(	
@@ -65,7 +65,24 @@ class DigitalGoods extends AbstractData
 			
 		}
 
+		$this->setCSMDDS();
 		$this->setProducts($this->products_data);
+	}
+
+	public function CsmddsList(){
+		$csmddsList = array();
+
+		for($i=12; $i<=100; $i++){
+			if($i != 13){
+				$csmddsData = array(
+							"code" => $i, 
+							"description"=> "Campo MDD".$i
+							);
+
+				array_push($csmddsList, $csmddsData);
+			}
+		}
+		return $csmddsList;
 	}
 	
 	public function setSendToCs($index, $value) {
@@ -128,6 +145,10 @@ class DigitalGoods extends AbstractData
 		$this->dataSet['digital_goods_transaction_data']['items'] = $value;
 	}	
 	
+	public function setCSMDDS() {
+		$this->dataSet['csmdds'] = $this->CsmddsList();
+	}
+
 	public function getData(){
 		return $this->dataSet;
 	}

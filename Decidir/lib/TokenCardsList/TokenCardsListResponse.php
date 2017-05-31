@@ -7,7 +7,11 @@ class TokenCardsListResponse extends \Decidir\Data\AbstractData {
 	protected $tokens;
 
 	public function __construct(array $data) {
-		$this->setRequiredFields(array());
+			$this->setRequiredFields(array(
+				"tokens" => array(
+					"name" => "tokens"
+				)
+			));
 
 		parent::__construct($data);
 	}

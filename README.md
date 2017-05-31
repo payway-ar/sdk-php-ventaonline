@@ -143,7 +143,7 @@ $connector = new \Decidir\Connector($keys_data, $ambient);
 Este recurso permite conocer el estado actual de la API RESTful de DECIDIR.
 
 ```php
-$connector = new \Decidir\Connector($header_http_data, $ambient);
+$connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array();
 $response = $connector->healthcheck()->getStatus($data);
@@ -163,7 +163,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 *Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
 
 ```php
-$connector = new \Decidir\Connector($header_http_data, $ambient);
+$connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array(
       "site_transaction_id" => "12042017_20",
@@ -188,18 +188,17 @@ $response->getBin();
 $response->getAmount();
 $response->getCurrency();
 $response->getInstallments();
-$response->getDescription();
 $response->getPaymentType();
 $response->getDateDue();
 $response->getSubPayments();
 $response->getStatus();
-$response->getStatusDetails();
 $response->getStatusDetails();
 $response->getDate();
 $response->getMerchantId();
 $response->getEstablishmentName();
 $response->getFraudDetection();
 $response->getAggregateData();
+$response->getSiteId();
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
@@ -218,7 +217,7 @@ Este recurso admite la posibilidad de agregar los filtros adicionales:
 - (opcional) merchantId: ID Site del comercio.
 
 ```php
-$connector = new \Decidir\Connector($header_http_data, $ambient);
+$connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array();
 $response = $connector->payment()->PaymentList($data);
@@ -237,7 +236,7 @@ $response->getHasMOre();
 Mediante este recurso, se genera una solicitud de información de un pago previamente realizado, pasando como parámetro el id del pago.
 
 ```php
-$connector = new \Decidir\Connector($header_http_data, $ambient);
+$connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array();
 
@@ -261,6 +260,7 @@ $response->getMerchantId();
 $response->getEstablishmentName();
 $response->getFraudDetection();
 $response->getAggregateData();
+$response->getSiteId();
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
@@ -383,7 +383,7 @@ Una vez que se obtiene el token a partir de la tarjeta tokenizada, se deberá ej
 
 ```php
 
-$connector = new \Decidir\Connector($header_http_data, $ambient);
+$connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array(
       "site_transaction_id" => "12042017_20",
@@ -408,19 +408,17 @@ $response->getBin();
 $response->getAmount();
 $response->getCurrency();
 $response->getInstallments();
-$response->getDescription();
 $response->getPaymentType();
 $response->getDateDue();
 $response->getSubPayments();
 $response->getStatus();
-$response->getStatusDetails();
 $response->getStatusDetails();
 $response->getDate();
 $response->getMerchantId();
 $response->getEstablishmentName();
 $response->getFraudDetection();
 $response->getAggregateData();
-
+$response->getSiteId();
 ```
 
 [<sub>Volver a inicio</sub>](#pagotokenizado)

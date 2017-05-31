@@ -8,6 +8,9 @@ class PaymentRefundResponse extends \Decidir\Data\AbstractData {
 	protected $amount;
 	protected $sub_payments;
 	protected $status;
+	protected $error_type;
+	protected $validation_errors;
+	
 	public function __construct(array $data) {
 		$this->setRequiredFields(array(
 			"id" => array(
@@ -21,6 +24,12 @@ class PaymentRefundResponse extends \Decidir\Data\AbstractData {
 			),
 			"status" => array(
 				"name" => "status"
+			),
+			"error_type" => array(
+				"name" => "error_type"
+			),
+			"validation_errors" => array(
+				"name" => "validation_errors"
 			)
 		));
 
@@ -41,5 +50,13 @@ class PaymentRefundResponse extends \Decidir\Data\AbstractData {
 
 	public function getStatus(){
 		return $this->status;
+	}
+
+	public function getErrorType(){
+		return $this->error_type;
+	}
+
+	public function getValidationErrors(){
+		return $this->validation_errors;
 	}
 }

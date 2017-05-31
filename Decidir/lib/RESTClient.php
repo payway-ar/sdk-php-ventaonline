@@ -4,15 +4,15 @@ namespace Decidir;
 class RESTClient{
 	private $url = NULL;
 	private $endpoint = NULL;
-	private $httpHeader = array();
+	private $keys_data = array();
 	private $key = NULL;
-	private $httpCodes = array("200","201");
+	private $statusCodeResponse = array(200, 201, 204);
 
 	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com/api/v1/";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com/api/v1/";
 
-	public function __construct($header_http_array, $mode = "test"){
-		$this->httpHeader = $header_http_array;
+	public function __construct($keys_data_array, $mode = "test"){
+		$this->keys_data = $keys_data_array;
 		if($mode == "test") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_TEST;
 		} elseif ($mode == "prod") {
@@ -33,10 +33,10 @@ class RESTClient{
 			$this->key = "";
 
 		}elseif($action == 'tokens'){
-			$this->key = $this->httpHeader['public_key'];
+			$this->key = $this->keys_data['public_key'];
 
 		}else{
-			$this->key = $this->httpHeader['private_key'];
+			$this->key = $this->keys_data['private_key'];
 		}
 	}
 
@@ -103,9 +103,9 @@ class RESTClient{
 		$response = curl_exec($curl);
 		$codeResponse = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-		if($response == false || !in_array($codeResponse, $this->httpCodes)){
+		if($response == false && !in_array($codeResponse, $this->statusCodeResponse)){
 			$err = "curl error: ".curl_error($curl);
-			throw new Exception($err);
+			throw new \Exception($err);
 		}
 
 		curl_close($curl);

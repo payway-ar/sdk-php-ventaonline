@@ -3,7 +3,7 @@ include_once dirname(__FILE__)."/FlatDb.php";
 
 $orders_db = new FlatDb();
 if(!file_exists("ordenes.tsv"))
-	$orders_db->createTable('ordenes',array("id","key_public","key_private","status","data","mediodepago", "payment_response", "payment","tokenization"));
+	$orders_db->createTable('ordenes',array("id","key_public","key_private","status","data","mediodepago", "payment_response", "payment","refund", "tokenization"));
 
 $orders_db->openTable('ordenes');
 $ord = $orders_db->getRecords(array("id","key_public","key_private","status","data","mediodepago", "payment_response", "payment", "tokenization"));
@@ -36,50 +36,51 @@ $ord = $orders_db->getRecords(array("id","key_public","key_private","status","da
 	</style>
 </head>
 <body>
-<div id="container">
-	<div id="content">
-		<div class="w-content">
-		  <div class="w-section"></div>
-	<div id="m-status" style="margin-bottom: 300px">	
-	<div class="block">
-	<table id="tablelist" class="full tablesorter">
-	<thead>
-		<tr>
-			<th class="header">Operacion</th>
-			<th class="header">Estado</th>
-			<th class="header">Medio de Pago</th>
-			<th class="header">Pago</th>
-			<th class="header">Estado del Pago</th>
-			<th class="header">Anular / Devolver</th>
-		</tr>
-	</thead>
-	<tbody><?php foreach($ord as $o): ?>
-    	<tr>
-      		<td><?php echo $o['id'];?></td>
-      		<td><?php echo $o['status'];?></td>
-			<td>
-				<?php  if($o['mediodepago'] == 0){ ?>
-					<a href="mediopago.php?ord=<?php echo $o['id'];?>" class="btn site btn-sm">Agregar datos de Medio de Pago</a>
-				<?php }else{ echo $o['mediodepago']; }?>
-			</td>
-			<td><?php if($o['payment'] == 0){ ?>
-				<a href="pagar.php?ord=<?php echo $o['id'];?>" class="btn site btn-sm">Pagar</a></td>
-				<?php }else{ echo $o['payment']; }?>
-			<td><a href="status.php?ord=<?php echo $o['id'];?>" class="btn success btn-sm">Consultar Estado</a></td>
-       		<td>
-       			<a href="devolver.php?ord=<?php echo $o['id'];?>" class="btn warning site btn-sm">Devolver</a>
-       		</td>
-      	</tr>
-		<?php endforeach;?>
-	</tbody>
-		<tfoot>
-	  <tr>
-	    <td colspan="7"><a href="create.php" class="btn info">Nuevo</a></td>
-	  </tr>
-	</tfoot>
-		</table>
+		<div id="container">
+			<div id="content">
+				<div class="w-content">
+				  <div class="w-section"></div>
+			<div id="m-status" style="margin-bottom: 300px">	
+			<div class="block">
+			<table id="tablelist" class="full tablesorter">
+			<thead>
+				<tr>
+					<th class="header">Operacion</th>
+					<th class="header">Estado</th>
+					<th class="header">Medio de Pago</th>
+					<th class="header">Pago</th>
+					<th class="header">Estado del Pago</th>
+					<th class="header">Anular / Devolver</th>
+				</tr>
+			</thead>
+			<tbody><?php foreach($ord as $o): ?>
+		    	<tr>
+		      		<td><?php echo $o['id'];?></td>
+		      		<td><?php echo $o['status'];?></td>
+					<td>
+						<?php  if($o['mediodepago'] == 0){ ?>
+							<a href="mediopago.php?ord=<?php echo $o['id'];?>" class="btn site btn-sm">Agregar datos de Medio de Pago</a>
+						<?php }else{ echo $o['mediodepago']; }?>
+					</td>
+					<td><?php if($o['payment'] == 0){ ?>
+						<a href="pagar.php?ord=<?php echo $o['id'];?>" class="btn site btn-sm">Pagar</a></td>
+						<?php }else{ echo $o['payment']; }?>
+					<td><a href="status.php?ord=<?php echo $o['id'];?>" class="btn success btn-sm">Consultar Estado</a></td>
+		       		<td>
+		       			<a href="devolver.php?ord=<?php echo $o['id'];?>" class="btn warning site btn-sm">Devolver</a>
+		       			<a href="anular.php?ord=<?php echo $o['id'];?>" class="btn warning site btn-sm">Anular</a>
+		       		</td>
+		      	</tr>
+				<?php endforeach;?>
+			</tbody>
+			<tfoot>
+		  <tr>
+		    <td colspan="7"><a href="create.php" class="btn info">Nuevo</a></td>
+		  </tr>
+		</tfoot>
+			</table>
+		</div>
 	</div>
-</div>
 		</div>
 		<div class="clearfix"></div>
 	</div>

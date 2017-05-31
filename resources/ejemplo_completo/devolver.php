@@ -1,6 +1,6 @@
 <?php
 include_once dirname(__FILE__)."/FlatDb.php";
-include_once dirname(__FILE__)."/../../Decidir/lib/Connector.php";
+include_once dirname(__FILE__)."/../../vendor/autoload.php";
 
 $orders_db = new FlatDb();
 $orders_db->openTable('ordenes');
@@ -16,12 +16,10 @@ if($_POST) {
                           'private_key' => $ord[0]['key_private']);
 
 	$ambient = "test";
-
 	$connector = new \Decidir\Connector($header_http_data, $ambient);
-	
 
 	if($_POST['tipo'] == "parcial"){
-		$data = array("amount" => intval($_POST['monto']));
+		$data = array("amount" => ($_POST['monto']*100));
 		$response = $connector->payment()->partialRefund($data, $paymentStatus['id']);
 
 	}else{
@@ -29,14 +27,20 @@ if($_POST) {
 		$response = $connector->payment()->Refund($data, $paymentStatus['id']);
 	}
 
+	$refundResponse = array();
+	
+	if(!($response->getStatus() != NULL)){
+		$refundResponse['validation_error'] = $response->getValidationErrors();
+		$refundResponse['error_type'] = $response->getErrorType();
 
-	$RefundResponse = array(
-						"id" => $response->getId(),
-						"amount" => $response->getAmount(),
-						"status" => $response->getStatus()
-			);
+	}else{
+		$refundResponse['id'] = $response->getId();
+		$refundResponse['status'] = $response->getStatus();
+		$refundResponse['amount'] = $response->getAmount();
+		$refundResponse['sub_payments'] = $response->getSubPayments();
 
-	var_dump($RefundResponse);
+	}
+	$orders_db->updateRecords(array("refund" => json_encode($refundResponse)),array("id" => $operationid));
 }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -72,30 +76,62 @@ if($_POST) {
 		<div class="w-content">
 		  <div class="w-section"></div>
 			<div id="m-status" style="margin-bottom: 300px">
-
 				<div class="block">
-				<form id="activeform" method="POST" action="devolver.php?ord=<?php echo $operationid; ?>" enctype="multipart/form-data">
+				<?php if(!isset($response)){ ?>
+					<form id="activeform" method="POST" action="devolver.php?ord=<?php echo $operationid; ?>" enctype="multipart/form-data">
+						<table id="tablelist" class="full tablesorter">
+							<tbody>
+								<tr>
+									<td><b>Tipo Devolucion</b></td>
+									<td><select name="tipo">
+											<option value="total">Total</option>
+											<option value="parcial">Parcial</option>
+									   </select>
+									</td>
+								</tr>
+								<tr>
+								  <td><b>Monto</b></td><td><input type="text" name="monto" value="10.00"></input></td>
+								</tr>				
+							</tbody>	
+							<tfoot>
+							  <tr>
+								<td colspan="2"><a href="index.php" class="btn error site">Cancelar</a>&nbsp;&nbsp;&nbsp;<a href="devolver.php" onclick="$('#activeform').submit();return false;" class="btn site" id="send">Enviar</a></td>
+							  </tr>
+							</tfoot>
+						</table>		
+					</form>
+				<?php }else{ ?>
 					<table id="tablelist" class="full tablesorter">
-						<tbody>
+						<thead>
+							<p>Resultado de la devolucion: </p>
 							<tr>
-								<td><b>Tipo Devolucion</b></td>
-								<td><select name="tipo">
-										<option value="total">Total</option>
-										<option value="parcial">Parcial</option>
-								   </select>
+								<th class="header">Campo</th>
+								<th class="header">Resultado</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach($refundResponse as $index => $data): ?>
+							<tr>
+								<td>
+									<?php echo($index); ?>
+								</td>
+								<td>
+									<?php 
+										if(is_array($data)){
+											print_r($data);
+										}else{
+											echo($data);
+										}
+									?>
 								</td>
 							</tr>
-							<tr>
-							  <td><b>Monto</b></td><td><input type="text" name="monto" value="10.00"></input></td>
-							</tr>				
-						</tbody>	
-						<tfoot>
-						  <tr>
-							<td colspan="2"><a href="index.php" class="btn error site">Cancelar</a>&nbsp;&nbsp;&nbsp;<a href="devolver.php" onclick="$('#activeform').submit();return false;" class="btn site" id="send">Enviar</a></td>
-						  </tr>
-						</tfoot>
-					</table>		
-				</form>
+							<?php endforeach;?>
+						</tbody>
+						<tfooter>
+						</tfooter>	
+					</table>
+				<?php } ?>
 				</div>
 				<a href="index.php">Volver</a>
 			</div> 

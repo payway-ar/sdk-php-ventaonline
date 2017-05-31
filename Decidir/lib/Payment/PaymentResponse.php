@@ -15,6 +15,7 @@ class PaymentResponse extends \Decidir\Data\AbstractData {
 	protected $payment_type;
 	protected $sub_payments = array();
 	protected $status;
+	protected $confirmed;
 	protected $status_details;
 	protected $date;
 	protected $merchant_id;
@@ -22,73 +23,86 @@ class PaymentResponse extends \Decidir\Data\AbstractData {
 	protected $fraud_detection = array();
 	protected $aggregate_data;
 	protected $message;
+	protected $validation_errors;
+	protected $error_type;
+	protected $site_id;
 
 	public function __construct(array $data) {
+		
 		$this->setRequiredFields(array(
-			"id" => array(
-				"name" => "id"
-			),
-			"site_transaction_id" => array(
-				"name" => "site_transaction_id"
-			),
-			"token" => array(
-				"name" => "token"
-			),
-			"user_id" => array(
-				"name" => "user_id"
-			), 
-			"payment_method_id" => array(
-				"name" => "payment_method_id"
-			),
-			"bin" => array(
-				"name" => "bin"
-			),
-			"amount" => array(
-				"name" => "amount"
-			),
-			"currency" => array(
-				"name" => "currency"
-			),
-			"installments" => array(
-				"name" => "installments"
-			),
-			"description" => array(
-				"name" => "description"
-			),
-			"payment_type" => array(
-				"name" => "payment_type"
-			),
-			"sub_payments" => array(
-				"name" => "sub_payments"
-			),
-			"status" => array(
-				"name" => "status"
-			),
-			"status" => array(
-				"name" => "status"
-			),
-			"status_details" => array(
-				"name" => "status_details"
-			),
-			"date" => array(
-				"name" => "date"
-			),
-			"merchant_id" => array(
-				"name" => "merchant_id"
-			),
-			"establishment_name" => array(
-				"name" => "establishment_name"
-			),
-			"fraud_detection" => array(
-				"name" => "fraud_detection"
-			),
-			"aggregate_data" => array(
-				"name" => "aggregate_data"
-			),
-			"message" => array(
-				"name" => "message"
-			)		
-		));
+					"id" => array(
+						"name" => "id"
+					),
+					"site_transaction_id" => array(
+						"name" => "site_transaction_id"
+					),
+					"token" => array(
+						"name" => "token"
+					),
+					"user_id" => array(
+						"name" => "user_id"
+					),
+					"payment_method_id" => array(
+						"name" => "payment_method_id"
+					),
+					"card_brand" => array(
+						"name" => "card_brand"
+					),
+					"bin" => array(
+						"name" => "bin"
+					),
+					"amount" => array(
+						"name" => "amount"
+					),
+					"currency" => array(
+						"name" => "currency"
+					),
+					"installments" => array(
+						"name" => "installments"
+					),
+					"payment_type" => array(
+						"name" => "payment_type"
+					),
+					"sub_payments" => array(
+						"name" => "sub_payments"
+					),
+					"status" => array(
+						"name" => "status"
+					),
+					"status_details" => array(
+						"name" => "status_details"
+					),
+					"date" => array(
+						"name" => "date"
+					),
+					"merchant_id" => array(
+						"name" => "merchant_id"
+					),
+					"establishment_name" => array(
+						"name" => "establishment_name"
+					),
+					"fraud_detection" => array(
+						"name" => "fraud_detection"
+					),
+					"aggregate_data" => array(
+						"name" => "aggregate_data"
+					),
+					"message" => array(
+						"name" => "message"
+					),
+					"validation_errors" => array(
+						"name"=> "validation_errors"
+					),
+					"error_type" => array(
+						"name"=> "error_type"
+					),
+					"confirmed" => array(
+						"name" => "confirmed"
+					),
+					"site_id" => array(
+						"name" => "site_id"
+					)
+				));
 
 		parent::__construct($data);
 	}
@@ -112,7 +126,7 @@ class PaymentResponse extends \Decidir\Data\AbstractData {
 	public function getpaymentMethodId(){
 		return $this->payment_method_id;
 	}
-
+	
 	public function getCardBrand(){
 		return $this->card_brand;
 	}
@@ -122,7 +136,7 @@ class PaymentResponse extends \Decidir\Data\AbstractData {
 	}
 
 	public function getAmount(){
-		return $decimalFomatAMount = ($this->amount/100);
+		return ($this->amount/100);
 	}
 
 	public function getCurrency(){
@@ -132,10 +146,6 @@ class PaymentResponse extends \Decidir\Data\AbstractData {
 	public function getInstallments(){
 		return $this->installments;
 	}
-
-	public function getDescription(){
-		return $this->description;
-	}	
 
 	public function getPaymentType(){
 		return $this->payment_type;
@@ -180,4 +190,16 @@ class PaymentResponse extends \Decidir\Data\AbstractData {
 	public function getMessage(){
 		return $this->message;
 	}	
+
+	public function getValidationErrors(){
+		return $this->validation_errors;
+	}	
+
+	public function getErrorType(){
+		return $this->error_type;
+	}	
+
+	public function getSiteId(){
+		return $this->site_id;
+	}
 }

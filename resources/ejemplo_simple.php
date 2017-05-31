@@ -9,7 +9,7 @@ $ambient = "test";
 
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
-/*
+
 $data = array();
 echo "Healthcheck Service<br>";
 $response = $connector->healthcheck()->getStatus($data);
@@ -18,26 +18,29 @@ var_dump($response);
 echo($response->getName())."<br>";
 echo($response->getVersion())."<br>";
 echo($response->getBuildTime())."<br>";
-*/
+echo("<br><br>");
+
 
 //----------------
 //ejecucion de pago 1
-/*
+
 $data = array(
-			  "site_transaction_id" => "21042017_21",
-			  "token" => "f3089e71-b8d4-4450-be74-5b58210e7eeb",
+			  "site_transaction_id" => "30052017_35",
+			  "token" => "95eb2aa9-350f-4f0d-9911-6640caab846a",
 			  "user_id" => "pepe",
 			  "payment_method_id" => 1,
+			  "amount" => 10.01,
 			  "bin" => "450799",
-			  "amount" => "10.00",
-			  "currency"=> "ARS",
-			  "installments"=> 1,
-			  "description"=> "",
-			  "payment_type"=> "single",
-			  "sub_payments"=> array(),
-			  "fraud_detection"=> array()
+			  "currency" => "ARS",
+			  "installments" => 1,
+			  "description" => "prueba",
+			  "payment_type" => "single",
+			  "sub_payments" => array(),
+			  "fraud_detection" => array()
 			);
-*/
+
+//
+
 /*
 $cs_data = array(
 				"send_to_cs" => "true",
@@ -159,39 +162,47 @@ $cs_data = array(
 /*
 $cs_products = array(
 					array(
-						"code" => "popblacksabbat2016",
-		                "description" => "Popular Black Sabbath 2016",
-		                "name" => "popblacksabbat2016ss",
-		                "sku" => "asas",
-		                "total_amount" => 20,
-		                "quantity" => 1,
-		                "unit_price" => 20
+						"csitproductcode" => "popblacksabbat2016",
+		                "csitproductdescription" => "Popular Black Sabbath 2016",
+		                "csitproductname" => "popblacksabbat2016ss",
+		                "csitproductsku" => "asas",
+		                "csittotalamount" => 20,
+		                "csitquantity" => 1,
+		                "csitunitprice" => 20
 				    ),
 					array(
-						"code" => "popblacksabbat2017",
-		                "description" => "Popular Black Sabbath 2017",
-		                "name" => "popblacksabbat2017ss",
-		                "sku" => "asas",
-		                "total_amount" => 30,
-		                "quantity" => 2,
-		                "unit_price" => 40
+						"csitproductcode" => "popblacksabbat2017",
+		                "csitproductdescription" => "Popular Black Sabbath 2017",
+		                "csitproductname" => "popblacksabbat2017ss",
+		                "csitproductsku" => "asas",
+		                "csittotalamount" => 30,
+		                "csitquantity" => 2,
+		                "csitunitprice" => 40
 					)
 				);
 */
-
-
 //$cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\DigitalGoods($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\Ticketing($cs_data, $cs_products);
 
-/*$connector->payment()->setCybersource($cybersource->getData());
-$response = $connector->payment()->ExecutePayment($data);
+//echo "Respuest cybersource<br>";
+//var_dump($cybersource->getData());
+
+//$connector->payment()->setCybersource($cybersource->getData());
+/*$response = $connector->payment()->ExecutePayment($data);
+
 echo "Respuest payment<br>";
 var_dump($response);
-echo($response->getId());
-echo($response->getStatus());
-print_r($response->getMessage());
-*/
+
+if($response->getStatus() == "approved"){
+	echo($response->getId()."<br>");
+	echo($response->getToken()."<br>");
+	echo($response->getUserId()."<br>");
+	echo($response->getAmount()."<br>");
+}else{
+	print_r($response->getValidationErrors());
+}*/
+
 
 //------------------
 //lista de pagos
@@ -218,10 +229,17 @@ $data = array();
 var_dump(json_encode($data));
 echo "<br>";
 
-$response = $connector->payment()->PaymentInfo($data, '575047');
+$response = $connector->payment()->PaymentInfo($data, '575625');
 
 echo "Respuesta informacion de pago<br>";
-var_dump($response);
+if($response->getStatus() == "approved"){
+	echo($response->getId()."<br>");
+	echo($response->getToken()."<br>");
+	echo($response->getUserId()."<br>");
+	echo($response->getAmount()."<br>");
+}else{
+	print_r($response->getValidationErrors());
+}
 */
 
 //-----------------
@@ -231,7 +249,7 @@ $data = array();
 
 var_dump(json_encode($data));
 echo "<br>";
-$response = $connector->payment()->Refund($data, '575047');
+$response = $connector->payment()->Refund($data, '575499');
 
 echo "Respuest anulacion-devolucion total<br>";
 var_dump($response);
@@ -261,13 +279,13 @@ echo($response->getstatus());
 //devolucion parcial
 /*
 $data = array(
-			"amount" => 5.00
-			);
+		"amount" => 5.00
+	);
 
 var_dump(json_encode($data));
 echo "<br>";
 
-$response = $connector->payment()->partialRefund($data,'575050');
+$response = $connector->payment()->partialRefund($data,'577244');
 
 echo "Respuest anulacion-devolucion total<br>";
 var_dump($response);
@@ -277,7 +295,7 @@ var_dump($response->getSubPayments());
 echo($response->getStatus()."<br>");
 */
 
-//-----------------
+//----------------
 //anulacion de devolucion
 /*
 $data = array();
@@ -285,20 +303,24 @@ $data = array();
 var_dump(json_encode($data));
 echo "<br>";
 
-$response = $connector->payment()->deletePartialRefund($data, '575050', '361');
+$response = $connector->payment()->deletePartialRefund($data, '575503', '638');
 
 echo "Respuesta de anulacion de devolucion<br>";
 var_dump($response);
-echo($response->getResponse());
-echo($response->getstatus());
-*/
+echo "<br>-------<br>";
+//echo($response->getResponse());
+//echo($response->getstatus());
+//echo($response->getErrorType());
+//echo($response->getValidationErrors());
+//echo($response->getErrorType());
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 //-------------------------TOKENIZACION--------------------------------
-
+*/
 //Listado de tarjetas tokenizadas 
+
 /*
 $data = array();
 var_dump(json_encode($data));
@@ -307,6 +329,7 @@ echo "<br>";
 $response = $connector->cardToken()->tokensList($data, 'pepe');
 echo "Respuesta de listado de tarjetas tokenizadas<br>";
 var_dump($response);
+echo("<br>---------------<br>");
 var_dump($response->getTokens());
 */
 
@@ -318,7 +341,7 @@ $data = array();
 
 var_dump(json_encode($data));
 
-$response = $connector->cardToken()->tokenCardDelete($data, 'e3c6c3d7-1f82-4717-914a-7c75ec39c128');
+$response = $connector->cardToken()->tokenCardDelete($data, '7bed5c10-a70b-4c6d-92b2-4d9170b1c0e4');
 echo "Respuest payment<br>";
 var_dump($response);
 

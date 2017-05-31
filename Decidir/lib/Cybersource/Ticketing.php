@@ -64,7 +64,24 @@ class Ticketing extends AbstractData
 			$this->products_data[] = new Product($product);
 		}
 
+		$this->setCSMDDS();
 		$this->setProducts($this->products_data);
+	}
+
+	public function CsmddsList(){
+		$csmddsList = array();
+
+		for($i=12; $i<=100; $i++){
+			if($i != 13){
+				$csmddsData = array(
+							"code" => $i, 
+							"description"=> "Campo MDD".$i
+							);
+
+				array_push($csmddsList, $csmddsData);
+			}
+		}
+		return $csmddsList;
 	}
 	
 	public function setSendToCs($index, $value) {
@@ -127,6 +144,10 @@ class Ticketing extends AbstractData
 		$this->dataSet['ticketing_transaction_data']['items'] = $value;
 	}	
 	
+	public function setCSMDDS() {
+		$this->dataSet['csmdds'] = $this->CsmddsList();
+	}
+
 	public function getData(){
 		return $this->dataSet;
 	}

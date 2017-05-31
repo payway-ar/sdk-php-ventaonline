@@ -1,6 +1,7 @@
 <?php
 include_once dirname(__FILE__)."/FlatDb.php";
-include_once dirname(__FILE__)."/../../Decidir/lib/Connector.php";
+include_once dirname(__FILE__)."/../../vendor/autoload.php";
+
 
 $orders_db = new FlatDb();
 $orders_db->openTable('ordenes');
@@ -21,12 +22,11 @@ $data = array();
 $response = $connector->payment()->PaymentInfo($data, $payment_response['id']);
 
 $statusResponse = array(
-						"id"=> $response->getId(),
+			"id"=> $response->getId(),
                         "site_transaction_id"=> $response->getSiteTransactionId(),
                         "token"=> $response->getToken(),
                         "user_id"=> $response->getUserId(),
                         "payment_method_id"=> $response->getpaymentMethodId(),
-                        "card_brand"=> $response->getCardBrand(),
                         "bin"=> $response->getBin(),
                         "amount"=> $response->getAmount(),
                         "currency"=> $response->getCurrency(),
@@ -39,8 +39,9 @@ $statusResponse = array(
                         "merchant_id"=> $response->getMerchantId(),
                         "establishment_name"=> $response->getEstablishmentName(),
                         "fraud_detection"=> $response->getFraudDetection(),
-                        "aggregate_data"=> $response->getAggregateData()
-					);	
+                        "aggregate_data"=> $response->getAggregateData(),
+                        "site_id"=> $response->getSiteId()
+			);	
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -70,12 +71,38 @@ $statusResponse = array(
 	</style>
 </head>
 <body>
-
-<?php
-	var_dump(json_encode($statusResponse));
-?>
-
+	<div class="block">
+		<table id="tablelist" class="full tablesorter">
+			<thead>
+				<tr>
+					<th class="header">Campo</th>
+					<th class="header">Resultado</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($statusResponse as $index => $data): ?>
+				<tr>
+					<td>
+						<?php echo($index); ?>
+					</td>
+					<td>
+						<?php 
+							if(is_array($data)){
+								print_r($data);
+							}else{
+								echo($data);
+							}
+						?>
+					</td>
+				</tr>
+				<?php endforeach;?>
+			</tbody>
+			<tfooter>
+		</tfooter>	
+	</table>
+	</div>	
+<br>
 <a href="index.php">Volver</a>
-
 </body>
 </html>
