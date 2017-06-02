@@ -2,7 +2,7 @@
 namespace Decidir\Data;
 
 abstract class AbstractData {
-	private $dataResponse = array();
+	protected $dataResponse = array();
 	private $field_required;
 	
 	public function __construct(array $data){

@@ -182,23 +182,22 @@ $data = array(
 $response = $connector->payment()->ExecutePayment($data);
 $response->getId();
 $response->getToken();
-$response->getUserId();
-$response->getpaymentMethodId();
+$response->getUser_id();
+$response->getPayment_method_id();
 $response->getBin();
 $response->getAmount();
 $response->getCurrency();
 $response->getInstallments();
-$response->getPaymentType();
-$response->getDateDue();
-$response->getSubPayments();
+$response->getPayment_type();
+$response->getDate_due();
+$response->getSub_payments();
 $response->getStatus();
-$response->getStatusDetails();
+$response->getStatus_details();
 $response->getDate();
-$response->getMerchantId();
-$response->getEstablishmentName();
-$response->getFraudDetection();
-$response->getAggregateData();
-$response->getSiteId();
+$response->getEstablishment_name();
+$response->getFraud_detection();
+$response->getAggregate_data();
+$response->getSite_id();
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
@@ -224,7 +223,7 @@ $response = $connector->payment()->PaymentList($data);
 $response->getLimit();
 $response->getOffset();
 $response->getResults();
-$response->getHasMOre();
+$response->getHas_more();
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
@@ -242,25 +241,24 @@ $data = array();
 
 $response = $connector->payment()->PaymentInfo($data, '574421');
 $response->getId();
-$response->getSiteTransactionId();
+$response->getSiteTransaction_id();
 $response->getToken();
-$response->getUserId();
-$response->getPaymentMethodId();
-$response->getCardBrand();
+$response->getUser_id();
+$response->getPayment_method_id();
+$response->getCard_brand();
 $response->getBin();
 $response->getAmount();
 $response->getCurrency();
 $response->getInstallments();
-$response->getPaymentType();
-$response->getSubPayments();
+$response->getPayment_type();
+$response->getSub_payments();
 $response->getStatus();
-$response->getStatusDetails();
+$response->getStatus_details();
 $response->getDate();
-$response->getMerchantId();
-$response->getEstablishmentName();
-$response->getFraudDetection();
-$response->getAggregateData();
-$response->getSiteId();
+$response->getEstablishment_name();
+$response->getFraud_detection();
+$response->getAggregate_data();
+$response->getSite_id();
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
@@ -277,7 +275,7 @@ $data = array();
 $response = $connector->payment()->Refund($data, '574671'); //574671 es el id de la operacion de compra
 $response->getId();
 $response->getAmount();
-$response->getSubPayments();
+$response->getSub_payments();
 $response->getStatus();
 
 ```
@@ -296,7 +294,7 @@ Mediante este recurso, se genera una solicitud de anulación de devolución tota
 $data = array();
 $response = $connector->payment()->deleteRefund($data, '574671', '164'); //574671 id de la operacion de compra, 164 id de la devolucion
 $response->getResponse();
-$response->getstatus();
+$response->getStatus();
 
 ```
 
@@ -316,7 +314,7 @@ $data = array(
 $response = $connector->payment()->partialRefund($data,'574673'); //574671 id de la operacion de compra
 $response->getId();
 $response->getAmount();
-$response->getSubPayments();
+$response->getSub_payments();
 $response->getStatus();
 
 
@@ -336,7 +334,7 @@ Mediante este recurso, se genera una solicitud de anulación de devolución parc
 $data = array();
 $response = $connector->payment()->deleteRefund($data, '574671', '164'); //574671 id de la operacion de compra, 164 id de la devolucion parcial
 $response->getResponse());
-$response->getstatus());
+$response->getStatus());
 
 
 ```
@@ -402,23 +400,22 @@ $data = array(
 $response = $connector->payment()->ExecutePayment($data);
 $response->getId();
 $response->getToken();
-$response->getUserId();
-$response->getpaymentMethodId();
+$response->getUser_id();
+$response->getPayment_method_id();
 $response->getBin();
 $response->getAmount();
 $response->getCurrency();
 $response->getInstallments();
-$response->getPaymentType();
-$response->getDateDue();
-$response->getSubPayments();
+$response->getPayment_type();
+$response->getDate_due();
+$response->getSub_payments();
 $response->getStatus();
-$response->getStatusDetails();
+$response->getStatus_details();
 $response->getDate();
-$response->getMerchantId();
-$response->getEstablishmentName();
-$response->getFraudDetection();
-$response->getAggregateData();
-$response->getSiteId();
+$response->getEstablishment_name();
+$response->getFraud_detection();
+$response->getAggregate_data();
+$response->getSite_id();
 ```
 
 [<sub>Volver a inicio</sub>](#pagotokenizado)
@@ -435,8 +432,8 @@ El servicio da la posibilidad de eliminar un token de tarjeta generadas, esto se
 $data = array();
 $response = $connector->token()->tokenDelete($data, 'af49025a-f1b7-4363-a1cb-1ed38c3d4d75');
 
-$response->getErrorType();
-$response->getEntityName();
+$response->getError_type();
+$response->getEntity_name();
 $response->getId();
 
 ```

@@ -1,13 +1,11 @@
 <?php
 namespace Decidir\TokenCardDelete;
 
-include_once dirname(__FILE__)."/../Data/AbstractData.php";
+include_once dirname(__FILE__)."/../Data/Response.php";
 
-class TokenCardDeleteResponse extends \Decidir\Data\AbstractData {
+class TokenCardDeleteResponse extends \Decidir\Data\Response {
 
 	public function __construct(array $data) {
-		$this->setRequiredFields(array());
-
 		parent::__construct($data);
 	}
 }

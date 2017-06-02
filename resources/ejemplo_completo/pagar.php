@@ -45,24 +45,24 @@ if($_POST){
 
   $paymentSData = array(
                         "id"=> $response->getId(),
-                        "site_transaction_id"=> $response->getSiteTransactionId(),
+                        "site_transaction_id"=> $response->getSite_transaction_id(),
                         "token"=> $response->getToken(),
-                        "user_id"=> $response->getUserId(),
-                        "payment_method_id"=> $response->getpaymentMethodId(),
-                        "card_brand"=> $tarjeta,
+                        "user_id"=> $response->getUser_id(),
+                        "customer"=> $response->getCustomer(),
+                        "payment_method_id"=> $response->getPayment_method_id(),
+                        "card_brand"=> $response->getCard_brand(),
                         "bin"=> $response->getBin(),
                         "amount"=> $response->getAmount(),
                         "currency"=> $response->getCurrency(),
                         "installments"=> $response->getInstallments(),
-                        "payment_type"=> $response->getPaymentType(),
-                        "sub_payments"=> $response->getSubPayments(),
+                        "payment_type"=> $response->getPayment_type(),
+                        "sub_payments"=> $response->getSub_payments(),
                         "status"=> $response->getStatus(),
-                        "status_details"=> $response->getStatusDetails(),
+                        "status_details"=> $response->getStatus_details(),
                         "date"=> $response->getDate(),
-                        "merchant_id"=> $response->getMerchantId(),
-                        "establishment_name"=> $response->getEstablishmentName(),
-                        "fraud_detection"=> $response->getFraudDetection(),
-                        "aggregate_data"=> $response->getAggregateData()
+                        "establishment_name"=> $response->getEstablishment_name(),
+                        "fraud_detection"=> $response->getFraud_detection(),
+                        "aggregate_data"=> $response->getAggregate_data()
                         );
 
   if($response->getStatus() == "approved"){

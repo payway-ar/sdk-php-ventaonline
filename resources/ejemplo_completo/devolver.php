@@ -30,14 +30,14 @@ if($_POST) {
 	$refundResponse = array();
 	
 	if(!($response->getStatus() != NULL)){
-		$refundResponse['validation_error'] = $response->getValidationErrors();
-		$refundResponse['error_type'] = $response->getErrorType();
+		$refundResponse['validation_error'] = $response->getValidation_errors();
+		$refundResponse['error_type'] = $response->getError_type();
 
 	}else{
 		$refundResponse['id'] = $response->getId();
 		$refundResponse['status'] = $response->getStatus();
 		$refundResponse['amount'] = $response->getAmount();
-		$refundResponse['sub_payments'] = $response->getSubPayments();
+		$refundResponse['sub_payments'] = $response->getSub_payments();
 
 	}
 	$orders_db->updateRecords(array("refund" => json_encode($refundResponse)),array("id" => $operationid));
