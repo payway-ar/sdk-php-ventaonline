@@ -1,0 +1,11 @@
+{
+    "name": "decidir/sdk-php-v2",
+    "description": "SDK de BackEnd para Gateway de pago Decidir",
+    "type": "library",
+    "require": {},
+    "autoload": {
+        "classmap": [
+            "Decidir/lib"
+        ]
+    }
+}
