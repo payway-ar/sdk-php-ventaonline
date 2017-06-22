@@ -1,0 +1,21 @@
+{
+    "name": "decidir/php-sdk-v2",
+    "description": "SDK para Decidir",
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Decidir\\": "Decidir/lib"
+        }
+    },
+    "repositories": [
+        {
+             "type": "composer",
+             "url": "https://packagist.org"
+        },
+        { 
+            "packagist": false 
+        }
+    ]
+}
