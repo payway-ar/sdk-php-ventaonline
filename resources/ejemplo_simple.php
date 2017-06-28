@@ -25,8 +25,8 @@ echo("<br><br>");
 //ejecucion de pago 1
 
 $data = array(
-			  "site_transaction_id" => "30052017_35",
-			  "token" => "95eb2aa9-350f-4f0d-9911-6640caab846a",
+			  "site_transaction_id" => "30052017_35111",
+			  "token" => "4568c384-43d5-4842-8064-682c9a4763de",
 			  "user_id" => "pepe",
 			  "payment_method_id" => 1,
 			  "amount" => 10.01,
@@ -41,10 +41,10 @@ $data = array(
 
 //
 
-/*
+
 $cs_data = array(
-				"send_to_cs" => "true",
-				"channel" => "Web/Mobile/Telefonica",
+				"send_to_cs" => true,
+				"channel" => "Web",
 				"bill_to" => array(
 					"city" => "Buenos Aires",
 					"country" => "AR",
@@ -73,10 +73,10 @@ $cs_data = array(
 				),
 				"currency" => "ARS",
 				"amount" => 10.00,
-				"days_in_site" => "243",	
-				"is_guest" => "false",
+				"days_in_site" => 243,
+				"is_guest" => false,
 				"password" => "abracadabra",
-				"num_of_transactions" => "1",
+				"num_of_transactions" => 1,
 				"cellphone_number" => "12121",
 				"cellphone_number" => "12121",
 				"date_of_birth" => "129412",
@@ -88,81 +88,9 @@ $cs_data = array(
 				"coupon_code" => "cupon22"
 			);
 
-$cs_data = array(
-				"send_to_cs" => "true",
-				"channel" => "Web/Mobile/Telefonica",
-				"bill_to" => array(
-					"city" => "Buenos Aires",
-					"country" => "AR",
-					"customer_id" => "martinid",
-					"email" => "accept@decidir.com.ar",
-					"first_name" => "martin",
-					"last_name" => "paoletta",
-					"phone_number" => "1547766329",
-					"postal_code" => "1427",
-					"state" => "BA",
-					"street1" => "GARCIA DEL RIO 4041",
-					"street2" => "GARCIA DEL RIO 4041",
-				),
-				"ship_to" => array(
-					"city" => "Buenos Aires",
-					"country" => "AR",
-					"customer_id" => "martinid",
-					"email" => "accept@decidir.com.ar",
-					"first_name" => "martin",
-					"last_name" => "paoletta",
-					"phone_number" => "1547766329",
-					"postal_code" => "1427",
-					"state" => "BA",
-					"street1" => "GARCIA DEL RIO 4041",
-					"street2" => "GARCIA DEL RIO 4041",
-				),
-				"currency" => "ARS",
-				"amount" => 10.10,
-				"days_in_site" => "243",	
-				"is_guest" => "false",
-				"password" => "abracadabra",
-				"num_of_transactions" => "1",
-				"cellphone_number" => "12121",
-				"date_of_birth" => "129412",
-				"street" => "RIO 4041",
-				"device_unique_id" => "devicefingerprintid",
-				"delivery_type" => "Pick up"
-			);
-
-$cs_data = array(
-				"send_to_cs" => "true",
-				"channel" => "Web/Mobile/Telefonica",
-				"bill_to" => array(
-					"city" => "Buenos Aires",
-					"country" => "AR",
-					"customer_id" => "martinid",
-					"email" => "accept@decidir.com.ar",
-					"first_name" => "martin",
-					"last_name" => "paoletta",
-					"phone_number" => "1547766329",
-					"postal_code" => "1427",
-					"state" => "BA",
-					"street1" => "GARCIA DEL RIO 4041",
-					"street2" => "GARCIA DEL RIO 4041",
-				),
-				"currency" => "ARS",
-				"amount" => 10.10,
-				"days_in_site" => "243",	
-				"is_guest" => "false",
-				"password" => "abracadabra",
-				"num_of_transactions" => "1",
-				"cellphone_number" => "12121",
-				"date_of_birth" => "129412",
-				"street" => "RIO 4041",
-				"days_to_event" => "55",
-				"delivery_type" => "Pick up"
-			);
-*/
-/*
 $cs_products = array(
 					array(
-						"csitproductcode" => "popblacksabbat2016",
+				"csitproductcode" => "popblacksabbat2016",
 		                "csitproductdescription" => "Popular Black Sabbath 2016",
 		                "csitproductname" => "popblacksabbat2016ss",
 		                "csitproductsku" => "asas",
@@ -171,7 +99,7 @@ $cs_products = array(
 		                "csitunitprice" => 20
 				    ),
 					array(
-						"csitproductcode" => "popblacksabbat2017",
+				"csitproductcode" => "popblacksabbat2017",
 		                "csitproductdescription" => "Popular Black Sabbath 2017",
 		                "csitproductname" => "popblacksabbat2017ss",
 		                "csitproductsku" => "asas",
@@ -180,20 +108,27 @@ $cs_products = array(
 		                "csitunitprice" => 40
 					)
 				);
-*/
-//$cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
+
+$cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\DigitalGoods($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\Ticketing($cs_data, $cs_products);
 
-//echo "Respuest cybersource<br>";
-//var_dump($cybersource->getData());
+echo "Respuest cybersource<br>";
+var_dump($cybersource->getData());
 
-//$connector->payment()->setCybersource($cybersource->getData());
-/*$response = $connector->payment()->ExecutePayment($data);
+$connector->payment()->setCybersource($cybersource->getData());
 
-echo "Respuest payment<br>";
-var_dump($response);
+try {
+	$response = $connector->payment()->ExecutePayment($data);
+	echo "Respuest payment<br>";
+	print_r($response);
 
+} catch(\Exception $e) {
+	var_dump($e->getData());
+}
+
+
+/*
 if($response->getStatus() == "approved"){
 	echo($response->getId()."<br>");
 	echo($response->getToken()."<br>");

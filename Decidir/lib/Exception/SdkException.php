@@ -13,7 +13,7 @@ class SdkException extends \Exception
         $this->data = $data;
     }
 
-    /*public function getData(){
+    public function getData(){
         return $this->data;
-    }*/
+    }
 }

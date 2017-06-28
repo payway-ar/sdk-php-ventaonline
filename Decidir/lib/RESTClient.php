@@ -40,11 +40,11 @@ class RESTClient{
 		}
 	}
 
-	public function get($action, $data){
+	public function get($action, $data, $query = array()) {
 		$this->setUrl($action);
 		$this->setKey($action);
 
-		return $this->RESTService("GET", $data);
+		return $this->RESTService("GET", $data, $query);
 	}
 
 	public function post($action, $data){
@@ -65,13 +65,14 @@ class RESTClient{
 		return $this->RESTService("DELETE", $data);
 	}
 	//RESTResource
-	private function RESTService($method = "GET", $data){
+	private function RESTService($method = "GET", $data, $query = array()){
 		$header_http = array(
-					'Cache-Control: no-cache', 
+					'Cache-Control: no-cache',
 					'content-type: application/json',
 					'apikey:'. $this->key
 					);
-		$curl = curl_init($this->url);
+
+		$curl = curl_init();
 		$curl_post_data = array();
 
 		switch($method){
@@ -92,6 +93,12 @@ class RESTClient{
 					break;
 		}
 
+		if(count($query) > 0) {
+			curl_setopt($curl, CURLOPT_URL, $this->url."?".http_build_query($query));
+                } else {
+			curl_setopt($curl, CURLOPT_URL, $this->url);
+                }
+
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl, CURLOPT_ENCODING, "");
 		curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
@@ -107,6 +114,10 @@ class RESTClient{
 			$err = "curl error: ".curl_error($curl);
 			throw new \Exception($err);
 		}
+
+                if($codeResponse == 204) {
+                        $response = '{"status":"success"}';
+                }
 
 		curl_close($curl);
 

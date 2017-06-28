@@ -162,6 +162,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 
 *Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
 
+#### Ejemplo
 ```php
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
@@ -179,25 +180,29 @@ $data = array(
       "sub_payments" => array()
     );
 
-$response = $connector->payment()->ExecutePayment($data);
-$response->getId();
-$response->getToken();
-$response->getUser_id();
-$response->getPayment_method_id();
-$response->getBin();
-$response->getAmount();
-$response->getCurrency();
-$response->getInstallments();
-$response->getPayment_type();
-$response->getDate_due();
-$response->getSub_payments();
-$response->getStatus();
-$response->getStatus_details();
-$response->getDate();
-$response->getEstablishment_name();
-$response->getFraud_detection();
-$response->getAggregate_data();
-$response->getSite_id();
+try {
+	$response = $connector->payment()->ExecutePayment($data);
+	$response->getId();
+	$response->getToken();
+	$response->getUser_id();
+	$response->getPayment_method_id();
+	$response->getBin();
+	$response->getAmount();
+	$response->getCurrency();
+	$response->getInstallments();
+	$response->getPayment_type();
+	$response->getDate_due();
+	$response->getSub_payments();
+	$response->getStatus();
+	$response->getStatus_details();
+	$response->getDate();
+	$response->getEstablishment_name();
+	$response->getFraud_detection();
+	$response->getAggregate_data();
+	$response->getSite_id();
+} catch( \Exception $e ) {
+	var_dump($e->getData());
+}
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
@@ -218,7 +223,7 @@ Este recurso admite la posibilidad de agregar los filtros adicionales:
 ```php
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
-$data = array();
+$data = array("pageSize" => 5);
 $response = $connector->payment()->PaymentList($data);
 $response->getLimit();
 $response->getOffset();
@@ -431,11 +436,6 @@ El servicio da la posibilidad de eliminar un token de tarjeta generadas, esto se
 
 $data = array();
 $response = $connector->token()->tokenDelete($data, 'af49025a-f1b7-4363-a1cb-1ed38c3d4d75');
-
-$response->getError_type();
-$response->getEntity_name();
-$response->getId();
-
 ```
 
 [<sub>Volver a inicio</sub>](#eliminartarjetatokenizada)
@@ -445,7 +445,7 @@ $response->getId();
 
 ### Integración con Cybersource
 
-Para utilizar el Servicio de Control de Fraude Cybersource, en la operación SendAuthorizeRequest, deben enviarse datos adicionales sobre la operación de compra que se quiere realizar.
+Para utilizar el Servicio de Control de Fraude Cybersource, en la ejecución del pago, deben enviarse datos adicionales sobre la operación de compra que se quiere realizar.
 Se han definido cinco verticales de negocio que requieren parámetros específicos, así como también parámetros comunes a todas las verticales.
 
 [Volver al inicio](#cybersource)
@@ -458,7 +458,7 @@ Los parámetros comunes a todas las verticales deben enviarse junto con los dato
 
 ```php
   $datos_cs = array(
-    'send_to_cs' => 'true', 
+    'send_to_cs' => true, 
     'channel' => 'Web/Mobile/Telefonica' //una de las tres opciones son validas
     'city'=>'Villa General Belgrano', //Ciudad de facturación, MANDATORIO.
     'country'=>'AR', //País de facturación. MANDATORIO. Código ISO. (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf)
@@ -487,7 +487,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 ```php
   $datos_cs = array(
     'device_unique_id' => "devicefingerprintid",
-    "days_to_delivery": "55",
+    "days_to_delivery": 55,
     "dispatch_method": "storepickup",
     "tax_voucher_required": true,
     "customer_loyality_number": "123232",
@@ -498,22 +498,22 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
   //Datos de productos, un array con los diferentes productos involucrados.
   $cs_productos = array(
     array(  // Producto 1
-      'productcode'=>'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-      'productdescription'=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
-      'productname'=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
-      'productsku'=>'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
-      'totalamount'=>'1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-      'quantity'=>'1', //Cantidad del producto. MANDATORIO.
-      'unitprice'=>'1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
+      'csitproductcode'=>'electronic_good', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+      'csitproductdescription'=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Descripción del producto. MANDATORIO.
+      'csitproductname'=>'NOTEBOOK L845 SP4304LA DF TOSHIBA', //Nombre del producto. MANDATORIO.
+      'csitproductsku'=>'LEVJNSL36GN', //Código identificador del producto. MANDATORIO.
+      'csittotalamount'=>'1254.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+      'csitquantity'=>'1', //Cantidad del producto. MANDATORIO.
+      'csitunitprice'=>'1254.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO    
     ),
     array(  // Producto 2
-      'productcode'=>'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
-      'productdescription'=>'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
-      'productname'=>'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
-      'productsku'=>'KSPDRV2g', //Código identificador del producto. MANDATORIO.
-      'totalamount'=>'248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
-      'quantity'=>'1', //Cantidad del producto. MANDATORIO.
-      'unitprice'=>'248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
+      'csitproductcode'=>'default', //Código de producto. MANDATORIO. Valores posibles(adult_content;coupon;default;electronic_good;electronic_software;gift_certificate;handling_only;service;shipping_and_handling;shipping_only;subscription)
+      'csitproductdescription'=>'PENDRIVE 2GB KINGSTON', //Descripción del producto. MANDATORIO.
+      'csitproductname'=>'PENDRIVE 2GB', //Nombre del producto. MANDATORIO.
+      'csitproductsku'=>'KSPDRV2g', //Código identificador del producto. MANDATORIO.
+      'csittotalamount'=>'248.40', //CSITTOTALAMOUNT=CSITUNITPRICE*CSITQUANTITY "999999[.CC]" Con decimales opcional usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales. MANDATORIO.
+      'csitquantity'=>'1', //Cantidad del producto. MANDATORIO.
+      'csitunitprice'=>'248.40', //Formato Idem CSITTOTALAMOUNT. MANDATORIO     
     ),
     ......... // Otros productos
   );
@@ -524,7 +524,7 @@ Para incorporar estos datos en el requerimiento inicial, se debe instanciar un o
 
 ```php
 
-$cybersource = new Decidir\Data\Cybersource\Retail(
+$cybersource = new Decidir\Cybersource\Retail(
                     $datos_cs,  // Datos de la operación
                     $cs_productos, // Datos de los productos
   );
@@ -545,7 +545,13 @@ $data = array(
       "sub_payments" => array()
     );
 
-$response = $connector->payment()->ExecutePayment($data);
+try {
+        $response = $connector->payment()->ExecutePayment($data);
+        echo "Response payment<br>";
+        print_r($response);
+} catch(\Exception $e) {
+        var_dump($e->getData());
+}
 
 ```
 
@@ -590,7 +596,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
 Para incorporar estos datos en el requerimiento inicial, se debe instanciar un objeto de la clase Decidir\Data\Cybersource\Ticketing de la siguiente manera.
 
 ```php
-$cybersource = new Decidir\Data\Cybersource\Ticketing(
+$cybersource = new Decidir\Cybersource\Ticketing(
                     $datos_cs,  // Datos de la operación
                     $cs_productos, // Datos de los productos
   );
@@ -662,7 +668,7 @@ Para incorporar estos datos en el requerimiento inicial, se debe instanciar un o
 
 ```php
 
-$cybersource = new Decidir\Data\Cybersource\DigitalGoods(
+$cybersource = new Decidir\Cybersource\DigitalGoods(
                     $datos_cs,  // Datos de la operación
                     $cs_productos, // Datos de los productos
   );

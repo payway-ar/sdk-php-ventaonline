@@ -11,6 +11,6 @@ class Data extends \Decidir\Data\AbstractData {
 	}
 
 	public function getData(){
-		return json_encode($this->getDataField());
+		return $this->getDataField();
 	}
 }

@@ -15,13 +15,13 @@ class Payment{
 	}	
 
 	public function ExecutePayment($data){
-		$data['amount'] = $this->rmDecAmount($data['amount']);	
-		
+		$data['amount'] = $this->rmDecAmount($data['amount']);
+
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
 			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
 		}
 
-		$jsonData = new \Decidir\Payment\Data($data);	
+		$jsonData = new \Decidir\Payment\Data($data);
 
 		$RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
@@ -30,7 +30,7 @@ class Payment{
 
 	public function PaymentList($data){
 		$jsonData = new \Decidir\PaymentsList\Data($data);
-		$RESTResponse = $this->serviceREST->get("payments", $jsonData->getData());
+		$RESTResponse = $this->serviceREST->get("payments", array(), $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\PaymentsList\PaymentsListResponse($ArrayResponse);
 	}

@@ -7,14 +7,22 @@ class Response extends \Decidir\Data\AbstractData {
 
 	public function __construct(array $data) {
 		parent::__construct($data);
+		if(array_key_exists("error_type",$data)) {
+			throw new \Decidir\Exception\SdkException($data["error_type"],400,$data);
+		}
 	}
 
     public function __call($methodName, $args) {
         if (preg_match('~^(set|get)([A-Z])(.*)$~', $methodName, $matches)) {
             $property = strtolower($matches[2]) . $matches[3];
+            $oproperty = $property;
 	    $property = $this->from_camel_case($property);
             if (!array_key_exists($property, $this->dataResponse)) {
-                throw new \Decidir\Exception\SdkException('Property ' . $property . ' not exists',0,$this->dataResponse);
+	        if (!array_key_exists($oproperty, $this->dataResponse)) {
+                    throw new \Decidir\Exception\SdkException('Property ' . $property . ' not exists',0,$this->dataResponse);
+            	} else {
+                    $property = $oproperty;
+                }
             }
             switch($matches[1]) {
                 case 'set':

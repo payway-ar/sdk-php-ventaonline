@@ -65,9 +65,9 @@ class Retail extends AbstractData
 			),
 			"coupon_code" => array(
 				"name" => "setCouponCode"
-			)						
-		));		
-		
+			)
+		));
+
 		parent::__construct($retailData);
 
 		foreach($productsData as $index => $product) {
@@ -77,7 +77,7 @@ class Retail extends AbstractData
 		$this->setCSMDDS();
 		$this->setProducts($this->products_data);;
 	}
-	
+
 	public function CsmddsList(){
 		$csmddsList = array();
 

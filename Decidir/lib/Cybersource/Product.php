@@ -11,34 +11,34 @@ class Product extends \Decidir\Data\AbstractData {
 	protected $csittotalamount;
 	protected $csitquantity;
 	protected $csitunitprice;
-	
+
 	public function __construct($productData) {
-		$this->setRequiredFields(array(	
-			"code" => array(
+		$this->setRequiredFields(array(
+			"csitproductcode" => array(
 				"name" => "code",
 			),
-			"description" => array(
+			"csitproductdescription" => array(
 				"name" => "description",
 			),
-			"name" => array(
+			"csitproductname" => array(
 				"name" => "name",
 			),
-			"sku" => array(
+			"csitproductsku" => array(
 				"name" => "sku",
-			),	
-			"total_amount" => array(
+			),
+			"csittotalamount" => array(
 				"name" => "total_amount",
 			),
-			"quantity" => array(
+			"csitquantity" => array(
 				"name" => "quantity",
 			),
-			"unit_price" => array(
+			"csitunitprice" => array(
 				"name" => "unit_price",
-			),		
-		));		
-		
+			),
+		));
+
 		parent::__construct($productData);
-		
+
 		$this->csittotalamount = number_format($this->csittotalamount,2,".","");
 		$this->csitunitprice = number_format($this->csitunitprice,2,".","");
 		$this->csitquantity = number_format($this->csitquantity,0,"","");		

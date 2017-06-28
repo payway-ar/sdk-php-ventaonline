@@ -3,7 +3,6 @@ namespace Decidir\Cybersource;
 
 abstract class AbstractData extends \Decidir\Data\AbstractData
 {	
-	private $dataResponse = array();
 	private $field_required = array();
 	
 	public function __construct(array $data){

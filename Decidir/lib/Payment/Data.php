@@ -17,7 +17,7 @@ class Data extends \Decidir\Data\AbstractData {
 			),
 			"payment_method_id" => array(
 				"name" => "payment_method_id"
-			), 
+			),
 			"bin" => array(
 				"name" => "bin"
 			),
