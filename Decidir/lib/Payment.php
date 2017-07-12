@@ -12,7 +12,7 @@ class Payment{
 		$this->mode = $mode;
 
 		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode);
-	}	
+	}
 
 	public function ExecutePayment($data){
 		$data['amount'] = $this->rmDecAmount($data['amount']);
@@ -22,7 +22,6 @@ class Payment{
 		}
 
 		$jsonData = new \Decidir\Payment\Data($data);
-
 		$RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Payment\PaymentResponse($ArrayResponse);

@@ -39,9 +39,6 @@ class Product extends \Decidir\Data\AbstractData {
 
 		parent::__construct($productData);
 
-		$this->csittotalamount = number_format($this->csittotalamount,2,".","");
-		$this->csitunitprice = number_format($this->csitunitprice,2,".","");
-		$this->csitquantity = number_format($this->csitquantity,0,"","");		
 	}
 	
 	public function getProductcode() {
@@ -81,7 +78,7 @@ class Product extends \Decidir\Data\AbstractData {
 	}
 
 	public function setTotalAmount($csittotalamount) {
-		$this->csittotalamount = $csittotalamount;
+		$this->csittotalamount = ($csittotalamount*100);
 	}
 
 	public function getQuantity() {
@@ -89,7 +86,7 @@ class Product extends \Decidir\Data\AbstractData {
 	}
 
 	public function setQuantity($csitquantity) {
-		$this->csitquantity = $csitquantity;
+		$this->csitquantity = ($csitquantity*100);
 	}
 
 	public function getUnitprice() {
@@ -97,6 +94,6 @@ class Product extends \Decidir\Data\AbstractData {
 	}
 
 	public function setUnitPrice($csitunitprice) {
-		$this->csitunitprice = $csitunitprice;
+		$this->csitunitprice = ($csitunitprice*100);
 	}
 }

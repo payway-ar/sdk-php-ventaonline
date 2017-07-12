@@ -64,23 +64,28 @@ class Ticketing extends AbstractData
 			$this->products_data[] = new Product($product);
 		}
 
-		$this->setCSMDDS();
+		$this->setCSMDDS($retailData);
 		$this->setProducts($this->products_data);
 	}
 
-	public function CsmddsList(){
+	public function CsmddsList($data)){
 		$csmddsList = array();
 
-		for($i=12; $i<=100; $i++){
-			if($i != 13){
+		foreach($data as $index => $value){
+
+			if(strstr($index, 'csmdds')){
+
+				$fieldCode = preg_replace("/[csmdds]/", '', $index);
+
 				$csmddsData = array(
-							"code" => $i, 
-							"description"=> "Campo MDD".$i
+							"code" => $fieldCode, 
+							"description"=> $value
 							);
 
 				array_push($csmddsList, $csmddsData);
 			}
 		}
+
 		return $csmddsList;
 	}
 	
@@ -101,7 +106,7 @@ class Ticketing extends AbstractData
 	}
 
 	public function setAmount($index, $value) {
-		$this->dataSet['purchase_totals'][$index] = $value;
+		$this->dataSet['purchase_totals'][$index] = ($value*100);
 	}
 
 	public function setDaysInSite($index, $value) {
@@ -144,8 +149,12 @@ class Ticketing extends AbstractData
 		$this->dataSet['ticketing_transaction_data']['items'] = $value;
 	}	
 	
-	public function setCSMDDS() {
-		$this->dataSet['csmdds'] = $this->CsmddsList();
+	public function setCSMDDS($data) {
+		$csmddsResField = $this->CsmddsList($data);
+
+		if(!empty($csmddsResField)){
+			$this->dataSet['csmdds'] = $csmddsResField;
+		}		
 	}
 
 	public function getData(){

@@ -2,7 +2,7 @@
 include_once dirname(__FILE__)."/../vendor/autoload.php";
 
 $keys_data = array('public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
-		   'private_key' => '92b71cf711ca41f78362a7134f87ff65');
+		   		   'private_key' => '92b71cf711ca41f78362a7134f87ff65');
 
 $ambient = "test";
 //el segundo parametro es "test" o "prod"
@@ -23,13 +23,12 @@ echo("<br><br>");
 
 //----------------
 //ejecucion de pago 1
-
 $data = array(
-			  "site_transaction_id" => "30052017_35111",
-			  "token" => "4568c384-43d5-4842-8064-682c9a4763de",
+			  "site_transaction_id" => "110717_62",
+			  "token" => "cd03633f-6996-4fac-8513-6e9444af86df",
 			  "user_id" => "pepe",
 			  "payment_method_id" => 1,
-			  "amount" => 10.01,
+			  "amount" => 12.00,
 			  "bin" => "450799",
 			  "currency" => "ARS",
 			  "installments" => 1,
@@ -37,11 +36,8 @@ $data = array(
 			  "payment_type" => "single",
 			  "sub_payments" => array(),
 			  "fraud_detection" => array()
-			);
-
-//
-
-
+);
+//cybersource example
 $cs_data = array(
 				"send_to_cs" => true,
 				"channel" => "Web",
@@ -72,12 +68,11 @@ $cs_data = array(
 					"street2" => "GARCIA DEL RIO 4041",
 				),
 				"currency" => "ARS",
-				"amount" => 10.00,
+				"amount" => 12.00,
 				"days_in_site" => 243,
 				"is_guest" => false,
 				"password" => "abracadabra",
 				"num_of_transactions" => 1,
-				"cellphone_number" => "12121",
 				"cellphone_number" => "12121",
 				"date_of_birth" => "129412",
 				"street" => "RIO 4041",
@@ -85,27 +80,29 @@ $cs_data = array(
 				"dispatch_method" => "storepickup",
 				"tax_voucher_required" => true,
 				"customer_loyality_number" => "123232",
-				"coupon_code" => "cupon22"
+				"coupon_code" => "cupon22",
+				"csmdd36" => "Y", //ejemplo
+				"csmdd17" => " "
 			);
 
 $cs_products = array(
 					array(
-				"csitproductcode" => "popblacksabbat2016",
+						"csitproductcode" => "popblacksabbat2016",
 		                "csitproductdescription" => "Popular Black Sabbath 2016",
 		                "csitproductname" => "popblacksabbat2016ss",
 		                "csitproductsku" => "asas",
-		                "csittotalamount" => 20,
+		                "csittotalamount" => 6.00,
 		                "csitquantity" => 1,
-		                "csitunitprice" => 20
+		                "csitunitprice" => 6.00
 				    ),
 					array(
-				"csitproductcode" => "popblacksabbat2017",
+						"csitproductcode" => "popblacksabbat2017",
 		                "csitproductdescription" => "Popular Black Sabbath 2017",
 		                "csitproductname" => "popblacksabbat2017ss",
 		                "csitproductsku" => "asas",
-		                "csittotalamount" => 30,
-		                "csitquantity" => 2,
-		                "csitunitprice" => 40
+		                "csittotalamount" => 6.00,
+		                "csitquantity" => 1,
+		                "csitunitprice" => 6.00
 					)
 				);
 
@@ -113,8 +110,9 @@ $cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\DigitalGoods($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\Ticketing($cs_data, $cs_products);
 
-echo "Respuest cybersource<br>";
-var_dump($cybersource->getData());
+
+//echo "Respuest cybersource<br>";
+//var_dump($cybersource->getData());
 
 $connector->payment()->setCybersource($cybersource->getData());
 
@@ -126,18 +124,6 @@ try {
 } catch(\Exception $e) {
 	var_dump($e->getData());
 }
-
-
-/*
-if($response->getStatus() == "approved"){
-	echo($response->getId()."<br>");
-	echo($response->getToken()."<br>");
-	echo($response->getUserId()."<br>");
-	echo($response->getAmount()."<br>");
-}else{
-	print_r($response->getValidationErrors());
-}*/
-
 
 //------------------
 //lista de pagos
@@ -261,7 +247,7 @@ $data = array();
 var_dump(json_encode($data));
 echo "<br>";
 
-$response = $connector->cardToken()->tokensList($data, 'pepe');
+$response = $connector->cardToken()->tokensList($data, 1231231);
 echo "Respuesta de listado de tarjetas tokenizadas<br>";
 var_dump($response);
 echo("<br>---------------<br>");

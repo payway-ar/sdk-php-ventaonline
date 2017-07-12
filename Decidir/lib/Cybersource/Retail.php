@@ -8,10 +8,10 @@ class Retail extends AbstractData
 {
 	protected $dataSet = array();
 	protected $products_data = null;
-	
+
 	public function __construct($retailData, $productsData) {
 
-		$this->setRequiredFields(array(	
+		$this->setRequiredFields(array(
 			"send_to_cs" => array(
 				"name" => "setChannel"
 			),
@@ -74,23 +74,28 @@ class Retail extends AbstractData
 			$this->products_data[] = new Product($product);
 		}
 
-		$this->setCSMDDS();
-		$this->setProducts($this->products_data);;
+		$this->setCSMDDS($retailData);
+		$this->setProducts($this->products_data);
 	}
 
-	public function CsmddsList(){
+	public function CsmddsList($data){
 		$csmddsList = array();
 
-		for($i=17; $i<=100; $i++){
-			if($i != 13){
+		foreach($data as $index => $value){
+
+			if(strstr($index, 'csmdd')){
+
+				$fieldCode = preg_replace("/[csmdd]/", '', $index);
+
 				$csmddsData = array(
-							"code" => $i, 
-							"description"=> "Campo MDD".$i
+							"code" => $fieldCode,
+							"description"=> $value
 							);
 
 				array_push($csmddsList, $csmddsData);
 			}
 		}
+
 		return $csmddsList;
 	}
 
@@ -111,7 +116,7 @@ class Retail extends AbstractData
 	}
 
 	public function setAmount($index, $value) {
-		$this->dataSet['purchase_totals'][$index] = $value;
+		$this->dataSet['purchase_totals'][$index] = ($value*100);
 	}
 
 	public function setDaysInSite($index, $value) {
@@ -142,6 +147,10 @@ class Retail extends AbstractData
 		$this->dataSet['customer_in_site'][$index] = $value;
 	}
 
+	public function setDeviceUniqueId($index, $value) {
+		$this->dataSet[$index] = $value;
+	}
+
 	public function setShipTo($index, $value) {
 		$this->dataSet['retail_transaction_data'][$index] = $value;
 	}
@@ -165,13 +174,17 @@ class Retail extends AbstractData
 	public function setCouponCode($index, $value) {
 		$this->dataSet['retail_transaction_data'][$index] = $value;
 	}
-	
+
 	public function setProducts($value) {
 		$this->dataSet['retail_transaction_data']['items'] = $value;
-	}	
-	
-	public function setCSMDDS() {
-		$this->dataSet['csmdds'] = $this->CsmddsList();
+	}
+
+	public function setCSMDDS($data) {
+		$csmddsResField = $this->CsmddsList($data);
+
+		if(!empty($csmddsResField)){
+			$this->dataSet['csmdds'] = $csmddsResField;
+		}
 	}
 
 	public function getData(){

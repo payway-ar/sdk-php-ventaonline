@@ -22,7 +22,6 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Anulación de Devolución Parcial](#deletepartialrefund)
     + [Tokenizacion de tarjetas de crédito](#tokenizaciontarjeta)
       + [Listado de tarjetas tokenizadas](#listadotarjetastokenizadas)	
-      + [Solicitud de token de pago](#solicitudpagotokenizado)
       + [Ejecucion de pago tokenizado](#pagotokenizado)
       + [Eliminacion de tarjeta tokenizada](#eliminartarjetatokenizada)
     + [Integración con Cybersource](#cybersource)
@@ -78,11 +77,16 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 
 
 ## Instalación
-Descargar la última versión del SDK desde el botón Download ZIP en (poner link).		
-Se debe incluirse la carpeta del SDK dentro del proyecto.		
-<br />		
+El SDK se encuentra disponible para descargar desde [Github](https://github.com/decidir/sdk-php-v2) o desde composer con el siguiente comando:
 
-**Observación**: Descomentar **extension=php_curl.dll** en el php.ini, ya que para la conexión al gateway se utiliza la clase curl del API de PHP.
+```php
+  
+composer require decidir2/php-sdk 
+
+```
+
+Una vez instalo el SDK dentro del proyecto, es necesario tener descomentada la extension=php_curl.dll en el php.ini, ya que para la conexión al gateway se utiliza la clase curl del API de PHP.
+<br />		
 
 [Volver al inicio](#decidir-sdk-php)
 
@@ -97,12 +101,12 @@ La versión implementada de la SDK, está testeada para las versiones PHP desde 
 <a name="manualintegracion"></a>
 ## Manual de Integración
 
-Se encuentra disponible la documentación **[Manual de Integración Decidir2](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
+Se encuentra disponible la documentación **[Manual de Integración Decidir2](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este se detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
 
 <a name="ambiente"></a>
 ## Ambientes
 
-El sdk PHP permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instancias el SDK.
+El sdk PHP permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instanciar el SDK.
 
 ```php
 	
@@ -132,7 +136,7 @@ $ambient = "test";//valores posibles: "test" o "prod"
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
 ```
-*Nota:* La sdk incluye un completo al cual se debe acceder desde el navegador y allí te permitirá configurar las distintas opciones.
+*Nota:* La sdk incluye un ejemplo de prueba completo el cual se debe acceder desde el navegador, allí permitirá configurar las distintas opciones.
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
 <a name="operatoria"></a>
@@ -160,7 +164,7 @@ $response->getBuildTime();
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
 Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
 
-*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos.
+*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
 
 #### Ejemplo
 ```php
@@ -349,33 +353,26 @@ $response->getStatus());
 
 ## Tokenizacion de tarjetas de crédito
 
-Esta funcionalidad permite que luego de realizar una compra con una tarjeta, se genere un token alfanumerico unico en el backend de Decidir, esto permite que a la hora de comprar nuevamente con esta tarjeta solo requerira el codigo de seguridad.
+Esta funcionalidad permite que luego de realizar una compra con una tarjeta, se genere un token alfanumerico unico en el backend de Decidir, esto permite que a la hora de comprar nuevamente con esta tarjeta solo requerira el token de la tarjeta y el codigo de seguridad.
 Como primer paso se debe realizar una un pago normal, el token generado estara en el campo "token" de la respuesta.
 
 <a name="listadotarjetastokenizadas"></a>
 
 ### Listado de tarjetas tokenizadas
 
-Este metodo permite conocer el listado de tarjetas tokenizadas que posee un usuario determinado. Para esto es necesario el nombre de usuario a la instancia de token
+Este metodo permite conocer el listado de tarjetas tokenizadas que posee un usuario determinado. Esto requerira el nombre de usuario (user_id) al momento de llamar al metodo tokensList.
 
 ```php
 
+$data = array();
 $response = $connector->token()->tokensList($data, 'prueba'); //prueba, es el usuario dueño de la tarjeta de credito
 var_dump($response);
 var_dump($response->getTokens());
 
+
 ```
 
 [<sub>Volver a inicio</sub>](#listadotarjetastokenizadas)
-
-
-<a name="solicitudpagotokenizado"></a>
-
-### Solicitud de token de pago
-
-Al cargar el formulario de pago este mostrara las tarjetas tokenizadas que posee el usuario.
-
-[<sub>Volver a inicio</sub>](#solicitudpagotokenizado)
 
 
 <a name="pagotokenizado"></a>
@@ -430,12 +427,13 @@ $response->getSite_id();
 
 ### Eliminacion de tarjeta tokenizada
 
-El servicio da la posibilidad de eliminar un token de tarjeta generadas, esto se logra instanciando token y utilizando el metodo tokenDelete(). Funciona enviando el token de la tarjeta tokenizada.
+El servicio da la posibilidad de eliminar un token de tarjeta generada, esto se logra instanciando token y utilizando el metodo tokenDelete() y enviando la tarjeta tokenizada.
 
 ```php
 
 $data = array();
 $response = $connector->token()->tokenDelete($data, 'af49025a-f1b7-4363-a1cb-1ed38c3d4d75');
+
 ```
 
 [<sub>Volver a inicio</sub>](#eliminartarjetatokenizada)
@@ -685,6 +683,7 @@ $response = $connector->payment()->ExecutePayment($data);
 
 ## Tablas de Referencia
 
+
 ### Códigos de Medios de pago
 
 | MEDIO DE PAGO | NOMBRE |
@@ -738,6 +737,7 @@ $response = $connector->payment()->ExecutePayment($data);
 [Volver al inicio](#decidir-sdk-php)
 
 
+
 ### Divisas Aceptadas
 
 | Divisa | Descripción | Código API
@@ -748,6 +748,7 @@ $response = $connector->payment()->ExecutePayment($data);
 **NOTA** Si bien la API RESTful de DECIDIR admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que DECIDIR recomienda que todas las transacciones se cursen en dicha moneda.
 
 [Volver al inicio](#decidir-sdk-php)
+
 
 
 ### Provincias

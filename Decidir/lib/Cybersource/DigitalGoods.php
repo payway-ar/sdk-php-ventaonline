@@ -50,9 +50,6 @@ class DigitalGoods extends AbstractData
 			"street" => array(
 				"name" => "setStreet"
 			),
-			"device_unique_id" => array(
-				"name" => "setDeviceUniqueId"
-			),
 			"delivery_type" => array(
 				"name" => "setDeliveryType"
 			)
@@ -65,23 +62,28 @@ class DigitalGoods extends AbstractData
 			
 		}
 
-		$this->setCSMDDS();
+		$this->setCSMDDS($retailData);
 		$this->setProducts($this->products_data);
 	}
 
 	public function CsmddsList(){
 		$csmddsList = array();
 
-		for($i=12; $i<=100; $i++){
-			if($i != 13){
+		foreach($data as $index => $value){
+
+			if(strstr($index, 'csmdds')){
+
+				$fieldCode = preg_replace("/[csmdds]/", '', $index);
+
 				$csmddsData = array(
-							"code" => $i, 
-							"description"=> "Campo MDD".$i
+							"code" => $fieldCode, 
+							"description"=> $value
 							);
 
 				array_push($csmddsList, $csmddsData);
 			}
 		}
+
 		return $csmddsList;
 	}
 	
@@ -89,7 +91,7 @@ class DigitalGoods extends AbstractData
 		$this->dataSet[$index] = $value;
 	}
 
-	public function setChannel($index, $value) {
+	public function setChannel($index, $value) {			
 		$this->dataSet[$index] = $value;
 	}
 
@@ -102,7 +104,7 @@ class DigitalGoods extends AbstractData
 	}
 
 	public function setAmount($index, $value) {
-		$this->dataSet['purchase_totals'][$index] = $value;
+		$this->dataSet['purchase_totals'][$index] = ($value*100);
 	}
 
 	public function setDaysInSite($index, $value) {
@@ -145,8 +147,12 @@ class DigitalGoods extends AbstractData
 		$this->dataSet['digital_goods_transaction_data']['items'] = $value;
 	}	
 	
-	public function setCSMDDS() {
-		$this->dataSet['csmdds'] = $this->CsmddsList();
+	public function setCSMDDS($data) {
+		$csmddsResField = $this->CsmddsList($data);
+
+		if(!empty($csmddsResField)){
+			$this->dataSet['csmdds'] = $csmddsResField;
+		}
 	}
 
 	public function getData(){
