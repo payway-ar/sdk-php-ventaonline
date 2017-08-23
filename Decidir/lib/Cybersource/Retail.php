@@ -71,9 +71,13 @@ class Retail extends AbstractData
 		parent::__construct($retailData);
 
 		foreach($productsData as $index => $product) {
+			foreach($product as $idProd => $value){
+				if($idProd == 'csittotalamount' || $idProd == 'csitunitprice'){
+					$product[$idProd] = ($product[$idProd]*100);
+				}
+			}
 			$this->products_data[] = new Product($product);
 		}
-
 		$this->setCSMDDS($retailData);
 		$this->setProducts($this->products_data);
 	}
@@ -88,7 +92,7 @@ class Retail extends AbstractData
 				$fieldCode = preg_replace("/[csmdd]/", '', $index);
 
 				$csmddsData = array(
-							"code" => $fieldCode,
+							"code" => intval($fieldCode),
 							"description"=> $value
 							);
 
@@ -116,7 +120,7 @@ class Retail extends AbstractData
 	}
 
 	public function setAmount($index, $value) {
-		$this->dataSet['purchase_totals'][$index] = ($value*100);
+		$this->dataSet['purchase_totals'][$index] = $value;
 	}
 
 	public function setDaysInSite($index, $value) {
@@ -190,5 +194,5 @@ class Retail extends AbstractData
 	public function getData(){
 		return $this->dataSet;
 	}
-
+	
 }

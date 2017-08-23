@@ -35,6 +35,10 @@ class Payment{
 	}
 
 	public function PaymentInfo($data, $operationId){
+		if(empty($operationId)){
+			throw new \Exception("Empty Operation id");
+		}
+
 		$jsonData = new \Decidir\PaymentInfo\Data($data);
 		$RESTResponse = $this->serviceREST->get("payments/".$operationId, $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
@@ -42,6 +46,10 @@ class Payment{
 	}
 
 	public function Refund($data, $operationId){
+		if(empty($operationId)){
+			throw new \Exception("Empty Operation id");
+		}
+
 		$jsonData = new \Decidir\Refund\Data($data);
 		$RESTResponse = $this->serviceREST->post("payments/".$operationId."/refunds", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
@@ -49,6 +57,14 @@ class Payment{
 	}
 
 	public function deleteRefund($data, $operationId, $refundId){
+		if(empty($operationId)){
+			throw new \Exception("Empty Operation id");
+		}
+
+		if(empty($refundId)){
+			throw new \Exception("Empty Refund id");
+		}
+
 		$jsonData = new \Decidir\DeleteRefund\Data($data);
 		$RESTResponse = $this->serviceREST->delete("payments/".$operationId."/refunds/".$refundId, $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
@@ -56,6 +72,10 @@ class Payment{
 	}
 
 	public function partialRefund($data, $operationId){
+		if(empty($operationId)){
+			throw new \Exception("Empty Operation id");
+		}
+
 		$data['amount'] = $this->rmDecAmount($data['amount']);
 		$jsonData = new \Decidir\PartialRefund\Data($data);
 
@@ -66,6 +86,14 @@ class Payment{
 	}
 
 	public function deletePartialRefund($data, $operationId, $refundId){
+		if(empty($operationId)){
+			throw new \Exception("Empty Operation id");
+		}
+
+		if(empty($refundId)){
+			throw new \Exception("Empty Refund id");
+		}
+
 		$jsonData = new \Decidir\DeleteRefund\Data($data);
 		return $this->serviceREST->delete("payments/".$operationId."/refunds/".$refundId, $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
@@ -74,7 +102,8 @@ class Payment{
 	}
 
 	public function setCybersource($data){
-		$this->cybersource = $data;
+		$data['purchase_totals']['amount']= $this->rmDecAmount($data['purchase_totals']['amount']);
+		$this->cybersource = $data;	
 	}
 
 	public function rmDecAmount($amount){

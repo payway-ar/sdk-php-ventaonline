@@ -14,10 +14,8 @@ class HealthCheck{
 		$this->instanceHk = new \Decidir\RESTClient($this->header_http, $this->mode);
 	}	
 
-	public function getStatus($data){
-		$this->data = $data;
-
-		$RESTResponse = $this->instanceHk->get("healthcheck", json_encode($this->data));
+	public function getStatus(){
+		$RESTResponse = $this->instanceHk->get("healthcheck", "");
 		$ArrayResponse = $this->toArray($RESTResponse);
 
 		return new \Decidir\Healthcheck\HealthCheckResponse($ArrayResponse);

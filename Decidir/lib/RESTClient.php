@@ -115,10 +115,9 @@ class RESTClient{
 			throw new \Exception($err);
 		}
 
-                if($codeResponse == 204) {
-                        $response = '{"status":"success"}';
-                }
-
+	        if($codeResponse == 204) {
+	                $response = '{"status":"success"}';
+	        }
 		curl_close($curl);
 
 		return json_decode($response, true);

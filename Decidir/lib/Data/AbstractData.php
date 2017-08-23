@@ -33,7 +33,7 @@ abstract class AbstractData {
 		return $this->field_required;
 	}
 
-	protected function getDataField(){
+	public function getDataField(){
 		return $this->dataResponse;
 	}
 }

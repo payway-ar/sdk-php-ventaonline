@@ -61,6 +61,11 @@ class Ticketing extends AbstractData
 		parent::__construct($retailData);
 
 		foreach($productsData as $index => $product) {
+			foreach($product as $idProd => $value){
+				if($idProd == 'csittotalamount' || $idProd == 'csitunitprice'){
+					$product[$idProd] = ($product[$idProd]*100);
+				}
+			}
 			$this->products_data[] = new Product($product);
 		}
 
@@ -68,17 +73,17 @@ class Ticketing extends AbstractData
 		$this->setProducts($this->products_data);
 	}
 
-	public function CsmddsList($data)){
+	public function CsmddsList($data){
 		$csmddsList = array();
 
 		foreach($data as $index => $value){
 
-			if(strstr($index, 'csmdds')){
+			if(strstr($index, 'csmdd')){
 
-				$fieldCode = preg_replace("/[csmdds]/", '', $index);
+				$fieldCode = preg_replace("/[csmdd]/", '', $index);
 
 				$csmddsData = array(
-							"code" => $fieldCode, 
+							"code" => intval($fieldCode), 
 							"description"=> $value
 							);
 
@@ -106,7 +111,7 @@ class Ticketing extends AbstractData
 	}
 
 	public function setAmount($index, $value) {
-		$this->dataSet['purchase_totals'][$index] = ($value*100);
+		$this->dataSet['purchase_totals'][$index] = $value;
 	}
 
 	public function setDaysInSite($index, $value) {

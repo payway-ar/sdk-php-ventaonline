@@ -12,6 +12,10 @@ class Tokenization{
 	}	
 
 	public function tokensList($data, $userId){
+		if(empty($userId)){
+			throw new \Exception("Empty User id");
+		}
+
 		$jsonData = new \Decidir\TokenCardsList\Data($data);
 		$RESTResponse = $this->serviceREST->get("usersite/".$userId."/cardtokens", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
@@ -19,6 +23,10 @@ class Tokenization{
 	}
 	
 	public function tokenCardDelete($data, $cardToken){
+		if(empty($cardToken)){
+			throw new \Exception("Empty Token");
+		}
+
 		$jsonData = new \Decidir\TokenCardDelete\Data($data);
 		$RESTResponse = $this->serviceREST->delete("cardtokens/".$cardToken, $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);

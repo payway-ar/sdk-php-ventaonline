@@ -78,7 +78,7 @@ class Product extends \Decidir\Data\AbstractData {
 	}
 
 	public function setTotalAmount($csittotalamount) {
-		$this->csittotalamount = ($csittotalamount*100);
+		$this->csittotalamount = $csittotalamount;
 	}
 
 	public function getQuantity() {
@@ -86,7 +86,7 @@ class Product extends \Decidir\Data\AbstractData {
 	}
 
 	public function setQuantity($csitquantity) {
-		$this->csitquantity = ($csitquantity*100);
+		$this->csitquantity = $csitquantity;
 	}
 
 	public function getUnitprice() {
@@ -94,6 +94,6 @@ class Product extends \Decidir\Data\AbstractData {
 	}
 
 	public function setUnitPrice($csitunitprice) {
-		$this->csitunitprice = ($csitunitprice*100);
+		$this->csitunitprice = $csitunitprice;
 	}
 }
