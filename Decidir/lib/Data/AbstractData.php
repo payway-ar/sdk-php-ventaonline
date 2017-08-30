@@ -13,16 +13,13 @@ abstract class AbstractData {
 
 			foreach($this->dataResponse as $index => $param){
 				if(array_key_exists($index, $this->field_required)){
-
 					$FieldName = $this->field_required[$index]['name'];
 					$this->$FieldName = $param;
-
 				}else{
 					throw new \Decidir\Exception\RequiredValue($index);
 				}
-
-			}	
-		}	
+			}
+		}
 	}
 
 	public function setRequiredFields($data){

@@ -21,7 +21,7 @@ class Payment{
 			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
 		}
 
-		if(!empty($data["sub_payments"]) {
+		if(!empty($data["sub_payments"])) {
 			foreach($data["sub_payments"] as $k => $d) {
 				$damount = $this->rmDecAmount($d["amount"]);
 				$data["sub_payments"][$k]["amount"] = $amount;

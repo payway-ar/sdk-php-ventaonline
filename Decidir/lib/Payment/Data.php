@@ -38,7 +38,10 @@ class Data extends \Decidir\Data\AbstractData {
 			),
 			"fraud_detection" => array(
 				"name" => "fraud_detection"
-			)
+			),
+			"customer" => array(
+				"name" => "customer"
+			),
 		));
 
 		parent::__construct($data);
