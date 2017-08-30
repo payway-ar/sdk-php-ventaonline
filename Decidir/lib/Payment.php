@@ -21,10 +21,25 @@ class Payment{
 			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
 		}
 
+		if(!empty($data["sub_payments"]) {
+			foreach($data["sub_payments"] as $k => $d) {
+				$damount = $this->rmDecAmount($d["amount"]);
+				$data["sub_payments"][$k]["amount"] = $amount;
+                        }
+                }
+
 		$jsonData = new \Decidir\Payment\Data($data);
 		$RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Payment\PaymentResponse($ArrayResponse);
+	}
+
+	public function CapturePayment($operationId, $data){
+		$data['amount'] = $this->rmDecAmount($data['amount']);
+
+		$RESTResponse = $this->serviceREST->put("payments/".$operationId, json_encode($data));
+                $ArrayResponse = $this->toArray($RESTResponse);
+                return new \Decidir\PaymentInfo\PaymentInfoResponse($ArrayResponse);
 	}
 
 	public function PaymentList($data){
@@ -103,13 +118,12 @@ class Payment{
 
 	public function setCybersource($data){
 		$data['purchase_totals']['amount']= $this->rmDecAmount($data['purchase_totals']['amount']);
-		$this->cybersource = $data;	
+		$this->cybersource = $data;
 	}
 
 	public function rmDecAmount($amount){
 
-		$formatedAmount = ($amount*100);	
-
+		$formatedAmount = ($amount*100);
 		return $formatedAmount;
 	}
 

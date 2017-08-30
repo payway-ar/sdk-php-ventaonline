@@ -12,9 +12,6 @@ class Data extends \Decidir\Data\AbstractData {
 			"token" => array(
 				"name" => "token"
 			),
-			"user_id" => array(
-				"name" => "user_id"
-			),
 			"payment_method_id" => array(
 				"name" => "payment_method_id"
 			),

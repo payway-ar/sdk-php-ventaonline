@@ -55,7 +55,10 @@ class RESTClient{
 	}
 
 	public function put(){
-		//do something
+		$this->setUrl($action);
+		$this->setKey($action);
+
+		return $this->RESTService("PUT", $data);
 	}
 
 	public function delete($action, $data){
@@ -85,6 +88,7 @@ class RESTClient{
 					break;
 
 			case "PUT":
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);	
 					curl_setopt($curl, CURLOPT_PUT, 1);
             		break;
 

@@ -25,7 +25,7 @@ echo("--------------------------------------------<br><br>");
 $data = array(
 			  "site_transaction_id" => "130717_06",
 			  "token" => "850c2092-ee57-45a7-ada3-d6075ff753ca",
-			  "user_id" => "prueba",
+			  "customer" => array("id" => "usuario_prueba", "email" => "email@server.com"),
 			  "payment_method_id" => 1,
 			  "amount" => 12.00,
 			  "bin" => "450799",
