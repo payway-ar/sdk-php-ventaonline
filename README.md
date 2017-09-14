@@ -16,6 +16,7 @@ Modulo para conexión con gateway de pago DECIDIR2
     + [Operatoria del Gateway](#operatoria)
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
+      + [Captura del Pago](#capture)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)
       + [Anulación / Devolución Total de Pago](#refund)
@@ -35,8 +36,8 @@ Modulo para conexión con gateway de pago DECIDIR2
 	  + [Divisas Aceptadas](#divisasa)
     + [Provincias](#provincias)
   + [Errores](#errores)
-   + [Errores sistema](#erroressistema)
-   + [Errores marca](#erroresmarca)
+    + [Errores de sistema](#erroressistema)
+    + [Errores de marca](#erroresmarca)
    
 ## Introducción
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
@@ -241,6 +242,35 @@ try {
 	$response->getFraud_detection();
 	$response->getAggregate_data();
 	$response->getSite_id();
+} catch( \Exception $e ) {
+	var_dump($e->getData());
+}
+```
+
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
+<a name="capture"></a>
+
+### Captura del Pago
+Para el caso de la operatoria de transacción en dos pasos, la captura o confirmación del pago puede realizarse de la siguiente manera.
+
+*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|amount  |importe del pago   |  SI| Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=20000  |
+
+
+#### Ejemplo
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient);
+
+$data = array(
+      "amount" => 5.00,
+    );
+
+try {
+	$response = $connector->payment()->CapturePayment($data);
 } catch( \Exception $e ) {
 	var_dump($e->getData());
 }
@@ -493,70 +523,70 @@ Se han definido cinco verticales de negocio que requieren parámetros específic
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Retail. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
-|Descripcionn|API Fields|Required/Optional|Data Type|Origen del dato|Campo referente en ApiRest|Comentarios|
-| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
-|BillTo|city(string)|Required|String (50)|Payments|"""city"": ""Buenos Aires"","|Ciudad / Debe comenzar con una letra|
-|BillTo|country(string)|Required|String (2)|Payments|"""country"": ""AR"","|Código ISO (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
-|BillTo|customerID(string)|Required|String (50)|Payments|"""customer_id"": ""leilaid"","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
-|BillTo|email(string)|Required|String (100)|Payments|"""email"": ""accept@decidir.com.ar"","|correo electronico del comprador|
-|BillTo|firstName(string)|Required|String (60)|Payments|"""first_name"": ""leila"","|Nombre del tarjeta habiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|BillTo|lastName(string)|Required|String (60)|Payments|"""last_name"": ""leila"","|Apellido del tarjetahabiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|BillTo|phoneNumber(string)|Required|String (15)|Payments|"""phone_number"": ""1548866329"","|Número de telefono|
-|BillTo|postalCode(string)|Required|String (10)|Payments|"""postal_code"": ""1427"","|Codigo Postal|
-|BillTo|state(string)|Required|String (2)|Payments|"""state"": ""BA"","|Estado (Si el country = US, el campo se valida para un estado valido en USA)|
-|BillTo|street1(string)|Required|String (60)|Payments|"""street1"": ""LAVALLE 4041"","|Calle Numero interior Numero Exterior|
-|BillTo|street2(string)|Optional|String (60)|Payments|"""street2"": ""LAVALLE 4041"","|Barrio|
-|ShipTo|city(string)|Required|String (50)|Payments|"""city"": ""Buenos Aires"","|Ciudad / Debe comenzar con una letra|
-|ShipTo|country(string)|Required|String (2)|Payments|"""country"": ""AR"","|Código ISO (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
-|ShipTo|email(string)|Required|String (100)|Payments|"""email"": ""accept@decidir.com.ar"","|correo electronico del comprador|
-|ShipTo|firstName(string)|Required|String (60)|Payments|"""first_name"": ""leila"","|Nombre del tarjeta habiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|ShipTo|lastName(string)|Required|String (60)|Payments|"""last_name"": ""sosa"","|Apellido del tarjetahabiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|ShipTo|phoneNumber(string)|Required|String (15)|Payments|"""phone_number"": ""1549066329"","|Número de telefono|
-|ShipTo|postalCode(string)|Required|String (10)|Payments|"""postal_code"": ""1427"","|Codigo Postal|
-|ShipTo|state(string)|Required|String (2)|Payments|"""state"": ""BA"","|Estado (Si el country = US, el campo se valida para un estado valido en USA)|
-|ShipTo|street1(string)|Required|String (60)|Payments|"""street1"": ""LAVALLE 4041"""|Calle Numero interior Numero Exterior / Para los casos que no son de envío a domicilio, jamás enviar la dirección propia del comercio o correo donde se retire la mercadería, en ese caso replicar los datos de facturación.|
-|ShipTo|street2(string)|Optional|String (60)|Payments|"""street2"": ""LAVALLE 4041"""|Barrio|
-|PurchaseTotals|currency(string)|Required|String (5)|Payments|"""currency"": ""ARS"","|http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
-|PurchaseTotals|grandTotalAmount(amount)|Required|Decimal (15)|Payments|"""amount"": 2"|"Cantidad total de la transaccion./""999999.CC"" Con decimales obligatorios, usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+| Descripcionn | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest|Comentarios|
+|------------|------------|------------|------------|------------|------------|------------|
+|BillTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
+|BillTo|country(string)|Required|String (2)|Payments|"country": "AR","|[Código ISO](http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
+|BillTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
+|BillTo|email(string)|Required|String (100)|Payments|"email": "accept@decidir.com.ar","|correo electronico del comprador|
+|BillTo|firstName(string)|Required|String (60)|Payments|"first_name": "leila","|Nombre del tarjeta habiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
+|BillTo|lastName(string)|Required|String (60)|Payments|"last_name": "leila","|Apellido del tarjetahabiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
+|BillTo|phoneNumber(string)|Required|String (15)|Payments|"phone_number": "1548866329","|Número de telefono|
+|BillTo|postalCode(string)|Required|String (10)|Payments|"postal_code": "1427","|Codigo Postal|
+|BillTo|state(string)|Required|String (2)|Payments|"state": "BA","|Estado (Si el country = US, el campo se valida para un estado valido en USA)|
+|BillTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041","|Calle Numero interior Numero Exterior|
+|BillTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041","|Barrio|
+|ShipTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
+|ShipTo|country(string)|Required|String (2)|Payments|"country": "AR","| [Código ISO] (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
+|ShipTo|email(string)|Required|String (100)|Payments|"email": "accept@decidir.com.ar","|correo electronico del comprador|
+|ShipTo|firstName(string)|Required|String (60)|Payments|"first_name": "leila","|Nombre del tarjeta habiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
+|ShipTo|lastName(string)|Required|String (60)|Payments|"last_name": "sosa","|Apellido del tarjetahabiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
+|ShipTo|phoneNumber(string)|Required|String (15)|Payments|"phone_number": "1549066329","|Número de telefono|
+|ShipTo|postalCode(string)|Required|String (10)|Payments|"postal_code": "1427","|Codigo Postal|
+|ShipTo|state(string)|Required|String (2)|Payments|"state": "BA","|Estado (Si el country = US, el campo se valida para un estado valido en USA)|
+|ShipTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041"|Calle Numero interior Numero Exterior / Para los casos que no son de envío a domicilio, jamás enviar la dirección propia del comercio o correo donde se retire la mercadería, en ese caso replicar los datos de facturación.|
+|ShipTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041"|Barrio|
+|PurchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS","|http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
+|PurchaseTotals|grandTotalAmount(amount)|Required|Decimal (15)|Payments|"amount": 2"|"Cantidad total de la transaccion./"999999.CC" Con decimales obligatorios, usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 |Additional Fiels (General for all Verticals)|MDD1 - Merchant Affiliation Number|Required|String (255)|Tokens|Corresponde al site id|Incluir numero de comercio proveniente del campo NROCOMERCIO del API DECIDIR|
 |Additional Fiels (General for all Verticals)|MDD2- Merchant Name|Required|String (255)|Adm Sites|Corresponde a la descripcion del site id, configurado en Adm Sites|Incluir el nombre del comercio, Decidir puede obtener este dato del portal de configuracion de comercios|
 |Additional Fiels (General for all Verticals)|MDD3- Business Vertical (retail, digital goods, services, travel, ticketing)|Required (Catalogo)|String (255)|Adm Sites|Corresponde a la vertical configurada desde Adm Sites|Valores ejemplo: (retail, digital goods, services, travel, ticketing) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio|
 |Additional Fiels (General for all Verticals)|MDD4- Metodo de Pago (Visa, Master Card, Tarjeta Shopping, Banelco...)|Optional (Catalogo)|String (255)|Tokens|descripcion del medio de pago|Valores ejemplo: (Visa, Master Card, Tarjeta Shopping, Banelco...) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio. Se tienen que incluir todos los medios de pago aceptados|
 |Additional Fiels (General for all Verticals)|MDD5- Numero de Cuotas|Optional|String (255)|Payments|cuota|Valor numerico que detalle el numero de cuotas|
 |Additional Fiels (General for all Verticals)|MDD6- Canal de venta|Optional (Catalogo)|String (255)|Payments|chanel (web, mobile)|Valores ejemplo: (Web, Call Center, Mobile, Kiosko) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.|
-|Additional Fiels (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"""days_in_site"": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
-|Additional Fiels (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"""is_guest"": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
-|Additional Fiels (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"""password"": ""abracadabra"","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
-|Additional Fiels (General for all Verticals)|MDD10- Historico de compras del comprador (Num transacciones)|Optional|String (255)|Payments|"""num_of_transactions"": 1,"|Conteo de transacciones realizadas por el mismo usuario registrado en el portal del comercio|
-|Additional Fiels (General for all Verticals)|MDD11- Customer Cell Phone|Optional|String (255)|Payments|"""cellphone_number"": ""12121"""|Incluir numero de telefono adicional del comprador|
-|Campos Adicionales Vertical Retail|MDD12- Shipping DeadLine (Num Dias)|Optional|String (255)|Payments|"""days_to_delivery"": ""55"","|Numero de dias que tiene el comercio para hacer la entrega|
-|Campos Adicionales Vertical Retail|MDD13- Metodo de Despacho|Optional (Catalogo)|String (255)|Payments|"""dispatch_method"": ""storepickup"","|Valores ejemplo: (domicilio, click and collect, carrier) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.|
-|Campos Adicionales Vertical Retail|MDD14- Customer requires Tax Bill ?|Optional|String (255)|Payments|"""tax_voucher_required"": true,"|Valor booleano para identificar si el cliente requiere un comprobante fiscal o no S / N|
-|Campos Adicionales Vertical Retail|MDD15- Customer Loyality Number|Optional|String (255)|Payments|"""customer_loyality_number"": ""123232"","|Incluir numero de cliente frecuente|
-|Campos Adicionales Vertical Retail|MDD16- Promotional / Coupon Code|Optional|String (255)|Payments|"""coupon_code"": ""cupon22"","|Incluir numero de cupon de descuento|
-|Item|productCode(string)|Conditional|String (255)|Payments|"""code"": ""popblacksabbat2016"","|adult_content , coupon, gift_certificate , handling_only , shipping_and_handling , shipping_only, electronics, Apparel, Housewares, Sports, Toys, Books, Music, Video, Drugs/HBA|
-|Item|productDescription(string)|Conditional|String (255)|Payments|"""description"": ""Popular Black Sabbath 2016"","|Descripcion general del producto|
-|Item|productName(string)|Conditional|String (255)|Payments|"""name"": ""popblacksabbat2016ss"","|Nombre en catalogo del producto|
-|Item|productSKU(string)|Conditional|String (255)|Payments|"""sku"": ""asas"","|SKU en catalogo|
-|Item|quantity(integer)|Conditional|Integer (10)|Payments|"""total_amount"": 20,"|Cantidad productos del mismo tipo agregados al carrito|
-|Item|totalAmount(amount)|Conditional||Payments|"""quantity"": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY ""999999.CC"" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|Item|unitPrice(amount)|Conditional|String (15)|Payments|"""unit_price"": 20"|"Precio Unitaro del producto / ""999999.CC"" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|Additional Fiels (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"days_in_site": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
+|Additional Fiels (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
+|Additional Fiels (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
+|Additional Fiels (General for all Verticals)|MDD10- Historico de compras del comprador (Num transacciones)|Optional|String (255)|Payments|"num_of_transactions": 1,"|Conteo de transacciones realizadas por el mismo usuario registrado en el portal del comercio|
+|Additional Fiels (General for all Verticals)|MDD11- Customer Cell Phone|Optional|String (255)|Payments|"cellphone_number": "12121"|Incluir numero de telefono adicional del comprador|
+|Campos Adicionales Vertical Retail|MDD12- Shipping DeadLine (Num Dias)|Optional|String (255)|Payments|"days_to_delivery": "55","|Numero de dias que tiene el comercio para hacer la entrega|
+|Campos Adicionales Vertical Retail|MDD13- Metodo de Despacho|Optional (Catalogo)|String (255)|Payments|"dispatch_method": "storepickup","|Valores ejemplo: (domicilio, click and collect, carrier) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.|
+|Campos Adicionales Vertical Retail|MDD14- Customer requires Tax Bill ?|Optional|String (255)|Payments|"tax_voucher_required": true,"|Valor booleano para identificar si el cliente requiere un comprobante fiscal o no S / N|
+|Campos Adicionales Vertical Retail|MDD15- Customer Loyality Number|Optional|String (255)|Payments|"customer_loyality_number": "123232","|Incluir numero de cliente frecuente|
+|Campos Adicionales Vertical Retail|MDD16- Promotional / Coupon Code|Optional|String (255)|Payments|"coupon_code": "cupon22","|Incluir numero de cupon de descuento|
+|Item|productCode(string)|Conditional|String (255)|Payments|"code": "popblacksabbat2016","|adult_content , coupon, gift_certificate , handling_only , shipping_and_handling , shipping_only, electronics, Apparel, Housewares, Sports, Toys, Books, Music, Video, Drugs/HBA|
+|Item|productDescription(string)|Conditional|String (255)|Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|
+|Item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
+|Item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
+|Item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
+|Item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|Item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitaro del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 |Card|accountNumber(string)|Required|String w/ numbers only (20)|Tokens|Se extrae la informacion ingresada en Token|Numero completo de tarjeta de credito|
 |Card|cardType(string)|Required|String (3)|Tokens|Se extrae la informacion ingresada en Token|Tipo de tarjeta|
 |Card|expirationMonth(integer)|Required|String (2)|Tokens|Se extrae la informacion ingresada en Token|Mes de expiracion|
 |Card|expirationYear(integer)|Required|String (4)|Tokens|Se extrae la informacion ingresada en Token|Año de expiracion|
 |Card|InvoiceHeader|||Tokens|Se extrae la informacion ingresada en Token||
 |Card|tenderType|Optional|String (10)|Tokens|Se extrae la informacion ingresada en Token|En el caso que la tarjeta sea: Tarjeta Shopping, Tarjeta Naranja,Pago Facil, RapiPago,Cabal,Italcred,Argencard,CoopePlus,Arcash,Nexo,Credimas,Tarjeta Nevada,Banelco,Nativa,TARJETA_MAS,Tarjeta PymeNacion,PaySafeCard (NO Visa, NO Master Card, AMEX..) Enviar en este campo el valor: private1 Se debe de omitir el envio del campo cardType|
-|RequestMessage|deviceFingerprintID(string)|Required||Tokens|"Se extrae la informacion ingresada en Token. Campo ""device_unique_identifier"": ""12345"""||
+|RequestMessage|deviceFingerprintID(string)|Required||Tokens|"Se extrae la informacion ingresada en Token. Campo "device_unique_identifier": "12345"||
 |RequestMessage|deviceFingerprintRaw|Required|String (100)|ver|dato no definido. Beltramone|Este paramertro siempre se debe de enviar el valor = true|
 |RequestMessage|merchantID(string)|Required|String (30)|Adm Sites|Se extrae la informacion ingresada en el campo MID, del adm sites (Cs)||
 |RequestMessage|merchantReferenceCode(string)|Required|String (50)|Payments|Corresponde al nro de operación|MerchantReferenceCode= numero Afiliación – NROOPERACION ingresado por el comercio|
 |Datos Adicionales para transacciones con VISA|MDD35- Tipo de Documento|Conditional (Transaccion con Visa)|String (255)|Tokens|tipo.doc|Tipo de documento solicitado por el comercio al cliente|
 |Datos Adicionales para transacciones con VISA|MDD36- Número de Documento.|Conditional (Transaccion con Visa)|String (255)|Tokens|nro.doc|Numero de documento solicitado por el comercio al cliente|
-|Datos Adicionales para transacciones con VISA|MDD37-Número de Puerta de Domicilio de Entrega del resumen de la tarjeta.|Conditional (Transaccion con Visa)|String (255)|Payments|"""street"": ""RIO 4041"","|Numero de puerta|
-|Datos Adicionales para transacciones con VISA|MDD38-Fecha de Nacimiento del Titular de la Tarjeta|Conditional (Transaccion con Visa)|String (255)|Payments|"""date_of_birth"": ""asas"","|Fecha de nacimiento del comprador, dato solicitado por el comercio. DECIDIR tiene el formato exacto de como se debe de capturar|
+|Datos Adicionales para transacciones con VISA|MDD37-Número de Puerta de Domicilio de Entrega del resumen de la tarjeta.|Conditional (Transaccion con Visa)|String (255)|Payments|"street": "RIO 4041","|Numero de puerta|
+|Datos Adicionales para transacciones con VISA|MDD38-Fecha de Nacimiento del Titular de la Tarjeta|Conditional (Transaccion con Visa)|String (255)|Payments|"date_of_birth": "asas","|Fecha de nacimiento del comprador, dato solicitado por el comercio. DECIDIR tiene el formato exacto de como se debe de capturar|
 |Datos Adicionales para transacciones con VISA|MDD39-Validacion Visa|Conditional (Transaccion con Visa)|String (255)|na|validacion_domicilio (viene del mp)|Valor numero correspondiente a la validacion de cada uno de los datos anteriores ejemplo: 1012|
-|Datos Adicional para indicar una transaccion reportada como fraude por el emisor|MDD40- Fraud Update|Optional|Boleano|Payments|"""send_to_cs"": true/false"|Valor para identificar si la transaccion ha sido reportada como fraude por parte del emisor. Incluir el parametro con valor = S Este parametro lo genera decidir a partir de la respuesta del emisor. En caso de una transaccion aceptada por el emisor o con rechazo diferente a fraude, NO INCLUIR|
+|Datos Adicional para indicar una transaccion reportada como fraude por el emisor|MDD40- Fraud Update|Optional|Boleano|Payments|"send_to_cs": true/false"|Valor para identificar si la transaccion ha sido reportada como fraude por parte del emisor. Incluir el parametro con valor = S Este parametro lo genera decidir a partir de la respuesta del emisor. En caso de una transaccion aceptada por el emisor o con rechazo diferente a fraude, NO INCLUIR|
 |Datos Adicionales Solicitados por Riesgos para detectar copy paste|MDD41 Copy paste Tarjeta|Optional|String|na|card_number (los envia si se detecto un copy paste)|Datos proporcionado por DECIDIR en el form. De pago. Valores posibles S/N|
 |Datos Adicionales Solicitados por Riesgos para detectar copy paste|MDD42 Copy paste CVV2|Optional|String|na|security_code (los envia si se detecto un copy paste)|Datos proporcionado por DECIDIR en el form. De pago. Valores posibles S/N|
 
@@ -670,70 +700,60 @@ $data = array(
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Ticketing. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
-|Descripcionn|API Fields|Required/Optional|Data Type|Origen del dato|Campo referente en ApiRest|Comentarios|
+|Descripcionn|API Fields|Required/Optional|Data Type|Origen del dato|Campo referente en ApiRest|
 | ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
-|BillTo|city(string)|Required|String (50)|Payments|"""city"": ""Buenos Aires"","|Ciudad / Debe comenzar con una letra|
-|BillTo|country(string)|Required|String (2)|Payments|"""country"": ""AR"","|Código ISO (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
-|BillTo|customerID(string)|Required|String (50)|Payments|"""customer_id"": ""leilaid"","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
-|BillTo|email(string)|Required|String (100)|Payments|"""email"": ""accept@decidir.com.ar"","|correo electronico del comprador|
-|BillTo|firstName(string)|Required|String (60)|Payments|"""first_name"": ""leila"","|Nombre del tarjeta habiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|BillTo|lastName(string)|Required|String (60)|Payments|"""last_name"": ""leila"","|Apellido del tarjetahabiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|BillTo|phoneNumber(string)|Required|String (15)|Payments|"""phone_number"": ""1548866329"","|Número de telefono|
-|BillTo|postalCode(string)|Required|String (10)|Payments|"""postal_code"": ""1427"","|Codigo Postal|
-|BillTo|state(string)|Required|String (2)|Payments|"""state"": ""BA"","|Estado (Si el country = US, el campo se valida para un estado valido en USA)|
-|BillTo|street1(string)|Required|String (60)|Payments|"""street1"": ""LAVALLE 4041"","|Calle Numero interior Numero Exterior|
-|BillTo|street2(string)|Optional|String (60)|Payments|"""street2"": ""LAVALLE 4041"","|Barrio|
-|ShipTo|city(string)|Required|String (50)|Payments|"""city"": ""Buenos Aires"","|Ciudad / Debe comenzar con una letra|
-|ShipTo|country(string)|Required|String (2)|Payments|"""country"": ""AR"","|Código ISO (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
-|ShipTo|email(string)|Required|String (100)|Payments|"""email"": ""accept@decidir.com.ar"","|correo electronico del comprador|
-|ShipTo|firstName(string)|Required|String (60)|Payments|"""first_name"": ""leila"","|Nombre del tarjeta habiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|ShipTo|lastName(string)|Required|String (60)|Payments|"""last_name"": ""sosa"","|Apellido del tarjetahabiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
-|ShipTo|phoneNumber(string)|Required|String (15)|Payments|"""phone_number"": ""1549066329"","|Número de telefono|
-|ShipTo|postalCode(string)|Required|String (10)|Payments|"""postal_code"": ""1427"","|Codigo Postal|
-|ShipTo|state(string)|Required|String (2)|Payments|"""state"": ""BA"","|Estado (Si el country = US, el campo se valida para un estado valido en USA)|
-|ShipTo|street1(string)|Required|String (60)|Payments|"""street1"": ""LAVALLE 4041"""|Calle Numero interior Numero Exterior / Para los casos que no son de envío a domicilio, jamás enviar la dirección propia del comercio o correo donde se retire la mercadería, en ese caso replicar los datos de facturación.|
-|ShipTo|street2(string)|Optional|String (60)|Payments|"""street2"": ""LAVALLE 4041"""|Barrio|
-|PurchaseTotals|currency(string)|Required|String (5)|Payments|"""currency"": ""ARS"","|http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
-|PurchaseTotals|grandTotalAmount(amount)|Required|Decimal (15)|Payments|"""amount"": 2"|"Cantidad total de la transaccion./""999999.CC"" Con decimales obligatorios, usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|BillTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
+|BillTo|country(string)|Required|String (2)|Payments|"country": "AR","|Código ISO (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
+|BillTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
+|BillTo|email(string)|Required|String (100)|Payments|"email": "accept@decidir.com.ar","|correo electronico del comprador|
+|BillTo|firstName(string)|Required|String (60)|Payments|"first_name": "leila","|Nombre del tarjeta habiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
+|BillTo|lastName(string)|Required|String (60)|Payments|"last_name": "leila","|Apellido del tarjetahabiente / Sin caracteres especiales como acentos invertidos, sólo letras, números y espacios|
+|BillTo|phoneNumber(string)|Required|String (15)|Payments|"phone_number": "1548866329","|Número de telefono|
+|BillTo|postalCode(string)|Required|String (10)|Payments|"postal_code": "1427","|Codigo Postal|
+|BillTo|state(string)|Required|String (2)|Payments|"state": "BA","|Estado (Si el country = US, el campo se valida para un estado valido en USA)|
+|BillTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041","|Calle Numero interior Numero Exterior|
+|BillTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041","|Barrio|
+|PurchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS","|http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
+|PurchaseTotals|grandTotalAmount(amount)|Required|Decimal (15)|Payments|"amount": 2"|"Cantidad total de la transaccion./"999999.CC" Con decimales obligatorios, usando el puntos como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 |Additional Fiels (General for all Verticals)|MDD1 - Merchant Affiliation Number|Required|String (255)|Tokens|Corresponde al site id|Incluir numero de comercio proveniente del campo NROCOMERCIO del API DECIDIR|
 |Additional Fiels (General for all Verticals)|MDD2- Merchant Name|Required|String (255)|Adm Sites|Corresponde a la descripcion del site id, configurado en Adm Sites|Incluir el nombre del comercio, Decidir puede obtener este dato del portal de configuracion de comercios|
 |Additional Fiels (General for all Verticals)|MDD3- Business Vertical (retail, digital goods, services, travel, ticketing)|Required (Catalogo)|String (255)|Adm Sites|Corresponde a la vertical configurada desde Adm Sites|Valores ejemplo: (retail, digital goods, services, travel, ticketing) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio|
 |Additional Fiels (General for all Verticals)|MDD4- Metodo de Pago (Visa, Master Card, Tarjeta Shopping, Banelco...)|Optional (Catalogo)|String (255)|Tokens|descripcion del medio de pago|Valores ejemplo: (Visa, Master Card, Tarjeta Shopping, Banelco...) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio. Se tienen que incluir todos los medios de pago aceptados|
 |Additional Fiels (General for all Verticals)|MDD5- Numero de Cuotas|Optional|String (255)|Payments|cuota|Valor numerico que detalle el numero de cuotas|
 |Additional Fiels (General for all Verticals)|MDD6- Canal de venta|Optional (Catalogo)|String (255)|Payments|chanel (web, mobile)|Valores ejemplo: (Web, Call Center, Mobile, Kiosko) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.|
-|Additional Fiels (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"""days_in_site"": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
-|Additional Fiels (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"""is_guest"": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
-|Additional Fiels (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"""password"": ""abracadabra"","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
-|Additional Fiels (General for all Verticals)|MDD10- Historico de compras del comprador (Num transacciones)|Optional|String (255)|Payments|"""num_of_transactions"": 1,"|Conteo de transacciones realizadas por el mismo usuario registrado en el portal del comercio|
-|Additional Fiels (General for all Verticals)|MDD11- Customer Cell Phone|Optional|String (255)|Payments|"""cellphone_number"": ""12121"""|Incluir numero de telefono adicional del comprador|
-|Campos Adicionales Vertical Retail|MDD12- Shipping DeadLine (Num Dias)|Optional|String (255)|Payments|"""days_to_delivery"": ""55"","|Numero de dias que tiene el comercio para hacer la entrega|
-|Campos Adicionales Vertical Retail|MDD13- Metodo de Despacho|Optional (Catalogo)|String (255)|Payments|"""dispatch_method"": ""storepickup"","|Valores ejemplo: (domicilio, click and collect, carrier) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.|
-|Campos Adicionales Vertical Retail|MDD14- Customer requires Tax Bill ?|Optional|String (255)|Payments|"""tax_voucher_required"": true,"|Valor booleano para identificar si el cliente requiere un comprobante fiscal o no S / N|
-|Campos Adicionales Vertical Retail|MDD15- Customer Loyality Number|Optional|String (255)|Payments|"""customer_loyality_number"": ""123232"","|Incluir numero de cliente frecuente|
-|Campos Adicionales Vertical Retail|MDD16- Promotional / Coupon Code|Optional|String (255)|Payments|"""coupon_code"": ""cupon22"","|Incluir numero de cupon de descuento|
-|Item|productCode(string)|Conditional|String (255)|Payments|"""code"": ""popblacksabbat2016"","|adult_content , coupon, gift_certificate , handling_only , shipping_and_handling , shipping_only, electronics, Apparel, Housewares, Sports, Toys, Books, Music, Video, Drugs/HBA|
-|Item|productDescription(string)|Conditional|String (255)|Payments|"""description"": ""Popular Black Sabbath 2016"","|Descripcion general del producto|
-|Item|productName(string)|Conditional|String (255)|Payments|"""name"": ""popblacksabbat2016ss"","|Nombre en catalogo del producto|
-|Item|productSKU(string)|Conditional|String (255)|Payments|"""sku"": ""asas"","|SKU en catalogo|
-|Item|quantity(integer)|Conditional|Integer (10)|Payments|"""total_amount"": 20,"|Cantidad productos del mismo tipo agregados al carrito|
-|Item|totalAmount(amount)|Conditional||Payments|"""quantity"": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY ""999999.CC"" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|Item|unitPrice(amount)|Conditional|String (15)|Payments|"""unit_price"": 20"|"Precio Unitaro del producto / ""999999.CC"" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|Additional Fiels (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"days_in_site": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
+|Additional Fiels (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
+|Additional Fiels (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
+|Additional Fiels (General for all Verticals)|MDD10- Historico de compras del comprador (Num transacciones)|Optional|String (255)|Payments|"num_of_transactions": 1,"|Conteo de transacciones realizadas por el mismo usuario registrado en el portal del comercio|
+|Additional Fiels (General for all Verticals)|MDD11- Customer Cell Phone|Optional|String (255)|Payments|"cellphone_number": "12121"|Incluir numero de telefono adicional del comprador|
+|Campos Adicionales Vertical Retail|MDD12- Shipping DeadLine (Num Dias)|Optional|String (255)|Payments|"days_to_delivery": "55","|Numero de dias que tiene el comercio para hacer la entrega|
+|Campos Adicionales Vertical Retail|MDD13- Metodo de Despacho|Optional (Catalogo)|String (255)|Payments|"dispatch_method": "storepickup","|Valores ejemplo: (domicilio, click and collect, carrier) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.|
+|Campos Adicionales Vertical Retail|MDD14- Customer requires Tax Bill ?|Optional|String (255)|Payments|"tax_voucher_required": true,"|Valor booleano para identificar si el cliente requiere un comprobante fiscal o no S / N|
+|Campos Adicionales Vertical Retail|MDD15- Customer Loyality Number|Optional|String (255)|Payments|"customer_loyality_number": "123232","|Incluir numero de cliente frecuente|
+|Campos Adicionales Vertical Retail|MDD16- Promotional / Coupon Code|Optional|String (255)|Payments|"coupon_code": "cupon22","|Incluir numero de cupon de descuento|
+|Item|productCode(string)|Conditional|String (255)|Payments|"code": "popblacksabbat2016","|adult_content , coupon, gift_certificate , handling_only , shipping_and_handling , shipping_only, electronics, Apparel, Housewares, Sports, Toys, Books, Music, Video, Drugs/HBA|
+|Item|productDescription(string)|Conditional|String (255)|Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|
+|Item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
+|Item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
+|Item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
+|Item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|Item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitaro del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 |Card|accountNumber(string)|Required|String w/ numbers only (20)|Tokens|Se extrae la informacion ingresada en Token|Numero completo de tarjeta de credito|
 |Card|cardType(string)|Required|String (3)|Tokens|Se extrae la informacion ingresada en Token|Tipo de tarjeta|
 |Card|expirationMonth(integer)|Required|String (2)|Tokens|Se extrae la informacion ingresada en Token|Mes de expiracion|
 |Card|expirationYear(integer)|Required|String (4)|Tokens|Se extrae la informacion ingresada en Token|Año de expiracion|
 |Card|InvoiceHeader|||Tokens|Se extrae la informacion ingresada en Token||
 |Card|tenderType|Optional|String (10)|Tokens|Se extrae la informacion ingresada en Token|En el caso que la tarjeta sea: Tarjeta Shopping, Tarjeta Naranja,Pago Facil, RapiPago,Cabal,Italcred,Argencard,CoopePlus,Arcash,Nexo,Credimas,Tarjeta Nevada,Banelco,Nativa,TARJETA_MAS,Tarjeta PymeNacion,PaySafeCard (NO Visa, NO Master Card, AMEX..) Enviar en este campo el valor: private1 Se debe de omitir el envio del campo cardType|
-|RequestMessage|deviceFingerprintID(string)|Required||Tokens|"Se extrae la informacion ingresada en Token. Campo ""device_unique_identifier"": ""12345"""||
+|RequestMessage|deviceFingerprintID(string)|Required||Tokens|"Se extrae la informacion ingresada en Token. Campo "device_unique_identifier": "12345"||
 |RequestMessage|deviceFingerprintRaw|Required|String (100)|ver|dato no definido. Beltramone|Este paramertro siempre se debe de enviar el valor = true|
 |RequestMessage|merchantID(string)|Required|String (30)|Adm Sites|Se extrae la informacion ingresada en el campo MID, del adm sites (Cs)||
 |RequestMessage|merchantReferenceCode(string)|Required|String (50)|Payments|Corresponde al nro de operación|MerchantReferenceCode= numero Afiliación – NROOPERACION ingresado por el comercio|
 |Datos Adicionales para transacciones con VISA|MDD35- Tipo de Documento|Conditional (Transaccion con Visa)|String (255)|Tokens|tipo.doc|Tipo de documento solicitado por el comercio al cliente|
 |Datos Adicionales para transacciones con VISA|MDD36- Número de Documento.|Conditional (Transaccion con Visa)|String (255)|Tokens|nro.doc|Numero de documento solicitado por el comercio al cliente|
-|Datos Adicionales para transacciones con VISA|MDD37-Número de Puerta de Domicilio de Entrega del resumen de la tarjeta.|Conditional (Transaccion con Visa)|String (255)|Payments|"""street"": ""RIO 4041"","|Numero de puerta|
-|Datos Adicionales para transacciones con VISA|MDD38-Fecha de Nacimiento del Titular de la Tarjeta|Conditional (Transaccion con Visa)|String (255)|Payments|"""date_of_birth"": ""asas"","|Fecha de nacimiento del comprador, dato solicitado por el comercio. DECIDIR tiene el formato exacto de como se debe de capturar|
+|Datos Adicionales para transacciones con VISA|MDD37-Número de Puerta de Domicilio de Entrega del resumen de la tarjeta.|Conditional (Transaccion con Visa)|String (255)|Payments|"street": "RIO 4041","|Numero de puerta|
+|Datos Adicionales para transacciones con VISA|MDD38-Fecha de Nacimiento del Titular de la Tarjeta|Conditional (Transaccion con Visa)|String (255)|Payments|"date_of_birth": "asas","|Fecha de nacimiento del comprador, dato solicitado por el comercio. DECIDIR tiene el formato exacto de como se debe de capturar|
 |Datos Adicionales para transacciones con VISA|MDD39-Validacion Visa|Conditional (Transaccion con Visa)|String (255)|na|validacion_domicilio (viene del mp)|Valor numero correspondiente a la validacion de cada uno de los datos anteriores ejemplo: 1012|
-|Datos Adicional para indicar una transaccion reportada como fraude por el emisor|MDD40- Fraud Update|Optional|Boleano|Payments|"""send_to_cs"": true/false"|Valor para identificar si la transaccion ha sido reportada como fraude por parte del emisor. Incluir el parametro con valor = S Este parametro lo genera decidir a partir de la respuesta del emisor. En caso de una transaccion aceptada por el emisor o con rechazo diferente a fraude, NO INCLUIR|
+|Datos Adicional para indicar una transaccion reportada como fraude por el emisor|MDD40- Fraud Update|Optional|Boleano|Payments|"send_to_cs": true/false"|Valor para identificar si la transaccion ha sido reportada como fraude por parte del emisor. Incluir el parametro con valor = S Este parametro lo genera decidir a partir de la respuesta del emisor. En caso de una transaccion aceptada por el emisor o con rechazo diferente a fraude, NO INCLUIR|
 |Datos Adicionales Solicitados por Riesgos para detectar copy paste|MDD41 Copy paste Tarjeta|Optional|String|na|card_number (los envia si se detecto un copy paste)|Datos proporcionado por DECIDIR en el form. De pago. Valores posibles S/N|
 |Datos Adicionales Solicitados por Riesgos para detectar copy paste|MDD42 Copy paste CVV2|Optional|String|na|security_code (los envia si se detecto un copy paste)|Datos proporcionado por DECIDIR en el form. De pago. Valores posibles S/N|
 
@@ -843,35 +863,35 @@ $response = $connector->payment()->ExecutePayment($data);
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Digital Goods. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 
-|Descripcion|API Fields|Required/Optional|Data Type|Origen del dato|Campo referente en ApiRest|Comentarios|Observaciones |
-| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |
-|BillTo|city(string)|Required|String (50)|Payments|"""city"": ""Buenos Aires"","|Ciudad||
-|BillTo|country(string)|Required|String (2)|Payments|"""country"": ""AR"","|Código ISO (http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )||
-|BillTo|customerID(string)|Required|String (50)|Payments|"""customer_id"": ""leilaid"","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)||
-|BillTo|email(string)|Required|String (100)|Payments|"""email"": ""accept@decidir.com.ar"","|correo electronico del comprador||
-|BillTo|firstName(string)|Required|String (60)|Payments|"""first_name"": ""leila"","|Nombre del tarjeta habiente||
-|BillTo|lastName(string)|Required|String (60)|Payments|"""last_name"": ""leila"","|Apellido del tarjetahabiente||
-|BillTo|phoneNumber(string)|Required|String (15)|Payments|"""phone_number"": ""1548866329"","|Numero de telefono||
-|BillTo|postalCode(string)|Required|String (10)|Payments|"""postal_code"": ""1427"","|Codigo Postal||
-|BillTo|state(string)|Required|String (2)|Payments|"""state"": ""BA"","|Estado (Si el country = US, el campo se valida para un estado valido en USA)||
-|BillTo|street1(string)|Required|String (60)|Payments|"""street1"": ""LAVALLE 4041"","|Calle Numero interior Numero Exterior||
-|BillTo|street2(string)|Optional|String (60)|Payments|"""street2"": ""LAVALLE 4041"","|Barrio||
+| Descripcion | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest | Comentarios |
+|------------|------------|------------|------------|------------|------------|------------|
+|BillTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad||
+|BillTo|country(string)|Required|String (2)|Payments|"country": "AR","|[Código ISO](http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )||
+|BillTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)||
+|BillTo|email(string)|Required|String (100)|Payments|"email": "accept@decidir.com.ar","|correo electronico del comprador||
+|BillTo|firstName(string)|Required|String (60)|Payments|"first_name": "leila","|Nombre del tarjeta habiente||
+|BillTo|lastName(string)|Required|String (60)|Payments|"last_name": "leila","|Apellido del tarjetahabiente||
+|BillTo|phoneNumber(string)|Required|String (15)|Payments|"phone_number": "1548866329","|Numero de telefono||
+|BillTo|postalCode(string)|Required|String (10)|Payments|"postal_code": "1427","|Codigo Postal||
+|BillTo|state(string)|Required|String (2)|Payments|"state": "BA","|Estado (Si el country = US, el campo se valida para un estado valido en USA)||
+|BillTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041","|Calle Numero interior Numero Exterior||
+|BillTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041","|Barrio||
 |Card|accountNumber(string)|Required|String w/ numbers only (20)|Tokens|Se extrae la informacion ingresada en Token|Numero completo de tarjeta de credito||
 |Card|cardType(string)|Required|String (3)|Tokens|Se extrae la informacion ingresada en Token|Tipo de tarjeta||
 |Card|expirationMonth(integer)|Required|String (2)|Tokens|Se extrae la informacion ingresada en Token|Mes de expiracion||
 |Card|expirationYear(integer)|Required|String (4)|Tokens|Se extrae la informacion ingresada en Token|Año de expiracion||
 |Card|InvoiceHeader|||Tokens|Se extrae la informacion ingresada en Token|||
 |Card|tenderType|Optional|String (10|Tokens|Se extrae la informacion ingresada en Token|En el caso que la tarjeta sea: Tarjeta Shopping, Tarjeta Naranja,Pago Facil, RapiPago,Cabal,Italcred,Argencard,CoopePlus,Arcash,Nexo,Credimas,Tarjeta Nevada,Banelco,Nativa,TARJETA_MAS,Tarjeta PymeNacion,PaySafeCard (NO Visa, NO Master Card, AMEX..) Enviar en este campo el valor: private1 Se debe de omitir el envio del campo cardType||
-|Item|productCode(string)|Conditional|String (255)|Payments|"""code"": ""popblacksabbat2016"","|Valores posibles= electronic_good, electronic_software|Esta seccion esta diseñada para listar cada uno de los elementos del carrito de compra. La estructura de datos en programación consiste en formar un arreglo: Item 1. Producto 1 en carrito Item 2. Producto 2 en carrito Item 3. Producto 3 en carrito|
-|Item|productDescription(string)|Conditional||Payments|"""description"": ""Popular Black Sabbath 2016"","|Descripcion general del producto|Idem ant|
-|Item|productName(string)|Conditional|String (255)|Payments|"""name"": ""popblacksabbat2016ss"","|Nombre en catalogo del producto|Idem ant|
-|Item|productSKU(string)|Conditional|String (255)|Payments|"""sku"": ""asas"","|SKU en catalogo|Idem ant|
-|Item|quantity(integer)|Conditional|Integer (10)|Payments|"""total_amount"": 20,"|Cantidad productos del mismo tipo agregados al carrito|Idem ant|
-|Item|totalAmount(amount)|Conditional||Payments|"""quantity"": 1,"|Precio total = Precio unitario * quantity|Idem ant|
-|Item|unitPrice(amount)|Conditional|String (15)|Payments|"""unit_price"": 20"|Precio Unitaro del producto||
-|PurchaseTotals|currency(string)|Required|String (5)|Payments|"""currency"": ""ARS"","|http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf||
-|grandTotalAmount(amount)|Required|Decimal (15)|Payments|"""amount"": 2"|Cantidad total de la transaccion.||
-|RequestMessage|deviceFingerprintID(string)|Required||Tokens|"Se extrae la informacion ingresada en Token. Campo ""device_unique_identifier"": ""12345"""|||
+|Item|productCode(string)|Conditional|String (255)|Payments|"code": "popblacksabbat2016","|Valores posibles= electronic_good, electronic_software|Esta seccion esta diseñada para listar cada uno de los elementos del carrito de compra. La estructura de datos en programación consiste en formar un arreglo: Item 1. Producto 1 en carrito Item 2. Producto 2 en carrito Item 3. Producto 3 en carrito|
+|Item|productDescription(string)|Conditional||Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|Idem ant|
+|Item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|Idem ant|
+|Item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|Idem ant|
+|Item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|Idem ant|
+|Item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|Precio total = Precio unitario * quantity|Idem ant|
+|Item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|Precio Unitaro del producto||
+|PurchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS","|http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf||
+|grandTotalAmount(amount)|Required|Decimal (15)|Payments|"amount": 2"|Cantidad total de la transaccion.||
+|RequestMessage|deviceFingerprintID(string)|Required||Tokens|"Se extrae la informacion ingresada en Token. Campo "device_unique_identifier": "12345"|||
 |RequestMessage|deviceFingerprintRaw|Required|String (100)|ver|dato no definido. Beltramone|Este paramertro siempre se debe de enviar el valor = true||
 |RequestMessage|merchantID(string)|Required|String (30)|Adm Sites|Se extrae la informacion ingresada en el campo MID, del adm sites (Cs)|||
 |RequestMessage|merchantReferenceCode(string)|Required|String (50)|Payments|Corresponde al nro de operación|MerchantReferenceCode= numero Afiliación – NROOPERACION ingresado por el comercio||
@@ -881,21 +901,22 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |Additional Fiels (General for all Verticals)|MDD4- Metodo de Pago (Visa, Master Card, Tarjeta Shopping, Banelco...)|Optional (Catalogo)|String (255)|Tokens|descripcion del medio de pago|Valores ejemplo: (Visa, Master Card, Tarjeta Shopping, Banelco...) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio. Se tienen que incluir todos los medios de pago aceptados|Reservado para todas las verticales / comercios Informacion completada por el comercio|
 |Additional Fiels (General for all Verticals)|MDD5- Numero de Cuotas|Optional|String (255)|Payments|cuota|Valor numerico que detalle el numero de cuotas|Idem ant|
 |Additional Fiels (General for all Verticals)|MDD6- Canal de venta|Optional (Catalogo)|String (255)||chanel (web, mobile)|Valores ejemplo: (Web, Call Center, Mobile, Kiosko) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.|Idem ant|
-|Additional Fiels (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"""days_in_site"": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|Idem ant|
-|Additional Fiels (General for all Verticals)|MDD8- Usuario Guest? (Y/N)|Optional|String (255)|Payments|"""is_guest"": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (Y/N)|Idem ant|
-|Additional Fiels (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"""password"": ""abracadabra"","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|Idem ant|
-|Additional Fiels (General for all Verticals)|MDD10- Historico de compras del comprador (Num transacciones)|Optional|String (255)|Payments|"""num_of_transactions"": 1,"|Conteo de transacciones realizadas por el mismo usuario registrado en el portal del comercio|Idem ant|
-|Additional Fiels (General for all Verticals)|MDD11- Customer Cell Phone|Optional|String (255)|Payments|"""cellphone_number"": ""12121"""|Incluir numero de telefono adicional del comprador|Idem ant|
-|Additional Fiels (General for all Verticals)|MDD13- Metodo de Despacho|Optional (Catalogo)|String (255)|Payments|"""dispatch_method"": ""storepickup"","|Valores ejemplo: (domicilio, click and collect, courrier) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.||
-|Campos Adicionales Digital Good|MDD32-Delivery Type|Required (Catalogo)|String (255)|Payments|"""delivery_type"": ""Pick up"","|Valores ejemplo: (Pick up /Email /smartphone/ other) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.||
+|Additional Fiels (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"days_in_site": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|Idem ant|
+|Additional Fiels (General for all Verticals)|MDD8- Usuario Guest? (Y/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (Y/N)|Idem ant|
+|Additional Fiels (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|Idem ant|
+|Additional Fiels (General for all Verticals)|MDD10- Historico de compras del comprador (Num transacciones)|Optional|String (255)|Payments|"num_of_transactions": 1,"|Conteo de transacciones realizadas por el mismo usuario registrado en el portal del comercio|Idem ant|
+|Additional Fiels (General for all Verticals)|MDD11- Customer Cell Phone|Optional|String (255)|Payments|"cellphone_number": "12121"|Incluir numero de telefono adicional del comprador|Idem ant|
+|Additional Fiels (General for all Verticals)|MDD13- Metodo de Despacho|Optional (Catalogo)|String (255)|Payments|"dispatch_method": "storepickup","|Valores ejemplo: (domicilio, click and collect, courrier) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.||
+|Campos Adicionales Digital Good|MDD32-Delivery Type|Required (Catalogo)|String (255)|Payments|"delivery_type": "Pick up","|Valores ejemplo: (Pick up /Email /smartphone/ other) Es recomendable que el API de decidir fije opciones seleccionables y no sean de captura libre para el comercio.||
 |Datos Adicionales para transacciones con VISA|MDD35- Tipo de Documento|Conditional (Transaccion con Visa)|String (255)|Tokens|tipo.doc|Tipo de documento solicitado por el comercio al cliente||
 |Datos Adicionales para transacciones con VISA|MDD36- Número de Documento.|Conditional (Transaccion con Visa)|String (255)|Tokens|nro.doc|Numero de documento solicitado por el comercio al cliente||
-|Datos Adicionales para transacciones con VISA|MDD37-Número de Puerta de Domicilio de Entrega del resumen de la tarjeta.|Conditional (Transaccion con Visa)|String (255)|Payments|"""street"": ""RIO 4041"","|Numero de puerta||
-|Datos Adicionales para transacciones con VISA|MDD38-Fecha de Nacimiento del Titular de la Tarjeta|Conditional (Transaccion con Visa)|String (255)|Payments|"""date_of_birth"": ""asas"","|Fecha de nacimiento del comprador, dato solicitado por el comercio. DECIDIR tiene el formato exacto de como se debe de capturar||
+|Datos Adicionales para transacciones con VISA|MDD37-Número de Puerta de Domicilio de Entrega del resumen de la tarjeta.|Conditional (Transaccion con Visa)|String (255)|Payments|"street": "RIO 4041","|Numero de puerta||
+|Datos Adicionales para transacciones con VISA|MDD38-Fecha de Nacimiento del Titular de la Tarjeta|Conditional (Transaccion con Visa)|String (255)|Payments|"date_of_birth": "asas","|Fecha de nacimiento del comprador, dato solicitado por el comercio. DECIDIR tiene el formato exacto de como se debe de capturar||
 |Datos Adicionales para transacciones con VISA|MDD39-Validacion Visa|Conditional (Transaccion con Visa)|String (255)|na|validacion_domicilio (viene del mp)|Valor numero correspondiente a la validacion de cada uno de los datos anteriores ejemplo: 1012||
-|Datos Adicional para indicar una transaccion reportada como fraude por el emisor|MDD40- Fraud Update|Optional|Boleano|Payments|"""send_to_cs"": true/false"|Valor para identificar si la transaccion ha sido reportada como fraude por parte del emisor. Incluir el parametro con valor = S Este parametro lo genera decidir a partir de la respuesta del emisor. En caso de una transaccion aceptada por el emisor o con rechazo diferente a fraude, NO INCLUIR||
+|Datos Adicional para indicar una transaccion reportada como fraude por el emisor|MDD40- Fraud Update|Optional|Boleano|Payments|"send_to_cs": true/false"|Valor para identificar si la transaccion ha sido reportada como fraude por parte del emisor. Incluir el parametro con valor = S Este parametro lo genera decidir a partir de la respuesta del emisor. En caso de una transaccion aceptada por el emisor o con rechazo diferente a fraude, NO INCLUIR||
 |Datos Adicionales Solicitados por Riesgos para detectar copy paste|MDD41 Copy paste Tarjeta|Optional|String|na|card_number (los envia si se detecto un copy paste)|Datos proporcionado por DECIDIR en el form. De pago. Valores posibles S/N||
 |Datos Adicionales Solicitados por Riesgos para detectar copy paste|MDD42 Copy paste CVV2|Optional|String|na|security_code (los envia si se detecto un copy paste)|Datos proporcionado por DECIDIR en el form. De pago. Valores posibles S/N||
+
 
 ```php
 
@@ -1102,12 +1123,14 @@ $response = $connector->payment()->ExecutePayment($data);
 [Volver al inicio](#decidir-sdk-php)
 
 <a name="errores"></a>
-##Erorres
+## Erorres
+
 <a name="erroressistema"></a>
-##Erorres Sistema
-https://decidir.api-docs.io/1.0/tablas-de-referencia/error_codes
+### Erorres de Sistema
+Listado de [Códigos de Errores](https://decidir.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/cs_answer_codes)
 
 <a name="erroresmarca"></a>
-##Erorres Marca 
-LINK
+### Erorres de Marca 
+Listado de [Códigos de Errores de Medios de Pago](https://decidir.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/payment_method_error_code_ids)
+
 [Volver al inicio](#decidir-sdk-php)
