@@ -37,7 +37,7 @@ $data = array(
 			  "fraud_detection" => array()
 );
 
-//Datos Cybersource retail 
+//Datos Cybersource retail
 $cs_data = array(
 				"send_to_cs" => true,
 				"channel" => "Web",
@@ -84,43 +84,53 @@ $cs_data = array(
 				"csmdd17" => "17"
 			);
 
-
 //lista de productos cybersource
 $cs_products = array(
-					array(
-						"csitproductcode" => "popblacksabbat2016",
-		                "csitproductdescription" => "Popular Black Sabbath 2016",
-		                "csitproductname" => "popblacksabbat2016ss",
-		                "csitproductsku" => "asas",
-		                "csittotalamount" => 6.00,
-		                "csitquantity" => 1,
-		                "csitunitprice" => 6.00
-				    ),
-					array(
-						"csitproductcode" => "popblacksabbat2017",
-		                "csitproductdescription" => "Popular Black Sabbath 2017",
-		                "csitproductname" => "popblacksabbat2017ss",
-		                "csitproductsku" => "asas",
-		                "csittotalamount" => 6.00,
-		                "csitquantity" => 1,
-		                "csitunitprice" => 6.00
-					)
-				);
+    array(
+        "csitproductcode" => "popblacksabbat2016",
+        "csitproductdescription" => "Popular Black Sabbath 2016",
+        "csitproductname" => "popblacksabbat2016ss",
+        "csitproductsku" => "asas",
+        "csittotalamount" => 6.00,
+        "csitquantity" => 1,
+        "csitunitprice" => 6.00
+    ),
+    array(
+        "csitproductcode" => "popblacksabbat2017",
+        "csitproductdescription" => "Popular Black Sabbath 2017",
+        "csitproductname" => "popblacksabbat2017ss",
+        "csitproductsku" => "asas",
+        "csittotalamount" => 6.00,
+        "csitquantity" => 1,
+        "csitunitprice" => 6.00
+    )
+);
 
-//$cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
+$cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\DigitalGoods($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\Ticketing($cs_data, $cs_products);
+//$cybersource = new \Decidir\Cybersource\Travel($cs_data, $cs_passenger);
+//$cybersource = new \Decidir\Cybersource\Service($cs_data, $cs_products);
 
-//echo("Cybersource Data<br>");
-//var_dump($cybersource->getData());
-//echo("<br>----------------------------------<br><br>");
+echo("Cybersource Data<br>");
+var_dump($cybersource->getData());
+echo("<br>----------------------------------<br><br>");
 
-//$connector->payment()->setCybersource($cybersource->getData());
+$connector->payment()->setCybersource($cybersource->getData());
 
 try {
 	$response = $connector->payment()->ExecutePayment($data);
 	echo("Respuest payment<br>");
 	print_r($response);
+
+	echo("<br><br>");
+	echo("Status: ".$response->getStatus()."<br><br>");
+
+	echo("Status detail<br>");
+	echo("Ticket:".$response->getStatus_details()->ticket."<br>");
+	echo("Card Authorization Code: ".$response->getStatus_details()->card_authorization_code."<br>");
+	echo("Address Validation Code : ".$response->getStatus_details()->address_validation_code."<br>");
+	var_dump($response->getStatus_details()->error);//echo(print_r($response->getStatus_details()->error,true));
 
 } catch(\Exception $e) {
 	echo("Error Respuest payment<br>");

@@ -25,7 +25,7 @@ function sdkResponseHandler(status, response) {
 
     alert("Token de pago: "+response.id);
 
-    $.ajax('form_action.php',
+    /*$.ajax('form_action.php',
     {
         method  : 'POST',
         data    :
@@ -46,6 +46,7 @@ function sdkResponseHandler(status, response) {
               console.log('Error pagado'+response);
         }
     });
+    */
     
   }else {
       console.log('ERROR - STATUS: ' + status + ' - Respuesta: ' +response );
