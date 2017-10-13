@@ -33,6 +33,9 @@ class Data extends \Decidir\Data\AbstractData {
 			"payment_type" => array(
 				"name" => "payment_type"
 			),
+			"establishment_name" => array(
+				"name" => "establishment_name"
+			),
 			"sub_payments" => array(
 				"name" => "sub_payments"
 			),

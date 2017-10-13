@@ -33,6 +33,7 @@ $data = array(
 			  "installments" => 1,
 			  "description" => "prueba",
 			  "payment_type" => "single",
+			  "establishment_name" => "Establecimiento test",
 			  "sub_payments" => array(),
 			  "fraud_detection" => array()
 );

@@ -205,7 +205,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 |installments   |cuotas del pago   | SI|"Valor minimo = 1 Valor maximo = 99"     |  installments: 1 |
 |payment_type   |forma de pago   | SI| Valor permitido: single / distributed
 |"single"   |
-|establishment_name   |nombre de comercio |Condicional   | Alfanumerico de hasta 25 caracteres |  "prueba desa soft"  |
+|establishment_name   |nombre de comercio |Condicional   | Alfanumerico de hasta 25 caracteres |  "Nombre establecimiento"  |
 
 #### Ejemplo
 ```php
@@ -221,6 +221,7 @@ $data = array(
       "currency" => "ARS",
       "installments" => 1,
       "description" => "",
+      "establishment_name" => "Nombre establecimiento",
       "payment_type" => "single",
       "sub_payments" => array()
     );
