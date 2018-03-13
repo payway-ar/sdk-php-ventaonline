@@ -29,7 +29,7 @@ if($_POST){
   $PaymentRequestdata = array(
         "site_transaction_id" => $operationid,
         "token" => $_POST['payment_token'],
-        "user_id" => $data->user_id,
+        "customer" => array("id" => $data->user_id, "email" => $data->user_mail),
         "payment_method_id" => intval($data->mediopago->tipo),
         "bin" => $_POST['bin'],
         "amount" => intval($_POST['amount']),
@@ -37,6 +37,7 @@ if($_POST){
         "installments" => intval($data->cuotas),
         "description" => $_POST['description'],
         "payment_type" => "single",
+        "establishment_name" => $data->stablishment,
         "sub_payments" => array(),
         "fraud_detection"=> array()
       );
@@ -47,10 +48,9 @@ if($_POST){
                         "id"=> $response->getId(),
                         "site_transaction_id"=> $response->getSite_transaction_id(),
                         "token"=> $response->getToken(),
-                        "user_id"=> $response->getUser_id(),
+                        "user_id"=> $response->getId(),
                         "customer"=> $response->getCustomer(),
                         "payment_method_id"=> $response->getPayment_method_id(),
-                        "card_brand"=> $response->getCard_brand(),
                         "bin"=> $response->getBin(),
                         "amount"=> $response->getAmount(),
                         "currency"=> $response->getCurrency(),
@@ -63,12 +63,14 @@ if($_POST){
                         "establishment_name"=> $response->getEstablishment_name(),
                         "fraud_detection"=> $response->getFraud_detection(),
                         "aggregate_data"=> $response->getAggregate_data()
-                        );
+                      );
 
   if($response->getStatus() == "approved"){
     $payment_status = 1;
+    $status = "PAGADO";
   }else{
     $payment_status = 0;
+    $status = "NO SE PUDO REALIZAR";
   }
 
   $orders_db->updateRecords(array("payment_response" => json_encode($paymentSData), "payment" => $payment_status, "status" => $status),array("id" => $operationid));

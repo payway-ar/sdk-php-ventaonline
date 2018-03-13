@@ -23,9 +23,10 @@ $response = $connector->payment()->PaymentInfo($data, $payment_response['id']);
 
 $statusResponse = array(
 			"id"=> $response->getId(),
+                        "id"=> $response->getId(),
                         "site_transaction_id"=> $response->getSite_transaction_id(),
                         "token"=> $response->getToken(),
-                        "user_id"=> $response->getUser_id(),
+                        "user_id"=> $response->getId(),
                         "customer"=> $response->getCustomer(),
                         "payment_method_id"=> $response->getPayment_method_id(),
                         "bin"=> $response->getBin(),
@@ -37,11 +38,9 @@ $statusResponse = array(
                         "status"=> $response->getStatus(),
                         "status_details"=> $response->getStatus_details(),
                         "date"=> $response->getDate(),
-//                        "merchant_id"=> $response->getMerchant_id(),
                         "establishment_name"=> $response->getEstablishment_name(),
                         "fraud_detection"=> $response->getFraud_detection(),
-                        "aggregate_data"=> $response->getAggregate_data(),
-                        "site_id"=> $response->getSite_id()
+                        "aggregate_data"=> $response->getAggregate_data()
 			);	
 ?>
 

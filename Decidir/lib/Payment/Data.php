@@ -39,11 +39,17 @@ class Data extends \Decidir\Data\AbstractData {
 			"sub_payments" => array(
 				"name" => "sub_payments"
 			),
+			"aggregate_data" => array(
+				"name" => "aggregate_data"
+			),
 			"fraud_detection" => array(
 				"name" => "fraud_detection"
 			),
 			"customer" => array(
 				"name" => "customer"
+			),
+			"site_id" => array(
+				"name" => "site_id"
 			),
 		));
 

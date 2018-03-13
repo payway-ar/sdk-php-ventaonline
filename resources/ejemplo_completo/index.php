@@ -38,8 +38,9 @@ $ord = $orders_db->getRecords(array("id","key_public","key_private","status","da
 <body>
 		<div id="container">
 			<div id="content">
-				<div class="w-content">
-				  <div class="w-section"></div>
+			<div class="w-content">
+
+			<div class="w-section"></div>
 			<div id="m-status" style="margin-bottom: 300px">	
 			<div class="block">
 			<table id="tablelist" class="full tablesorter">
@@ -74,11 +75,12 @@ $ord = $orders_db->getRecords(array("id","key_public","key_private","status","da
 				<?php endforeach;?>
 			</tbody>
 			<tfoot>
-		  <tr>
-		    <td colspan="7"><a href="create.php" class="btn info">Nuevo</a></td>
-		  </tr>
-		</tfoot>
+			  <tr>
+			    <td colspan="7"><a href="create.php" class="btn info">Nuevo</a></td>
+			  </tr>
+			</tfoot>
 			</table>
+			<div>Nota: Realizar las compras sin Cybersource</div>
 		</div>
 	</div>
 		</div>

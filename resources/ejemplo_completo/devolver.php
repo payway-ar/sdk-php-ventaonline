@@ -19,7 +19,7 @@ if($_POST) {
 	$connector = new \Decidir\Connector($header_http_data, $ambient);
 
 	if($_POST['tipo'] == "parcial"){
-		$data = array("amount" => ($_POST['monto']*100));
+		$data = array("amount" => intval($_POST['monto']*100));
 		$response = $connector->payment()->partialRefund($data, $paymentStatus['id']);
 
 	}else{

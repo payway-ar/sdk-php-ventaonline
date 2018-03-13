@@ -14,7 +14,9 @@ if($_POST){
 	$data = array(
 				"currency" => $_POST['currency'],
 				"user_id" => $_POST['user_id'],
-				"cuotas" => $_POST['cuotas']
+				"cuotas" => $_POST['cuotas'],
+				"user_mail" => $_POST['user_mail'],
+				"stablishment" => $_POST['establishment']
 			);
 	$response = "";
 	$tokenization = "";
@@ -79,7 +81,13 @@ box-shadow: 0 0 7px black;
 				  <td><b>User Id</b></td><td><input type="text" name="user_id" value="pepe"></input></td>
 				</tr>
 				<tr>
+				  <td><b>User mail</b></td><td><input type="text" name="user_mail" value="user@mail.com"></input></td>
+				</tr>
+				<tr>
 				  <td><b>Cuotas</b></td><td><input type="text" name="cuotas" value="1"></input></td>
+				</tr>
+				<tr>
+				  <td><b>Nombre de establecimiento</b></td><td><input type="text" name="establishment" value="Test"></input></td>
 				</tr>
 				</tbody>
 			<tfoot>
