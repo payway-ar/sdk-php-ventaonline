@@ -17,8 +17,16 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
       + [Captura del Pago](#capture)
+      + [Token de pago offline](#tokenoffline)
+      + [Ejecución de pago offline](#pagooffline)
+        + [Pago Facil](#pf)
+        + [Rapipago](#rp)
+        + [Pago mis Cuentas](#pmc)
+        + [Caja de Pagos](#cp)
+        + [Cobro Express](#ce)
       + [Listado de Pagos](#getallpayments)
-      + [Información de un Pago](#getpaymentinfo)
+      + [Información de un Pago](#getpaymentinfo)	
+      	+ [Información adicional de tarjeta](#infoadicionaltarjeta)
       + [Anulación / Devolución Total de Pago](#refund)
       + [Anulación de Devolución Total](#deleterefund)
       + [Devolución Parcial de un Pago](#partialrefund)
@@ -80,7 +88,6 @@ Los resúmenes correspondientes a los cierres de lotes automáticos efectuados p
 En caso de que el comercio opte por recibir los resúmenes vía e-mail, debe indicarnos a qué dirección o direcciones de correo electrónico desea recibir tales archivos.
 En caso de que el comercio opte por recibir los resúmenes vía FTP o SFTP, debe indicarnos los siguientes datos: URL del servidor, usuario y clave.
 
-LINK
 [<sub>Volver a inicio</sub>](#inicio)
 <a name="timeout"></a>
 ## TimeOut
@@ -286,7 +293,272 @@ try {
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
 
 
+<a name="tokenoffline"></a>
+
+### Token de Pago Offline
+Para el caso de la operatoria de pago offline, la operación requiere en un principio de la solicitud de un token a partir de datos del usuario.
+
+*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|name  |Nombre y apellido del usuario |  SI| Sin validacion |name: "Usuario Demo"  |
+|type  |Tipo de identificación personal |  SI|  Sin validacion|  type: "dni"|
+|number  |Numero de documento  |  SI|  Sin validacion|  number: "23968498"|
+
+
+#### Ejemplo
+```php
+
+$data = array(
+        "name" => "Pedro Test", 
+        "type" => "dni", 
+        "number" => "23968498"
+      );
+
+$response = $connector->paymentToken()->tokenPaymentOffline($data);
+
+print_r($response);
+print_r("<br><br><br>");
+print($response->getId()."<br>");
+print($response->getStatus()."<br>");
+print($response->getDate_created()."<br>");
+print($response->getDate_due()."<br>");
+print_r($response->getCustomer());
+
+```
+
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
+
+<a name="pagooffline"></a>
+
+## Token de Pago Offline
+Para el caso de la operatoria de pago offline, la operación requiere en un principio de la solicitud de un token a partir de datos del usuario.
+
+Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la solicitud de pago utilizando el token previamente generado. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
+
+*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
+
+<a name="pf"></a>
+### Pago Facil
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+#### Ejemplo
+```php
+
+$data = array(
+  "site_transaction_id" => "230518_41",
+  "token" => "92a95793-3321-447c-8795-8aeb8a8ac067",
+  "payment_method_id" => 25,
+  "amount" => 10.00,
+  "currency" => "ARS",
+  "payment_type" => "single",
+  "email" => "user@mail.com",
+  "invoice_expiration" => "191123",
+  "cod_p3" => "12",
+  "cod_p4" => "134",
+  "client" => "12345678",
+  "surcharge" => 10.01,
+  "payment_mode" => "offline"
+);
+
+$response = $connector->payment()->ExecutePaymentOffline($data);
+
+```
+
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
+<a name="rp"></a>
+### Rapipago
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+#### Ejemplo
+```php
+
+$data = array(
+  "site_transaction_id" => "230518_38",
+  "token" => "8e190c82-6a63-467e-8a09-9e8fa2ab6215",
+  "payment_method_id" => 26,
+  "amount" => 10.00,
+  "currency" => "ARS",
+  "payment_type" => "single",
+  "email" => "user@mail.com",
+  "invoice_expiration" => "191123",
+  "cod_p3" => "12",
+  "cod_p4" => "134",
+  "client" => "12345678",
+  "surcharge" => 10.01,
+  "payment_mode" => "offline"
+);
+
+$response = $connector->payment()->ExecutePaymentOffline($data);
+
+```
+
+<a name="pmc"></a>
+### Pago mis Cuentas
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|bank_id  | Id de banco de la operacion  |  SI|  String "offline" |  bank_id: 1 ([refencia](https://decidirv2.api-docs.io/1.0/transacciones-simples/flujo-de-pago-offline))|
+
+
+#### Ejemplo
+```php
+
+$data = array(
+  "site_transaction_id" => "220518_39",
+  "token" => "9ae1d130-8c89-4c3b-a267-0e97b88fedd0",
+  "payment_method_id" => 41,
+  "amount" => 10.00,
+  "currency" => "ARS",
+  "payment_type" => "single",
+  "email" => "user@mail.com",
+  "bank_id" => 1,
+  "sub_payments" => 100,
+  "invoice_expiration" => "191123"
+);
+
+$response = $connector->payment()->ExecutePaymentOffline($data);
+
+```
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
+<a name="cp"></a>
+### Cobro Express
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|second_invoice_expiration  | Segunda fecha de vencimiento del cupón  |  SI|  Formato AAMMDD |  second_invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+#### Ejemplo
+```php
+
+$data = array(
+  "site_transaction_id" => "160518_42",
+  "token" => "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
+  "payment_method_id" => 51,
+  "amount" => 10.00,
+  "currency" => "ARS",
+  "payment_type" => "single",
+  "email" => "user@mail.com",
+  "invoice_expiration" => "191123",
+  "second_invoice_expiration" => "191123",
+  "cod_p3" => "1",
+  "cod_p4" => "134",
+  "client" => "12345678",
+  "surcharge" => 10.01,
+  "payment_mode" => "offline"
+);
+
+$response = $connector->payment()->ExecutePaymentOffline($data);
+
+```
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
 <a name="getallpayments"></a>
+
+<a name="ce"></a>
+### Cobro Express
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
+|token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
+|payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
+|amount  | Monto de la operación. 6 números enteros y 2 decimales  |  SI|  8 dígitos,variable |  amount: "11.00"|
+|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
+|email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
+|second_invoice_expiration  | Segunda fecha de vencimiento del cupón  |  SI|  Formato AAMMDD |  second_invoice_expiration: "191123"|
+|cod_p3  | Son los dias que existen entre el 1º y 2º vencimiento de la factura. |  SI|  2,fijo ("00" si la factura tiene no tiene 2° vencimientos)|  invoice_expiration: "191123"|
+|cod_p4  | Días después del 1º vencimiento y hasta que el cliente pueda abonar  |  SI|  3,fijo |  cod_p4: "123"|
+|client  | Codigo Cliente  |  SI|   8,fijo |  client: "12345678"|
+|surcharge  | Recargo por vencimiento del plazo  |  SI|  7,variable (5 digitos enteros y 2 decimales)|  surcharge: "10.01"|
+|payment_mode  | Tipo de metodo de pago  |  SI|  Strin "offline" |  payment_mode: "offline"|
+
+
+#### Ejemplo
+```php
+
+$data = array(
+  "site_transaction_id" => "160518_42",
+  "token" => "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
+  "payment_method_id" => 51,
+  "amount" => 10.00,
+  "currency" => "ARS",
+  "payment_type" => "single",
+  "email" => "user@mail.com",
+  "invoice_expiration" => "191123",
+  "second_invoice_expiration" => "191123",
+  "cod_p3" => "1",
+  "cod_p4" => "134",
+  "client" => "12345678",
+  "surcharge" => 10.01,
+  "payment_mode" => "offline"
+);
+
+$response = $connector->payment()->ExecutePaymentOffline($data);
+
+```
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
+
 
 ### Listado de Pagos
 
@@ -342,6 +614,38 @@ $response->getEstablishment_name();
 $response->getFraud_detection();
 $response->getAggregate_data();
 $response->getSite_id();
+```
+
+<a name="infoadicionaltarjeta"></a>
+#### Información adicional de tarjeta
+
+Agregando la opcion "card_data" se puede obtener información adicional de la tarjera utilizada para el pago.
+
+```php
+
+$data = array();
+$query = array("expand"=>"card_data");
+
+$response = $connector->payment()->PaymentInfo($data, '873836', $query);
+$response->getCard_data()
+
+```
+
+#### Respuesta
+
+```php
+
+Array (
+	[card_number] => 450799XXXXXX4905
+	[card_holder] => Array (
+		[identification] => Array (
+		[type] => dni
+		[number] => 27859328
+	)
+	[name] => Tarjeta Visa
+	)
+)
+
 ```
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)

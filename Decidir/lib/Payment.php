@@ -34,6 +34,34 @@ class Payment{
 		return new \Decidir\Payment\PaymentResponse($ArrayResponse);
 	}
 
+	public function ExecutePaymentOffline($data){
+		$data['amount'] = $this->rmDecAmount($data['amount']);
+
+		if(!empty($data['surcharge'])){
+			$data['surcharge'] = $this->rmDecAmount($data['surcharge']);
+		}
+		
+		if($data['payment_method_id'] == 25){
+			$jsonData = new \Decidir\PaymentOffline\DataPagoFacil($data);
+
+		}elseif($data['payment_method_id'] == 26){
+			$jsonData = new \Decidir\PaymentOffline\DataRapipago($data);
+
+		}elseif($data['payment_method_id'] == 41){
+			$jsonData = new \Decidir\PaymentOffline\DataPMC($data);
+
+		}elseif($data['payment_method_id'] == 48){
+			$jsonData = new \Decidir\PaymentOffline\DataCajaPagos($data);
+
+		}elseif($data['payment_method_id'] == 51){	
+			$jsonData = new \Decidir\PaymentOffline\DataCobroExp($data);
+		}
+
+		$RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\PaymentOffline\PaymentOfflineResponse($ArrayResponse);
+	}
+
 	public function CapturePayment($operationId, $data){
 		$data['amount'] = $this->rmDecAmount($data['amount']);
 
@@ -49,13 +77,13 @@ class Payment{
 		return new \Decidir\PaymentsList\PaymentsListResponse($ArrayResponse);
 	}
 
-	public function PaymentInfo($data, $operationId){
+	public function PaymentInfo($data, $operationId, $query = array()){
 		if(empty($operationId)){
 			throw new \Exception("Empty Operation id");
 		}
 
 		$jsonData = new \Decidir\PaymentInfo\Data($data);
-		$RESTResponse = $this->serviceREST->get("payments/".$operationId, $jsonData->getData());
+		$RESTResponse = $this->serviceREST->get("payments/".$operationId, $jsonData->getData(), $query);
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\PaymentInfo\PaymentInfoResponse($ArrayResponse);
 	}

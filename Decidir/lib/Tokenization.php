@@ -33,6 +33,13 @@ class Tokenization{
 		return new \Decidir\TokenCardDelete\TokenCardDeleteResponse($ArrayResponse);
 	}
 
+	public function tokenPaymentOffline($data){
+		$jsonData = new \Decidir\TokenPaymentOffline\Data($data);
+		$RESTResponse = $this->serviceREST->post("tokens", $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\TokenPaymentOffline\TokenPaymentOfflineResponse($ArrayResponse);
+	}
+
 	public function toArray($jsonResponse){
 		$ResponseValues = json_decode(json_encode($jsonResponse),TRUE);
 

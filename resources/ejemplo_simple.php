@@ -1,6 +1,9 @@
 <?php
 include_once dirname(__FILE__)."/../vendor/autoload.php";
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $keys_data = array('public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
 		   		   'private_key' => '92b71cf711ca41f78362a7134f87ff65');
 
@@ -21,7 +24,7 @@ echo("--------------------------------------------<br><br>");
 
 
 //------------------------ejecucion de pago--------------------------
-
+/*
 $data = array(
 			  "site_transaction_id" => "130717_06",
 			  "token" => "850c2092-ee57-45a7-ada3-d6075ff753ca",
@@ -106,13 +109,13 @@ $cs_products = array(
         "csitunitprice" => 6.00
     )
 );
-
-$cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
+*/
+//$cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\DigitalGoods($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\Ticketing($cs_data, $cs_products);
 //$cybersource = new \Decidir\Cybersource\Travel($cs_data, $cs_passenger);
 //$cybersource = new \Decidir\Cybersource\Service($cs_data, $cs_products);
-
+/*
 echo("Cybersource Data<br>");
 var_dump($cybersource->getData());
 echo("<br>----------------------------------<br><br>");
@@ -137,7 +140,7 @@ try {
 	echo("Error Respuest payment<br>");
 	var_dump($e->getData());
 }
-
+*/
 //--------------------------lista de pagos----------------------------
 /*
 $data = array();
@@ -158,11 +161,14 @@ echo("HasMore: ".$response->getHasMOre()."<br>");
 //------------------------informacion de pago------------------------------
 
 $data = array();
+$query = array("expand"=>"card_data");
 
 var_dump(json_encode($data));
 echo("<br>");
 
-$response = $connector->payment()->PaymentInfo($data, '575625');
+$response = $connector->payment()->PaymentInfo($data, '914361', $query);
+
+print_r($response);
 
 echo("Respuesta informacion de pago<br>");
 if($response->getStatus() == "approved"){
@@ -267,4 +273,199 @@ var_dump($response);
 echo("Error type:".$response->getErrorType());
 echo("Nombre: ".$response->getEntityName());
 echo("Id".$response->getId());
+*/
+
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+//-------------------------PAGO OFFLINE--------------------------------
+//---------------------------------------------------------------------
+//---------------------------------------------------------------------
+
+//------------------------- Token -------------------------------------
+/*
+echo("Get offline payment token<br><br>");
+
+$data = array(
+				"name" => "Pepe Test", 
+				"type" => "dni", 
+				"number" => "23968498"
+			);
+
+$response = $connector->paymentToken()->tokenPaymentOffline($data);
+
+print_r($response);
+
+print_r("<br><br><br>");
+print($response->getId()."<br>");
+print($response->getStatus()."<br>");
+print($response->getDate_created()."<br>");
+print($response->getDate_due()."<br>");
+print_r($response->getCustomer());
+*/
+
+//---------------------- Payment offline Rapipago------------------------------
+/*
+$data = array(
+	"site_transaction_id" => "230518_38",
+	"token" => "8e190c82-6a63-467e-8a09-9e8fa2ab6215",
+	"payment_method_id" => 26,
+	"amount" => 10.00,
+	"currency" => "ARS",
+	"payment_type" => "single",
+	"email" => "user@mail.com",
+	"invoice_expiration" => "191123",
+	"cod_p3" => "12",
+	"cod_p4" => "134",
+	"client" => "12345678",
+	"surcharge" => 10.01,
+	"payment_mode" => "offline"
+);
+
+print_r($data,true);
+echo("<br>");
+
+try {
+	$response = $connector->payment()->ExecutePaymentOffline($data);
+	echo("Respuest payment offline Rapipago<br>");
+	
+	print_r($response);
+
+} catch(\Exception $e) {
+	echo("Error Respuest payment<br>");
+	var_dump($e->getData());
+}
+*/
+//---------------------- Payment offline Pago mis Cuentas------------------------------
+/*
+$data = array(
+	"site_transaction_id" => "220518_39",
+	"token" => "9ae1d130-8c89-4c3b-a267-0e97b88fedd0",
+	"payment_method_id" => 41,
+	"amount" => 10.00,
+	"currency" => "ARS",
+	"payment_type" => "single",
+	"email" => "user@mail.com",
+	"bank_id" => 1,
+	"sub_payments" => 100,
+	"invoice_expiration" => "191123"
+);
+
+print_r($data,true);
+echo("<br>");
+
+try {
+	
+	$response = $connector->payment()->ExecutePaymentOffline($data);
+	echo("Respuest payment offline PMC<br>");
+	
+	print_r($response);
+	
+
+} catch(\Exception $e) {
+	echo("Error Respuest payment<br>");
+	var_dump($e->getData());
+}
+*/
+//---------------------- Payment offline Pago Facil------------------------------
+/*
+$data = array(
+	"site_transaction_id" => "230518_41",
+	"token" => "92a95793-3321-447c-8795-8aeb8a8ac067",
+	"payment_method_id" => 25,
+	"amount" => 10.00,
+	"currency" => "ARS",
+	"payment_type" => "single",
+	"email" => "user@mail.com",
+	"invoice_expiration" => "191123",
+	"cod_p3" => "12",
+	"cod_p4" => "134",
+	"client" => "12345678",
+	"surcharge" => 10.01,
+	"payment_mode" => "offline"
+);
+
+print_r($data,true);
+echo("<br>");
+
+try {
+	
+	$response = $connector->payment()->ExecutePaymentOffline($data);
+	echo("Respuest payment offline Pago Facil<br>");
+	
+	print_r($response);
+	
+
+} catch(\Exception $e) {
+	echo("Error Respuest payment<br>");
+	var_dump($e->getData());
+}
+*/
+//---------------------- Payment offline Cobro Express------------------------------
+/*
+$data = array(
+	"site_transaction_id" => "160518_42",
+	"token" => "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
+	"payment_method_id" => 51,
+	"amount" => 10.00,
+	"currency" => "ARS",
+	"payment_type" => "single",
+	"email" => "user@mail.com",
+	"invoice_expiration" => "191123",
+	"second_invoice_expiration" => "191123",
+	"cod_p3" => "1",
+	"cod_p4" => "134",
+	"client" => "12345678",
+	"surcharge" => 10.01,
+	"payment_mode" => "offline"
+);
+
+print_r($data,true);
+echo("<br>");
+
+try {
+	
+	$response = $connector->payment()->ExecutePaymentOffline($data);
+	echo("Respuest payment offline Cobro Express<br>");
+	
+	print_r($response);
+	
+
+} catch(\Exception $e) {
+	echo("Error Respuest payment<br>");
+	var_dump($e->getData());
+}
+*/
+//---------------------- Payment offline Caja de Pagos------------------------------
+/*
+$data = array(
+	"site_transaction_id" => "220518_43",
+	"token" => "9877eb35-0d7c-4d56-bd78-d9ad1d27c7f0",
+	"payment_method_id" => 48,
+	"amount" => 10.00,
+	"currency" => "ARS",
+	"payment_type" => "single",
+	"email" => "user@mail.com",
+	"invoice_expiration" => "191123",
+	"second_invoice_expiration" => "191123",
+	"cod_p3" => "1",
+	"client" => "12345678",
+	"surcharge" => 10.01,
+	"payment_mode" => "offline"
+);
+
+print_r($data,true);
+echo("<br>");
+
+try {
+	
+	$response = $connector->payment()->ExecutePaymentOffline($data);
+	echo("Respuest payment offline Caja de Pagos<br>");
+	
+	print_r($response);
+	
+
+} catch(\Exception $e) {
+	echo("Error Respuest payment<br>");
+	var_dump($e->getData());
+}
 */

@@ -1,7 +1,7 @@
 <?php
 namespace Decidir;
 
-define('DECIDIR_VERSION','1.2.0');
+define('DECIDIR_VERSION','1.3.0');
 
 class Connector {
 	private $header_http = array();
@@ -29,6 +29,10 @@ class Connector {
 	}
 
 	public function cardToken(){
+		return $this->tokenInstance;
+	}
+
+	public function paymentToken(){
 		return $this->tokenInstance;
 	}
 }
