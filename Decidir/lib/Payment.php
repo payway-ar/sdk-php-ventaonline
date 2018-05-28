@@ -66,8 +66,8 @@ class Payment{
 		$data['amount'] = $this->rmDecAmount($data['amount']);
 
 		$RESTResponse = $this->serviceREST->put("payments/".$operationId, json_encode($data));
-                $ArrayResponse = $this->toArray($RESTResponse);
-                return new \Decidir\PaymentInfo\PaymentInfoResponse($ArrayResponse);
+        $ArrayResponse = $this->toArray($RESTResponse);
+        return new \Decidir\PaymentInfo\PaymentInfoResponse($ArrayResponse);
 	}
 
 	public function PaymentList($data){

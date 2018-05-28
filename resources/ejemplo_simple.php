@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $keys_data = array('public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
-		   		   'private_key' => '92b71cf711ca41f78362a7134f87ff65');
+		   'private_key' => '92b71cf711ca41f78362a7134f87ff65');
 
 $ambient = "test";//valores posibles "test" o "prod"
 
@@ -24,7 +24,7 @@ echo("--------------------------------------------<br><br>");
 
 
 //------------------------ejecucion de pago--------------------------
-/*
+
 $data = array(
 			  "site_transaction_id" => "130717_06",
 			  "token" => "850c2092-ee57-45a7-ada3-d6075ff753ca",
@@ -41,6 +41,7 @@ $data = array(
 			  "fraud_detection" => array()
 );
 
+/*
 //Datos Cybersource retail
 $cs_data = array(
 				"send_to_cs" => true,
@@ -119,22 +120,41 @@ $cs_products = array(
 echo("Cybersource Data<br>");
 var_dump($cybersource->getData());
 echo("<br>----------------------------------<br><br>");
-
-$connector->payment()->setCybersource($cybersource->getData());
-
+*/
+//$connector->payment()->setCybersource($cybersource->getData());
+/*
 try {
 	$response = $connector->payment()->ExecutePayment($data);
 	echo("Respuest payment<br>");
 	print_r($response);
-
+	/*
 	echo("<br><br>");
 	echo("Status: ".$response->getStatus()."<br><br>");
 
 	echo("Status detail<br>");
+	
+	echo("site tranaction:".$response->getSiteTransactionId()."<br>");
 	echo("Ticket:".$response->getStatus_details()->ticket."<br>");
 	echo("Card Authorization Code: ".$response->getStatus_details()->card_authorization_code."<br>");
 	echo("Address Validation Code : ".$response->getStatus_details()->address_validation_code."<br>");
-	var_dump($response->getStatus_details()->error);//echo(print_r($response->getStatus_details()->error,true));
+	var_dump($response->getStatus_details()->error);//echo(print_r($response->getStatus_details()->error,true));	
+	*/
+/*
+} catch(\Exception $e) {
+	echo("Error Respuest payment<br>");
+	var_dump($e->getData());
+}
+*/
+//--------------------------captura de pago---------------------------
+/*
+$data_capturapago = array(
+					"amount" =>  12.00
+					);
+
+try {
+	$response = $connector->payment()->CapturePayment('961574', $data_capturapago);
+	echo("Respuesta de captura de pago<br>");
+	print_r($response);
 
 } catch(\Exception $e) {
 	echo("Error Respuest payment<br>");
@@ -156,64 +176,55 @@ echo("Offset: ".$response->getOffset()."<br>");
 echo("Result:");
 var_dump($response->getResults());
 echo("HasMore: ".$response->getHasMOre()."<br>");
-
+*/
 
 //------------------------informacion de pago------------------------------
-
+/*
 $data = array();
 $query = array("expand"=>"card_data");
 
 var_dump(json_encode($data));
 echo("<br>");
 
-$response = $connector->payment()->PaymentInfo($data, '914361', $query);
+$response = $connector->payment()->PaymentInfo($data, '961564', $query);
 
-print_r($response);
+//print_r($response);
 
 echo("Respuesta informacion de pago<br>");
 if($response->getStatus() == "approved"){
-	echo($response->getId()."<br>");
-	echo($response->getToken()."<br>");
-	echo($response->getUserId()."<br>");
-	echo($response->getAmount()."<br>");
+		print_r($response);
 }else{
 	print_r($response->getValidationErrors());
 }
-
-
+*/
 //-------------------------devolucion----------------------------------
-
+/*
 $data = array();
 
 var_dump(json_encode($data));
 echo("<br>");
-$response = $connector->payment()->Refund($data, '575499');
+$response = $connector->payment()->Refund($data, '961564');
 
 echo("Respuest anulacion-devolucion total<br>");
-var_dump($response);
-echo($response->getId()."<br>");
-echo($response->getAmount()."<br>");
-var_dump($response->getSubPayments());
-echo($response->getStatus()."<br>");
-
-
+print_r($response);
+*/
 //------------------------anular devolucion total------------------------
-
+/*
 $data = array();
 
 var_dump(json_encode($data));
 echo("<br>");
 
-$response = $connector->payment()->deleteRefund($data, '574940', '271');
+$response = $connector->payment()->deleteRefund($data, '961467', '11196');
 
 echo("Respuesta de anulacion de devolucion<br>");
 var_dump($response);
-echo($response->getResponse());
-echo($response->getstatus());
-
+//echo($response->getResponse());
+//echo($response->getstatus());
+*/
 
 //-------------------------devolucion parcial--------------------------
-
+/*
 $data = array(
 		"amount" => 5.00
 	);
@@ -228,10 +239,10 @@ echo("Monto: ".$response->getAmount()."<br>");
 echo("Subpayment: <br>");
 var_dump($response->getSubPayments());
 echo("Status:".$response->getStatus()."<br>");
-
+*/
 
 //------------------------anulacion de devolucion--------------------------
-
+/*
 $data = array();
 
 $response = $connector->payment()->deletePartialRefund($data, '575503', '638');
@@ -243,7 +254,7 @@ echo("Respuesta: ".$response->getResponse());
 echo("Status: ".$response->getstatus());
 echo("Tipo de error:".$response->getErrorType());
 echo("Errores: ".$response->getValidationErrors());
-
+*/
 
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
@@ -252,27 +263,23 @@ echo("Errores: ".$response->getValidationErrors());
 //---------------------------------------------------------------------
 
 //----------------------Listado de tarjetas tokenizadas --------------------
-
+/*
 $response = $connector->cardToken()->tokensList($data, "pepe");
 echo("Respuesta de listado de tarjetas tokenizadas<br>");
 var_dump($response);
 echo("<br>---------------<br>");
 echo("Token:");
 var_dump($response->getTokens());
-
+*/
 
 //------------------------Eliminacion de token------------------------
-
+/*
 echo("Request servicio eliminacion de token<br>");
 $data = array();
 
-$response = $connector->cardToken()->tokenCardDelete($data, '7bed5c10-a70b-4c6d-92b2-4d9170b1c0e4');
+$response = $connector->cardToken()->tokenCardDelete($data, '00354341-6e64-4dc9-9fc9-c99611a1f950');
 echo("Respuest payment<br>");
-var_dump($response);
-
-echo("Error type:".$response->getErrorType());
-echo("Nombre: ".$response->getEntityName());
-echo("Id".$response->getId());
+print_r($response);
 */
 
 //---------------------------------------------------------------------
@@ -281,33 +288,11 @@ echo("Id".$response->getId());
 //---------------------------------------------------------------------
 //---------------------------------------------------------------------
 
-//------------------------- Token -------------------------------------
-/*
-echo("Get offline payment token<br><br>");
-
-$data = array(
-				"name" => "Pepe Test", 
-				"type" => "dni", 
-				"number" => "23968498"
-			);
-
-$response = $connector->paymentToken()->tokenPaymentOffline($data);
-
-print_r($response);
-
-print_r("<br><br><br>");
-print($response->getId()."<br>");
-print($response->getStatus()."<br>");
-print($response->getDate_created()."<br>");
-print($response->getDate_due()."<br>");
-print_r($response->getCustomer());
-*/
-
 //---------------------- Payment offline Rapipago------------------------------
 /*
 $data = array(
-	"site_transaction_id" => "230518_38",
-	"token" => "8e190c82-6a63-467e-8a09-9e8fa2ab6215",
+	"site_transaction_id" => "250518_40",
+	"token" => "7b9bf22b-e9a5-4068-924a-0e0f4e2d7b3c",
 	"payment_method_id" => 26,
 	"amount" => 10.00,
 	"currency" => "ARS",
@@ -338,8 +323,8 @@ try {
 //---------------------- Payment offline Pago mis Cuentas------------------------------
 /*
 $data = array(
-	"site_transaction_id" => "220518_39",
-	"token" => "9ae1d130-8c89-4c3b-a267-0e97b88fedd0",
+	"site_transaction_id" => "230518_41",
+	"token" => "0320e7da-d491-4f46-8753-db3966ee9aa5",
 	"payment_method_id" => 41,
 	"amount" => 10.00,
 	"currency" => "ARS",
@@ -369,8 +354,8 @@ try {
 //---------------------- Payment offline Pago Facil------------------------------
 /*
 $data = array(
-	"site_transaction_id" => "230518_41",
-	"token" => "92a95793-3321-447c-8795-8aeb8a8ac067",
+	"site_transaction_id" => "230518_42",
+	"token" => "68030d99-eed2-44c6-bd05-31b943c55bed",
 	"payment_method_id" => 25,
 	"amount" => 10.00,
 	"currency" => "ARS",
@@ -403,8 +388,8 @@ try {
 //---------------------- Payment offline Cobro Express------------------------------
 /*
 $data = array(
-	"site_transaction_id" => "160518_42",
-	"token" => "3df26771-67ab-4a8e-91e2-f1e0b0c559f7",
+	"site_transaction_id" => "160518_43",
+	"token" => "dc2cd96c-08d9-461d-a76c-01d3503fdf4f",
 	"payment_method_id" => 51,
 	"amount" => 10.00,
 	"currency" => "ARS",
@@ -438,8 +423,8 @@ try {
 //---------------------- Payment offline Caja de Pagos------------------------------
 /*
 $data = array(
-	"site_transaction_id" => "220518_43",
-	"token" => "9877eb35-0d7c-4d56-bd78-d9ad1d27c7f0",
+	"site_transaction_id" => "220518_44",
+	"token" => "5ab6acdb-6272-44d1-8412-cd5934973683",
 	"payment_method_id" => 48,
 	"amount" => 10.00,
 	"currency" => "ARS",

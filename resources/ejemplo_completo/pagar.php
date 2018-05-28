@@ -47,7 +47,6 @@ if($_POST){
   $paymentSData = array(
                         "id"=> $response->getId(),
                         "site_transaction_id"=> $response->getSite_transaction_id(),
-                        "token"=> $response->getToken(),
                         "user_id"=> $response->getId(),
                         "customer"=> $response->getCustomer(),
                         "payment_method_id"=> $response->getPayment_method_id(),

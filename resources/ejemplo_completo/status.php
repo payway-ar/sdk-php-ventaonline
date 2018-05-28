@@ -19,13 +19,13 @@ $ambient = "test";
 $connector = new \Decidir\Connector($header_http_data, $ambient);
 
 $data = array();
-$response = $connector->payment()->PaymentInfo($data, $payment_response['id']);
+$query = array("expand"=>"card_data");
+
+$response = $connector->payment()->PaymentInfo($data, $payment_response['id'], $query);
 
 $statusResponse = array(
-			"id"=> $response->getId(),
-                        "id"=> $response->getId(),
+                        //"id"=> $response->getId(),
                         "site_transaction_id"=> $response->getSite_transaction_id(),
-                        "token"=> $response->getToken(),
                         "user_id"=> $response->getId(),
                         "customer"=> $response->getCustomer(),
                         "payment_method_id"=> $response->getPayment_method_id(),
@@ -36,11 +36,10 @@ $statusResponse = array(
                         "payment_type"=> $response->getPayment_type(),
                         "sub_payments"=> $response->getSub_payments(),
                         "status"=> $response->getStatus(),
-                        "status_details"=> $response->getStatus_details(),
                         "date"=> $response->getDate(),
                         "establishment_name"=> $response->getEstablishment_name(),
-                        "fraud_detection"=> $response->getFraud_detection(),
-                        "aggregate_data"=> $response->getAggregate_data()
+                        "aggregate_data"=> $response->getAggregate_data(),
+                        "card_data" => $response->getCardData()
 			);	
 ?>
 

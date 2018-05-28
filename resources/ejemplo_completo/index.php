@@ -51,7 +51,7 @@ $ord = $orders_db->getRecords(array("id","key_public","key_private","status","da
 					<th class="header">Medio de Pago</th>
 					<th class="header">Pago</th>
 					<th class="header">Estado del Pago</th>
-					<th class="header">Anular / Devolver</th>
+					<th class="header">Devolver / Anular</th>
 				</tr>
 			</thead>
 			<tbody><?php foreach($ord as $o): ?>
@@ -69,7 +69,7 @@ $ord = $orders_db->getRecords(array("id","key_public","key_private","status","da
 					<td><a href="status.php?ord=<?php echo $o['id'];?>" class="btn success btn-sm">Consultar Estado</a></td>
 		       		<td>
 		       			<a href="devolver.php?ord=<?php echo $o['id'];?>" class="btn warning site btn-sm">Devolver</a>
-		       			<a href="anular.php?ord=<?php echo $o['id'];?>" class="btn warning site btn-sm">Anular</a>
+		       			<a href="anular.php?ord=<?php echo $o['id'];?>" class="btn warning site btn-sm">Anular Devolucion</a>
 		       		</td>
 		      	</tr>
 				<?php endforeach;?>

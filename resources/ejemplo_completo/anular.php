@@ -2,6 +2,10 @@
 include_once dirname(__FILE__)."/FlatDb.php";
 include_once dirname(__FILE__)."/../../vendor/autoload.php";
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $orders_db = new FlatDb();
 $orders_db->openTable('ordenes');
 $operationid = strip_tags($_GET['ord']);
@@ -19,7 +23,6 @@ $refundStatus = json_decode($ord[0]['refund']);
 
 $data = array();
 $response = $connector->payment()->deleteRefund($data, $paymentStatus->id, $refundStatus->id);
-
 
 $refundResponse = array();
 
