@@ -17,7 +17,6 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Health Check](#healthcheck)
       + [Ejecución del Pago](#payment)
       + [Captura del Pago](#capture)
-      + [Token de pago offline](#tokenoffline)
       + [Ejecución de pago offline](#pagooffline)
         + [Pago Facil](#pf)
         + [Rapipago](#rp)
@@ -292,50 +291,9 @@ try {
 
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
 
-
-<a name="tokenoffline"></a>
-
-### Token de Pago Offline
-Para el caso de la operatoria de pago offline, la operación requiere en un principio de la solicitud de un token a partir de datos del usuario.
-
-*Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
-
-|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-|name  |Nombre y apellido del usuario |  SI| Sin validacion |name: "Usuario Demo"  |
-|type  |Tipo de identificación personal |  SI|  Sin validacion|  type: "dni"|
-|number  |Numero de documento  |  SI|  Sin validacion|  number: "23968498"|
-
-
-#### Ejemplo
-```php
-
-$data = array(
-        "name" => "Pedro Test", 
-        "type" => "dni", 
-        "number" => "23968498"
-      );
-
-$response = $connector->paymentToken()->tokenPaymentOffline($data);
-
-print_r($response);
-print_r("<br><br><br>");
-print($response->getId()."<br>");
-print($response->getStatus()."<br>");
-print($response->getDate_created()."<br>");
-print($response->getDate_due()."<br>");
-print_r($response->getCustomer());
-
-```
-
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
-
-
 <a name="pagooffline"></a>
 
-## Token de Pago Offline
-Para el caso de la operatoria de pago offline, la operación requiere en un principio de la solicitud de un token a partir de datos del usuario.
-
+## Ejecución de pago offline
 Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la solicitud de pago utilizando el token previamente generado. Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
 
 *Aclaracion* : amount es un campo double el cual debería tener solo dos dígitos decimales.
