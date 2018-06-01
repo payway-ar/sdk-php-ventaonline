@@ -41,6 +41,45 @@ $data = array(
 			  "fraud_detection" => array()
 );
 
+
+/*AMEX payment data
+$data = array(
+	"site_transaction_id" => "310717_13",
+	"token" => "14fa3c3b-06d4-4b2e-a1c0-8685dbb2852f",
+	"customer" => array("id" => "usuario_prueba", "email" => "email@server.com"),
+	"payment_method_id" => 1,
+	"amount" => 12.00,
+	"bin" => "450799",
+	"currency" => "ARS",
+	"installments" => 1,
+	"description" => "prueba",
+	"payment_type" => "single",
+	"establishment_name" => "Establecimiento test",
+	"sub_payments" => array(),
+	"fraud_detection" => array(),
+	"aggregate_data" => array(
+		"indicator" => "1",
+		"identification_number" => "30598910045", 
+		"bill_to_pay" => "Decidir_Test",
+		"bill_to_refund" => "Decidir_Test",
+		"merchant_name" => "DECIDIR",
+		"street" => "Lavarden",
+		"number" => "247",
+		"postal_code" => "C1437FBE",
+		"category" => "05044",
+		"channel" => "005",
+		"geographic_code" => "C1437",
+		"city" => "Ciudad de Buenos Aires",
+		"merchant_id" => "decidir_Agregador",
+		"province" => "Buenos Aires",
+		"country" => "Argentina",
+		"merchant_email" => "merchant@mail.com",
+		"merchant_phone" => "+541135211111") 
+	);
+
+var_dump($data, true);
+*/
+
 /*
 //Datos Cybersource retail
 $cs_data = array(
