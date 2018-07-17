@@ -1,7 +1,7 @@
 <?php
 namespace Decidir;
 
-define('DECIDIR_VERSION','1.3.2');
+define('DECIDIR_VERSION','1.4.0');
 
 class Connector {
 	private $header_http = array();

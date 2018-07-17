@@ -201,6 +201,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |id  | id usuario que esta haciendo uso del sitio, pertenece al campo customer (ver ejemplo)  |Condicional   |Sin validacion   | user_id: "marcos",  |
 |email  | email del usuario que esta haciendo uso del sitio (se utiliza para tokenizacion), pertenece al campo customer(ver ejemplo)  |Condicional   |Sin validacion   | email: "user@mail.com",  |
+|ip_address  | IP del comercio | Condicional |Sin validacion   | ip_address: "192.168.100.2",  |
 |site_transaction_id   | nro de operacion  |SI   | Alfanumerico de hasta 39 caracteres  | "prueba 1"  |
 | site_id  |Site relacionado a otro site, este mismo no requiere del uso de la apikey ya que para el pago se utiliza la apikey del site al que se encuentra asociado.   | NO  | Se debe encontrar configurado en la tabla site_merchant como merchant_id del site_id  | 28464385  |
 | token  | token generado en el primer paso  |SI   |Alfanumerico de hasta 36 caracteres. No se podra ingresar un token utilizado para un  pago generado anteriormente.   | ""  |
@@ -220,7 +221,11 @@ $connector = new \Decidir\Connector($keys_data, $ambient);
 $data = array(
       "site_transaction_id" => "12042017_20",
       "token" => "be211413-757b-487e-bb0c-283d21c0fb6f",
-      "customer" => array("id" => "customer", "email" => "user@mail.com"),
+      "customer" => array(
+                        "id" => "customer", 
+                        "email" => "user@mail.com"
+                        "ip_address" => "192.168.100.2"
+                        ),
       "payment_method_id" => 1,
       "bin" => "450799",
       "amount" => 5.00,
@@ -301,6 +306,8 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 <a name="pf"></a>
 ### Pago Facil
 
+![imagen de sdks](./docs/img/me-rapipago-pagofacil.jpg)</br>
+
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
@@ -346,6 +353,8 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 <a name="rp"></a>
 ### Rapipago
 
+![imagen de sdks](./docs/img/me-rapipago-pagofacil.jpg)</br>
+
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
 |site_transaction_id  |Identificador único para la operación |  SI| 8 dígitos | site_transaction_id: "170518_35"  |
@@ -388,6 +397,8 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 
 <a name="pmc"></a>
 ### Pago mis Cuentas
+
+![imagen de sdks](./docs/img/me-pmc.jpg)</br>
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |

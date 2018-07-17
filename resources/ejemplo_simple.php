@@ -26,9 +26,13 @@ echo("--------------------------------------------<br><br>");
 //------------------------ejecucion de pago--------------------------
 
 $data = array(
-			  "site_transaction_id" => "130717_06",
-			  "token" => "850c2092-ee57-45a7-ada3-d6075ff753ca",
-			  "customer" => array("id" => "usuario_prueba", "email" => "email@server.com"),
+			  "site_transaction_id" => "060718_03",
+			  "token" => "23a9ff0f-4c32-4f8c-9dd5-cdf24ca3e7ab",
+			  "customer" => array(
+			  					"id" => "usuario_prueba", 
+			  					"email" => "email@server.com",
+			  					"ip_address" => "192.168.100.2",
+			  					),
 			  "payment_method_id" => 1,
 			  "amount" => 12.00,
 			  "bin" => "450799",
