@@ -88,6 +88,19 @@ class Payment{
 		return new \Decidir\PaymentInfo\PaymentInfoResponse($ArrayResponse);
 	}
 
+	public function Validate($data){
+		$data['payment']['amount'] = $this->rmDecAmount($data['payment']['amount']);
+
+		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
+			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
+		}
+
+		$jsonData = new \Decidir\Validate\Data($data);	
+		$RESTResponse = $this->serviceREST->post("validate", $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\Validate\ValidateResponse($ArrayResponse);
+	}
+
 	public function Refund($data, $operationId){
 		if(empty($operationId)){
 			throw new \Exception("Empty Operation id");

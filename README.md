@@ -23,6 +23,7 @@ Modulo para conexión con gateway de pago DECIDIR2
         + [Pago mis Cuentas](#pmc)
         + [Caja de Pagos](#cp)
         + [Cobro Express](#ce)
+      + [Formulario de Pago](#getvalidateform)  
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)	
       	+ [Información adicional de tarjeta](#infoadicionaltarjeta)
@@ -199,7 +200,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-|id  | id usuario que esta haciendo uso del sitio, pertenece al campo customer (ver ejemplo)  |Condicional   |Sin validacion   | user_id: "marcos",  |
+|id  | id usuario que esta haciendo uso del sitio, pertenece al campo customer (ver ejemplo)  |Condicional, si no se enviar el Merchant este campo no se envia  |Sin validacion   | user_id: "marcos",  |
 |email  | email del usuario que esta haciendo uso del sitio (se utiliza para tokenizacion), pertenece al campo customer(ver ejemplo)  |Condicional   |Sin validacion   | email: "user@mail.com",  |
 |ip_address  | IP del comercio | Condicional |Sin validacion   | ip_address: "192.168.100.2",  |
 |site_transaction_id   | nro de operacion  |SI   | Alfanumerico de hasta 39 caracteres  | "prueba 1"  |
@@ -479,8 +480,6 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 ```
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
 
-<a name="getallpayments"></a>
-
 <a name="ce"></a>
 ### Cobro Express
 
@@ -528,6 +527,96 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
 
 
+### Formulario de Pago
+
+<a name="getvalidateform"></a>
+
+Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "validate" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
+
+![Caso2](docs/img/validate_cao2.png)</br>
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
+|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
+|site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
+|customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
+|customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
+|payment.amount  | Monto de la compra  | SI | Numérico |   |
+|payment.currency  | Tipo de moneda  | NO | Letras |   |
+|payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
+|payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
+|payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
+|payment.payment_type  | Indica si es simple o distribuida  | SI | Valores posibles: "single", "distributed" |   |
+|payment.sub_payments  | Se utiliza para pagos distribuidos. Informa los subpayments  | Es requerido si el
+pago es distribuido por monto, ya que si es por porcentaje toma los configurados desde Adm Sites (SAC) | NA |   |
+|success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
+|cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
+|redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
+
+#### Ejemplo
+
+```php
+
+//Para este servicio es necesario enviar junto al public y private key el "form_apikey" y "form_site".
+$keys_data = array(
+              'form_apikey' => '5cde7e72ea1e430db94d4312346a3744 ',
+              'form_site' => '00021625'
+          );
+
+$connector = new \Decidir\Connector($keys_data, $ambient);
+
+$data = array(
+  "site" => array(
+        "id" => "03101980", //opcional, si no se tiene Merchant no se envía este atributo
+        "transaction_id" => "Swatch op",
+        "template" => array(
+            "id" => 5 
+        ),
+  ),
+  "customer" => array(
+        "id" => "001",
+        "email" => "user@mail.com",
+  ),
+  "payment" => array(
+        "amount" => 12.03,
+        "currency" => "ARS",
+        "payment_method_id" => 1,
+        "bin" => "45979",
+        "installments" => 4,
+        "payment_type" => "single",
+        "sub_payments" => array()
+  ),
+  "success_url" => "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+  "cancel_url" => "https://swatch.com/api/result",
+  "redirect_url" => "", //si no se informa el "success_url" es requerido
+  "fraud_detection" => array() //si no esta activado cybersource no enviar este atributo
+);
+
+$response = $connector->payment()->Validate($data);
+
+```
+
+#### Respuesta servicio validate
+
+```php
+
+$response = $connector->payment()->Validate($data);
+
+$response->getHash(); //respuesta: 46711cd8-81f8-4228-96cc-ac3e90c75622"
+
+```
+
+#### Formulario renderizado
+
+Al obtener el hash se puede generar el formulario a partir de la url: *https://api.decidir.com/web/form?hash=46711cd8-81f8-4228-96cc-ac3e90c75622*.
+
+
+![Formulario de pago](docs/img/form_renderizado.jpg)</br>
+
+[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+
+<a name="getallpayments"></a>
 
 ### Listado de Pagos
 
@@ -1603,3 +1692,4 @@ Listado de [Códigos de Errores](https://decidir.api-docs.io/1.0/tablas-de-refer
 Listado de [Códigos de Errores de Medios de Pago](https://decidir.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/payment_method_error_code_ids)
 
 [Volver al inicio](#decidir-sdk-php)
+

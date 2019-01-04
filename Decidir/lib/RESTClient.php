@@ -6,22 +6,31 @@ class RESTClient{
 	private $endpoint = NULL;
 	private $keys_data = array();
 	private $key = NULL;
+	private $formKey = NULL;
 	private $statusCodeResponse = array(200, 201, 204);
+	private $action = NULL;
 
-	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com/api/v2/";
-	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com/api/v2/";
+	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
+	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
+	//const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 
 	public function __construct($keys_data_array, $mode = "test"){
 		$this->keys_data = $keys_data_array;
 		if($mode == "test") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_TEST;
-		} elseif ($mode == "prod") {
-			$this->endpoint = self::DECIDIR_ENDPOINT_PROD;	
+		} elseif ($mode == "prod") {	
+			$this->endpoint = self::DECIDIR_ENDPOINT_PROD;
 		}
 	}
 
 	public function setUrl($url){
-		$this->url = $this->endpoint.$url;
+		if($url != 'validate'){
+			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+		}else{	
+			$this->endpoint = $this->endpoint.'/web/'.$url;
+		}
+
+		$this->url = $this->endpoint;
 	}
 
 	public function getUrl($url){
@@ -29,11 +38,17 @@ class RESTClient{
 	}
 
 	public function setKey($action){
+		$this->action = $action;
+
 		if($action == 'healthcheck'){
 			$this->key = "";
 
 		}elseif($action == 'tokens'){
 			$this->key = $this->keys_data['public_key'];
+
+		}elseif($action == 'validate'){
+			$this->key = $this->keys_data['form_apikey'];
+			$this->formKey = $this->keys_data['form_site'];
 
 		}else{
 			$this->key = $this->keys_data['private_key'];
@@ -69,11 +84,21 @@ class RESTClient{
 	}
 	//RESTResource
 	private function RESTService($method = "GET", $data, $query = array()){
+
 		$header_http = array(
-					'Cache-Control: no-cache',
-					'content-type: application/json',
-					'apikey:'. $this->key
+						'Cache-Control: no-cache',
+						'content-type: application/json'
 					);
+
+		if($this->action == 'validate'){
+			array_push($header_http, 'apikey: '. $this->key);
+			array_push($header_http, 'X-Consumer-Username: '. $this->formKey);
+		}else{
+			array_push($header_http, 'apikey: '. $this->key);
+		}	
+
+		error_log(print_r($header_http,true),3,"/var/log/apache2/error_log.log");
+
 
 		$curl = curl_init();
 		$curl_post_data = array();
@@ -118,9 +143,9 @@ class RESTClient{
 			throw new \Exception($err);
 		}
 
-	        if($codeResponse == 204) {
-	                $response = '{"status":"success"}';
-	        }
+        if($codeResponse == 204) {
+                $response = '{"status":"success"}';
+        }
 		curl_close($curl);
 
 		return json_decode($response, true);

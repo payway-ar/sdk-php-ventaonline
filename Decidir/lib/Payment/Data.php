@@ -6,6 +6,15 @@ class Data extends \Decidir\Data\AbstractData {
 	public function __construct(array $data) {
 
 		$this->setRequiredFields(array(
+			"id" => array(
+				"name" => ""
+			),
+			"email" => array(
+				"name" => "email"
+			),
+			"ip_address" => array(
+				"name" => "ip_address"
+			),
 			"site_transaction_id" => array(
 				"name" => "site_transaction_id"
 			),
@@ -34,13 +43,13 @@ class Data extends \Decidir\Data\AbstractData {
 				"name" => "payment_type"
 			),
 			"establishment_name" => array(
-				"name" => "establishment_name"
+				"name" => ""
 			),
 			"sub_payments" => array(
-				"name" => "sub_payments"
+				"name" => ""
 			),
 			"aggregate_data" => array(
-				"name" => "aggregate_data"
+				"name" => ""
 			),
 			"fraud_detection" => array(
 				"name" => "fraud_detection"
@@ -49,7 +58,7 @@ class Data extends \Decidir\Data\AbstractData {
 				"name" => "customer"
 			),
 			"site_id" => array(
-				"name" => "site_id"
+				"name" => ""
 			),
 		));
 
