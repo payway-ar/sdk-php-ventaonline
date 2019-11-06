@@ -1584,50 +1584,7 @@ $response = $connector->payment()->ExecutePayment($data);
 
 ### Códigos de Medios de pago
 
-| MEDIO DE PAGO | NOMBRE |
-----------------|--------
-| 1 | VISA |
-| 8 | DINERS |
-| 15 | MASTERCARD |
-| 20 | MASTERCARD TEST |
-| 23 | TARJETA SHOPPING |
-| 24 | TARJETA NARANJA |
-| 25 | PAGO FACIL |
-| 26 | RAPIPAGO |
-| 27 | CABAL |
-| 29 | ITALCRED |
-| 30 | ARGENCARD |
-| 31 | VISA DEBITO<sup>1</sup> |
-| 34 | COOPEPLUS |
-| 36 | ARCASH |
-| 37 | NEXO |
-| 38 | CREDIMAS |
-| 39 | TARJETA NEVADA |
-| 41 | PAGOMISCUENTAS |
-| 42 | NATIVA |
-| 43 | TARJETA MAS |
-| 44 | TARJETA CARREFOUR |
-| 45 | TARJETA PYMENACION |
-| 46 | PAYSAFECARD |
-| 47 | MONEDERO ONLINE |
-| 48 | CAJA DE PAGOS |
-| 50 | BBPS |
-| 51 | COBRO EXPRESS |
-| 52 | QIDA |
-| 53 | LAPOS WEB TRAVEL |
-| 54 | GRUPAR |
-| 55 | PATAGONIA 365 |
-| 56 | TARJETA CLUD DIA |
-| 59 | TARJETA TUYA |
-| 60 | DISTRIBUTION |
-| 61 | LA ANONIMA |
-| 62 | CREDIGUIA |
-| 63 | CABAL PRISMA |
-| 64 | TARJETA SOL |
-| 65 | AMEX MT |
-| 66 | MC DEBIT |
-| 67 | CABAL DEBITO (Cabal24) |
-| 99 | MAESTRO |
+https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/medios-de-pago-disponibles
 
 1. Visa Debito no acepta devoluciones parciales en e-commerce.
 
