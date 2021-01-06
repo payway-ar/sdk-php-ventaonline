@@ -13,10 +13,10 @@ class Retail extends AbstractData
 
 		$this->setRequiredFields(array(
 			"send_to_cs" => array(
-				"name" => "setChannel"
+				"name" => "setSendToCs"
 			),
 			"channel" => array(
-				"name" => "setSendToCs"
+				"name" => "setChannel"
 			),
 			"bill_to" => array(
 				"name" => "setBillTo"
@@ -67,6 +67,24 @@ class Retail extends AbstractData
 				"name" => "setCouponCode"
 			)
 		));
+
+		$optionalFields = array();
+		for($i = 17; $i <= 34; $i++){
+		    $csmdd = "csmdd" . $i;
+		    $optionalField = array(
+		        "name" => "SetCsmdd" . $i
+            );
+		    $optionalFields[$csmdd] = $optionalField;
+        }
+        for($i = 43; $i <= 99; $i++){
+            $csmdd = "csmdd" . $i;
+            $optionalField = array(
+                "name" => "SetCsmdd" . $i
+            );
+            $optionalFields[$csmdd] = $optionalField;
+        }
+
+        $this->setOptionalFields($optionalFields);
 
 		parent::__construct($retailData);
 
