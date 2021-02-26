@@ -33,9 +33,6 @@ class Data extends \Decidir\Data\AbstractData {
 			"currency" => array(
 				"name" => "currency"
 			),
-			"description" => array(
-				"name" => "description"
-			),
 			"installments" => array(
 				"name" => "installments"
 			),
@@ -51,9 +48,6 @@ class Data extends \Decidir\Data\AbstractData {
 			"aggregate_data" => array(
 				"name" => ""
 			),
-			"fraud_detection" => array(
-				"name" => "fraud_detection"
-			),
 			"customer" => array(
 				"name" => "customer"
 			),
@@ -61,6 +55,18 @@ class Data extends \Decidir\Data\AbstractData {
 				"name" => ""
 			),
 		));
+
+        $this->setOptionalFields(array(
+            "user_id" => array(
+                "name" => "user_id"
+            ),
+            "description" => array(
+                "name" => "description"
+            ),
+            "fraud_detection" => array(
+				"name" => "fraud_detection"
+			)
+        ));
 
 		parent::__construct($data);
 	}

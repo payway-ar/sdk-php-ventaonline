@@ -40,9 +40,11 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
 
         if(array_key_exists("bill_to", $data)){
             parent::__construct($bill_to);
+            $this->dataSet['bill_to'] = $bill_to;
         }
         if(array_key_exists("ship_to", $data)){
             parent::__construct($ship_to);
+            $this->dataSet['retail_transaction_data']['ship_to'] = $ship_to;
         }
 	}
 
