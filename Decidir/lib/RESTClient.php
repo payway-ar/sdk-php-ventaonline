@@ -14,8 +14,10 @@ class RESTClient{
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	//const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 
-	public function __construct($keys_data_array, $mode = "test"){
+	public function __construct($keys_data_array, $mode = "test", $developer = "Unknow REST Developer", $grouper = "Unknow REST grouper"){
 		$this->keys_data = $keys_data_array;
+		$this->developer = $developer;
+        $this->grouper = $grouper;
 		if($mode == "test") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_TEST;
 		} elseif ($mode == "prod") {	
@@ -82,12 +84,24 @@ class RESTClient{
 
 		return $this->RESTService("DELETE", $data);
 	}
+
+	public function encodeHeader64(){
+    	$jsonAux = json_encode(array('service' => 'SDK-PHP', 'Grouper'=> $this->grouper, 'developer'=> $this->developer));
+    	echo("Json decoded---> <br><br><br><br><br><br><br>");
+    	echo $jsonAux;
+    	echo("Se encriptara el X-Source en base 64 <br><br><br><br><br><br><br> ");
+    	$this->jsonData = base64_encode($jsonAux);
+    	echo("<br><br><br><br><br><br><br> X-Source Encodeado a base 64 <br><br><br><br><br><br><br>");
+    	echo $this->jsonData;
+    }
+
 	//RESTResource
 	private function RESTService($method = "GET", $data, $query = array()){
-
+        $this->encodeHeader64();
 		$header_http = array(
 						'Cache-Control: no-cache',
-						'content-type: application/json'
+						'content-type: application/json',
+						"X-Source:". $this->jsonData
 					);
 
 		if($this->action == 'validate'){
