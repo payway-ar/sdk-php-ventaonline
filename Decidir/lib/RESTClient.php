@@ -100,7 +100,6 @@ class RESTClient{
 
 	//RESTResource
 	private function RESTService($method = "GET", $data, $query = array()){
-	    var_dump($data);
         $this->encodeHeader64();
 		$header_http = array(
 						'Cache-Control: no-cache',
