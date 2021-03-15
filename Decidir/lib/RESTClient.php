@@ -16,7 +16,7 @@ class RESTClient{
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 	//const DECIDIR_ENDPOINT_TEST = "http://localhost:9001/";
 
-	public function __construct($keys_data_array, $mode = "test", $developer=" ", $grouper=" "){
+	public function __construct($keys_data_array, $mode = "test", $developer="", $grouper=""){
 		$this->keys_data = $keys_data_array;
 		$this->developer = $developer;
         $this->grouper = $grouper;

@@ -14,8 +14,6 @@ class Payment{
 		$this->mode = $mode;
 		$this->developer = $developer;
 		$this->grouper = $grouper;
-        echo("Variables desde el payment >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        echo($developer);
 		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $developer, $grouper);
 	}
 
