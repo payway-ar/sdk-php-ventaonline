@@ -30,7 +30,7 @@ echo("--------------------------------------------<br><br>");
 //------------------------ejecucion de pago--------------------------
 
 $data = array(
-			  "site_transaction_id" => "Fidelllllll",
+			  "site_transaction_id" => "Fidelllllll!!!!!!!!",
 			  "token" => "22d220cc-56cf-485f-81fb-9749b61ac0a9",
 			  "customer" => array(
 			  					"id" => "morton",

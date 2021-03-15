@@ -5,15 +5,15 @@ class RESTClient{
 	private $url = NULL;
 	private $endpoint = NULL;
 	private $keys_data = array();
-	private $key = 'e9cdb99fff374b5f91da4480c8dca741';
-	private $formKey = '28464383_private';
+	private $key = NULL;
+	private $formKey = NULL;
 	private $statusCodeResponse = array(200, 201, 204);
 	private $action = NULL;
 	public $jsonData = NULL;
 
 	//const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
-	//const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
+	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 	const DECIDIR_ENDPOINT_TEST = "http://localhost:9001/";
 
 	public function __construct($keys_data_array, $mode = "test", $developer=" ", $grouper=" "){
@@ -29,8 +29,9 @@ class RESTClient{
 
 	public function setUrl($url){
 		if($url != 'validate'){
-			//$this->endpoint = $this->endpoint.'/api/v2/'.$url;
-			$this->endpoint = $this->endpoint.$url;
+			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+			//Para testing local es probable que se requiera modificar el concatenado del URL..
+			//$this->endpoint = $this->endpoint.$url;
 		}else{	
 			$this->endpoint = $this->endpoint.'/web/'.$url;
 		}
