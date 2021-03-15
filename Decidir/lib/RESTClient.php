@@ -5,8 +5,8 @@ class RESTClient{
 	private $url = NULL;
 	private $endpoint = NULL;
 	private $keys_data = array();
-	private $key = NULL;
-	private $formKey = NULL;
+	private $key = 'e9cdb99fff374b5f91da4480c8dca741';
+	private $formKey = '28464383_private';
 	private $statusCodeResponse = array(200, 201, 204);
 	private $action = NULL;
 	public $jsonData = NULL;
@@ -16,7 +16,7 @@ class RESTClient{
 	//const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 	const DECIDIR_ENDPOINT_TEST = "http://localhost:9001/";
 
-	public function __construct($keys_data_array, $mode = "test", $developer="rest dev", $grouper="rest grouper"){
+	public function __construct($keys_data_array, $mode = "test", $developer=" ", $grouper=" "){
 		$this->keys_data = $keys_data_array;
 		$this->developer = $developer;
         $this->grouper = $grouper;
@@ -29,7 +29,8 @@ class RESTClient{
 
 	public function setUrl($url){
 		if($url != 'validate'){
-			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+			//$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+			$this->endpoint = $this->endpoint.$url;
 		}else{	
 			$this->endpoint = $this->endpoint.'/web/'.$url;
 		}
@@ -53,7 +54,6 @@ class RESTClient{
 		}elseif($action == 'validate'){
 			$this->key = $this->keys_data['form_apikey'];
 			$this->formKey = $this->keys_data['form_site'];
-
 		}else{
 			$this->key = $this->keys_data['private_key'];
 		}
@@ -99,11 +99,13 @@ class RESTClient{
 
 	//RESTResource
 	private function RESTService($method = "GET", $data, $query = array()){
+	    var_dump($data);
         $this->encodeHeader64();
 		$header_http = array(
 						'Cache-Control: no-cache',
 						'content-type: application/json',
-						"X-Source:". $this->jsonData,
+						'X-Consumer-Username:'.$this->formKey,
+						'X-Source:'.$this->jsonData,
 					);
 
 		if($this->action == 'validate'){

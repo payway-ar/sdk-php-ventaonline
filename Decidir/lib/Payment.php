@@ -6,15 +6,16 @@ class Payment{
 	public $serviceREST;
 	public $keys_data = array();
 	public $cybersource;
-	public $developer;
-    public $grouper;
+	public $developer=NULL;
+    public $grouper=NULL;
 
-	public function __construct($keys_data, $mode, $developer="payment dev", $grouper="grouper dev"){
+	public function __construct($keys_data, $mode, $developer, $grouper){
 		$this->keys_data = $keys_data;
 		$this->mode = $mode;
 		$this->developer = $developer;
 		$this->grouper = $grouper;
-
+        echo("Variables desde el payment >>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        echo($developer);
 		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $developer, $grouper);
 	}
 

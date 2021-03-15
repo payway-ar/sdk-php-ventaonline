@@ -8,7 +8,7 @@ class Tokenization{
 	public function __construct($header_http, $mode){
 		$this->header_http = $header_http;
 		$this->mode = $mode;
-		$this->serviceREST = new \Decidir\RESTClient($this->header_http, $this->mode, "Tokenizacion developer test", "Tokenization grouper test");
+		$this->serviceREST = new \Decidir\RESTClient($this->header_http, $this->mode);
 	}	
 
 	public function tokensList($data, $userId){

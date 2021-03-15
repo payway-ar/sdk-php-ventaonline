@@ -6,14 +6,12 @@ ini_set('display_errors', 1);
 
 $keys_data = array(
 				    'public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
-		   		    'private_key' => '92b71cf711ca41f78362a7134f87ff65',
-		   		    'form_apikey' => '5c4732a2ea1e430db94d436543523744',
-		   		    'form_site' => '28464383_public'
+		   		    'private_key' => '92b71cf711ca41f78362a7134f87ff65'
 		   		);
 
 $ambient = "test";//valores posibles "test" o "prod"
 
-$connector = new \Decidir\Connector($keys_data, $ambient);
+    $connector = new \Decidir\Connector($keys_data, $ambient);
 
 echo("Healthcheck Service<br><br>");
 $response = $connector->healthcheck()->getStatus();
@@ -32,8 +30,8 @@ echo("--------------------------------------------<br><br>");
 //------------------------ejecucion de pago--------------------------
 
 $data = array(
-			  "site_transaction_id" => "Meze The King 12adasdas!!",
-			  "token" => "8b199175-2c93-4896-8054-44164704182b",
+			  "site_transaction_id" => "Fidelllllll",
+			  "token" => "22d220cc-56cf-485f-81fb-9749b61ac0a9",
 			  "customer" => array(
 			  					"id" => "morton",
 			  					"email" => "santiago.figueroa@redb.ee"
@@ -47,7 +45,8 @@ $data = array(
 			  "payment_type" => "single",
 			  "establishment_name" => "Prueba desa soft",
 			  "sub_payments" => array(),
-			  "fraud_detection" => array()
+			  "fraud_detection" => array(),
+			  "ip_address" => "127.0.0.1"
 );
 
 $response = $connector->payment()->ExecutePayment($data);
