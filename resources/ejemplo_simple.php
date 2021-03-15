@@ -5,10 +5,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $keys_data = array(
-				    'public_key' => 'b192e4cb99564b84bf5db5550112adea',
-		   		    'private_key' => '566f2c897b5e4bfaa0ec2452f5d67f13',
+				    'public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
+		   		    'private_key' => '92b71cf711ca41f78362a7134f87ff65',
 		   		    'form_apikey' => '5c4732a2ea1e430db94d436543523744',
-		   		    'form_site' => '00021625'
+		   		    'form_site' => '28464383_public'
 		   		);
 
 $ambient = "test";//valores posibles "test" o "prod"
@@ -19,7 +19,9 @@ echo("Healthcheck Service<br><br>");
 $response = $connector->healthcheck()->getStatus();
 
 echo("<br>Respuest healthcheck<br>");
+
 var_dump($response);
+
 echo("<br><br>");
 echo("Name: ".$response->getName())."<br>";
 echo("Version: ".$response->getVersion())."<br>";
@@ -30,24 +32,26 @@ echo("--------------------------------------------<br><br>");
 //------------------------ejecucion de pago--------------------------
 
 $data = array(
-			  "site_transaction_id" => "071118_04",
-			  "token" => "0d32f9f1-2bbc-4ea0-9b43-5d63b176748a",
+			  "site_transaction_id" => "Meze The King 12adasdas!!",
+			  "token" => "8b199175-2c93-4896-8054-44164704182b",
 			  "customer" => array(
-			  					"id" => "usuario_prueba", 
-			  					"email" => "email@server.com",
-			  					"ip_address" => "192.168.100.2",
+			  					"id" => "morton",
+			  					"email" => "santiago.figueroa@redb.ee"
 			  					),
-			  "payment_method_id" => 1,
-			  "amount" => 12.00,
-			  "bin" => "450799",
+			  "payment_method_id" => 65,
+			  "amount" => 1000,
+			  "bin" => "373953",
 			  "currency" => "ARS",
 			  "installments" => 1,
-			  "description" => "prueba",
+			  "description" => "prueba qa",
 			  "payment_type" => "single",
-			  "establishment_name" => "Establecimiento test",
+			  "establishment_name" => "Prueba desa soft",
 			  "sub_payments" => array(),
 			  "fraud_detection" => array()
 );
+
+$response = $connector->payment()->ExecutePayment($data);
+var_dump($response);
 
 
 /*AMEX payment data
@@ -503,7 +507,7 @@ try {
 */
 
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>validate>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>><
-
+/*
 $data = array(
 	"site" => array(
 				"id" => "00021621", //opcional si no tengo merchant no se manda este campo
@@ -530,7 +534,7 @@ $data = array(
 	"cancel_url" => "https://swatch.com/api/result",
 	"fraud_detection" => array()
 );
-
+*/
 //Cyberource
 //Datos Cybersource retail
 /*
@@ -606,7 +610,7 @@ $cybersource = new \Decidir\Cybersource\Retail($cs_data, $cs_products);
 
 $connector->payment()->setCybersource($cybersource->getData());
 */
-
+/*
 try {
 	$response = $connector->payment()->Validate($data);
 	echo("Respuest payment<br>");
@@ -617,4 +621,4 @@ try {
 	var_dump($e);
 }
 
-
+*/

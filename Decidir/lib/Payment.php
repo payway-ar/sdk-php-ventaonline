@@ -9,13 +9,13 @@ class Payment{
 	public $developer;
     public $grouper;
 
-	public function __construct($keys_data, $mode, $develop = "Empty developer", $grouper = "Empty grouper"){
+	public function __construct($keys_data, $mode, $developer="payment dev", $grouper="grouper dev"){
 		$this->keys_data = $keys_data;
 		$this->mode = $mode;
 		$this->developer = $developer;
 		$this->grouper = $grouper;
 
-		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $develop, $grouper);
+		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $developer, $grouper);
 	}
 
 	public function ExecutePayment($data){

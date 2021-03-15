@@ -9,12 +9,14 @@ class RESTClient{
 	private $formKey = NULL;
 	private $statusCodeResponse = array(200, 201, 204);
 	private $action = NULL;
+	public $jsonData = NULL;
 
-	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
+	//const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	//const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
+	const DECIDIR_ENDPOINT_TEST = "http://localhost:9001/";
 
-	public function __construct($keys_data_array, $mode = "test", $developer = "Unknow REST Developer", $grouper = "Unknow REST grouper"){
+	public function __construct($keys_data_array, $mode = "test", $developer="rest dev", $grouper="rest grouper"){
 		$this->keys_data = $keys_data_array;
 		$this->developer = $developer;
         $this->grouper = $grouper;
@@ -101,7 +103,7 @@ class RESTClient{
 		$header_http = array(
 						'Cache-Control: no-cache',
 						'content-type: application/json',
-						"X-Source:". $this->jsonData
+						"X-Source:". $this->jsonData,
 					);
 
 		if($this->action == 'validate'){

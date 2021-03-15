@@ -12,7 +12,7 @@ class Connector {
 	private $developer = NULL;
     private $grouper = NULL;
 
-	public function __construct($header_http_array, $mode, $developer = "Unknow Connector developer", $grouper = "Unknow Connector grouper"){
+	public function __construct($header_http_array, $mode, $developer = "Developer connectr", $grouper = "Grouper connctr"){
 
 		$this->mode = $mode;
 		$this->header_http = $header_http_array;
