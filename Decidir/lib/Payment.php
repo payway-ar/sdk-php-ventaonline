@@ -15,6 +15,7 @@ class Payment{
 		$this->mode = $mode;
 		$this->developer = $developer;
 		$this->grouper = $grouper;
+		$this->service = $service;
 		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $developer, $grouper, $service);
 	}
 
