@@ -5,13 +5,13 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $keys_data = array(
-				    'public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
-		   		    'private_key' => '92b71cf711ca41f78362a7134f87ff65'
+				    'public_key' => '96e7f0d36a0648fb9a8dcb50ac06d260',
+		   		    'private_key' => '1b19bb47507c4a259ca22c12f78e881f'
 		   		);
 
 $ambient = "test";//valores posibles "test" o "prod"
 
-    $connector = new \Decidir\Connector($keys_data, $ambient);
+$connector = new \Decidir\Connector($keys_data, $ambient);
 
 echo("Healthcheck Service<br><br>");
 $response = $connector->healthcheck()->getStatus();
@@ -30,8 +30,8 @@ echo("--------------------------------------------<br><br>");
 //------------------------ejecucion de pago--------------------------
 
 $data = array(
-			  "site_transaction_id" => "Fidelllllll!!!!!!!!",
-			  "token" => "22d220cc-56cf-485f-81fb-9749b61ac0a9",
+			  "site_transaction_id" => "ISA - Meze TEST",
+			  "token" => "ed42ee49-6b77-487a-a298-a153cd41073f",
 			  "customer" => array(
 			  					"id" => "morton",
 			  					"email" => "santiago.figueroa@redb.ee"
@@ -43,10 +43,10 @@ $data = array(
 			  "installments" => 1,
 			  "description" => "prueba qa",
 			  "payment_type" => "single",
-			  "establishment_name" => "Prueba desa soft",
+			  "establishment_name" => "Prueba ISA-MEZE soft",
 			  "sub_payments" => array(),
 			  "fraud_detection" => array(),
-			  "ip_address" => "127.0.0.1"
+			  "ip_address" => "192.168.100.2"
 );
 
 $response = $connector->payment()->ExecutePayment($data);

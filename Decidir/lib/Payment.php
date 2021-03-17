@@ -8,13 +8,14 @@ class Payment{
 	public $cybersource;
 	public $developer=NULL;
     public $grouper=NULL;
+    public $service = NULL;
 
-	public function __construct($keys_data, $mode, $developer, $grouper){
+	public function __construct($keys_data, $mode, $developer, $grouper, $service){
 		$this->keys_data = $keys_data;
 		$this->mode = $mode;
 		$this->developer = $developer;
 		$this->grouper = $grouper;
-		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $developer, $grouper);
+		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $developer, $grouper, $service);
 	}
 
 	public function ExecutePayment($data){

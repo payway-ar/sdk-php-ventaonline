@@ -11,8 +11,9 @@ class Connector {
 	private $tokenInstance = NULL;
 	private $developer = NULL;
     private $grouper = NULL;
+    private $service = NULL;
 
-	public function __construct($header_http_array, $mode, $developer = "", $grouper = ""){
+	public function __construct($header_http_array, $mode, $developer = "", $grouper = "", $service = "SDK-PHP"){
 
 		$this->mode = $mode;
 		$this->header_http = $header_http_array;
@@ -20,7 +21,7 @@ class Connector {
         $this->grouper = $grouper;
 
 		$this->healthCheck = new \Decidir\HealthCheck($this->header_http, $this->mode);
-		$this->paymentInstance = new \Decidir\Payment($this->header_http, $this->mode, $this->developer, $this->grouper);
+		$this->paymentInstance = new \Decidir\Payment($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
 		$this->tokenInstance = new \Decidir\Tokenization($this->header_http, $this->mode);
 	}
 

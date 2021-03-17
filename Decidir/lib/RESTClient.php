@@ -10,16 +10,19 @@ class RESTClient{
 	private $statusCodeResponse = array(200, 201, 204);
 	private $action = NULL;
 	public $jsonData = NULL;
+	public $service = NULL;
 
 	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 	//const DECIDIR_ENDPOINT_TEST = "http://localhost:9001/";
 
-	public function __construct($keys_data_array, $mode = "test", $developer="", $grouper=""){
+	public function __construct($keys_data_array, $mode = "test", $developer="", $grouper="", $service = "SDK-PHP"){
 		$this->keys_data = $keys_data_array;
 		$this->developer = $developer;
         $this->grouper = $grouper;
+        $this->service = $service;
+
 		if($mode == "test") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_TEST;
 		} elseif ($mode == "prod") {	
@@ -89,7 +92,7 @@ class RESTClient{
 	}
 
 	public function encodeHeader64(){
-    	$jsonAux = json_encode(array('service' => 'SDK-PHP', 'Grouper'=> $this->grouper, 'developer'=> $this->developer));
+    	$jsonAux = json_encode(array('service' => $this->service, 'grouper'=> $this->grouper, 'developer'=> $this->developer));
     	echo("Json decoded---> <br><br><br><br><br><br><br>");
     	echo $jsonAux;
     	echo("Se encriptara el X-Source en base 64 <br><br><br><br><br><br><br> ");
