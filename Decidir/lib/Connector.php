@@ -19,6 +19,7 @@ class Connector {
 		$this->header_http = $header_http_array;
 		$this->developer = $developer;
         $this->grouper = $grouper;
+        $this->service = $service;
 
 		$this->healthCheck = new \Decidir\HealthCheck($this->header_http, $this->mode);
 		$this->paymentInstance = new \Decidir\Payment($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
