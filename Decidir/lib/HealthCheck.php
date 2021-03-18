@@ -11,7 +11,7 @@ class HealthCheck{
 		$this->header_http = $header_http;
 		$this->mode = $mode;
 
-		$this->instanceHk = new \Decidir\RESTClient($this->header_http, $this->mode);
+		$this->instanceHk = new \Decidir\RESTClient($this->header_http, $this->mode, "", "");
 	}	
 
 	public function getStatus(){
