@@ -28,64 +28,69 @@ class Retail extends AbstractData
 			"amount" => array(
 				"name" => "setAmount"
 			),
-			"days_in_site" => array(
-				"name" => "setDaysInSite"
-			),
-			"is_guest" => array(
-				"name" => "setIsGuest"
-			),
-			"password" => array(
-				"name" => "setPassword"
-			),
-			"num_of_transactions" => array(
-				"name" => "setNumOfTransactions"
-			),
-			"cellphone_number" => array(
-				"name" => "setCellPhoneNumber"
-			),
-			"date_of_birth" => array(
-				"name" => "setDateOfBirth"
-			),
-			"street" => array(
-				"name" => "setStreet"
-			),
-			"ship_to" => array(
-				"name" => "setShipTo"
-			),
-			"days_to_delivery" => array(
-				"name" => "setDaysToDelivery"
-			),
-			"dispatch_method" => array(
-				"name" => "setDispatchMethod"
-			),
-			"tax_voucher_required" => array(
-				"name" => "setTaxVoucherRequired"
-			),
-			"customer_loyality_number" => array(
-				"name" => "setCustomerLoyalityNumber"
-			),
-			"coupon_code" => array(
-				"name" => "setCouponCode"
-			)
+            "ship_to" => array(
+                "name" => "setShipTo"
+            )
 		));
 
-		$optionalFields = array();
+        $optionalFields = array(
+            "days_in_site" => array(
+                "name" => "setDaysInSite"
+            ),
+            "is_guest" => array(
+                "name" => "setIsGuest"
+            ),
+            "password" => array(
+                "name" => "setPassword"
+            ),
+            "num_of_transactions" => array(
+                "name" => "setNumOfTransactions"
+            ),
+            "cellphone_number" => array(
+                "name" => "setCellPhoneNumber"
+            ),
+            "date_of_birth" => array(
+                "name" => "setDateOfBirth"
+            ),
+            "street" => array(
+                "name" => "setStreet"
+            ),
+            "days_to_delivery" => array(
+                "name" => "setDaysToDelivery"
+            ),
+            "dispatch_method" => array(
+                "name" => "setDispatchMethod"
+            ),
+            "tax_voucher_required" => array(
+                "name" => "setTaxVoucherRequired"
+            ),
+            "customer_loyality_number" => array(
+                "name" => "setCustomerLoyalityNumber"
+            ),
+            "coupon_code" => array(
+                "name" => "setCouponCode"
+            )
+        );
+
+		$csmddFields = array();
 		for($i = 17; $i <= 34; $i++){
 		    $csmdd = "csmdd" . $i;
-		    $optionalField = array(
+		    $csmddField = array(
 		        "name" => "SetCsmdd" . $i
             );
-		    $optionalFields[$csmdd] = $optionalField;
+            $csmddFields[$csmdd] = $csmddField;
         }
         for($i = 43; $i <= 99; $i++){
             $csmdd = "csmdd" . $i;
-            $optionalField = array(
+            $csmddField = array(
                 "name" => "SetCsmdd" . $i
             );
-            $optionalFields[$csmdd] = $optionalField;
+            $csmddFields[$csmdd] = $csmddField;
         }
 
-        $this->setOptionalFields($optionalFields);
+        $allOptionalFields = array_merge($optionalFields, $csmddFields);
+
+        $this->setOptionalFields($allOptionalFields);
 
 		parent::__construct($retailData);
 
