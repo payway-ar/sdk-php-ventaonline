@@ -93,12 +93,12 @@ class RESTClient{
 
 	public function encodeHeader64(){
     	$jsonAux = json_encode(array('service' => $this->service, 'grouper'=> $this->grouper, 'developer'=> $this->developer));
-    	echo("Json decoded---> <br><br><br><br><br><br><br>");
-    	echo $jsonAux;
-    	echo("Se encriptara el X-Source en base 64 <br><br><br><br><br><br><br> ");
+    	//echo("Json decoded---> <br><br><br><br><br><br><br>");
+    	//echo $jsonAux;
+    	//echo("Se encriptara el X-Source en base 64 <br><br><br><br><br><br><br> ");
     	$this->jsonData = base64_encode($jsonAux);
-    	echo("<br><br><br><br><br><br><br> X-Source Encodeado a base 64 <br><br><br><br><br><br><br>");
-    	echo $this->jsonData;
+    	//echo("<br><br><br><br><br><br><br> X-Source Encodeado a base 64 <br><br><br><br><br><br><br>");
+    	//echo $this->jsonData;
     }
 
 	//RESTResource
