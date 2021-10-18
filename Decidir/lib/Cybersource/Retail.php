@@ -69,6 +69,9 @@ class Retail extends AbstractData
             ),
             "coupon_code" => array(
                 "name" => "setCouponCode"
+            ),
+            "device_unique_id" => array(
+            	"name"=> "setDeviceUniqueId"
             )
         );
 
@@ -76,14 +79,14 @@ class Retail extends AbstractData
 		for($i = 17; $i <= 34; $i++){
 		    $csmdd = "csmdd" . $i;
 		    $csmddField = array(
-		        "name" => "SetCsmdd" . $i
+		        "name" => "SetCsmdds" 
             );
             $csmddFields[$csmdd] = $csmddField;
         }
         for($i = 43; $i <= 99; $i++){
             $csmdd = "csmdd" . $i;
             $csmddField = array(
-                "name" => "SetCsmdd" . $i
+                "name" => "SetCsmdds"
             );
             $csmddFields[$csmdd] = $csmddField;
         }

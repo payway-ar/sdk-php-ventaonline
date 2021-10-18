@@ -32,6 +32,13 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
                 $this->$nameMethod($index, $this->dataResponse[$index]);
             }
         }
+        //procesamiento de campos adicionales
+        foreach($this->field_optional as $index => $param){
+            if(array_key_exists($index, $data)){
+                $nameMethod = $param['name'];
+                $this->$nameMethod($index, $this->dataResponse[$index]);
+            }
+        }
 
         if(array_key_exists("bill_to", $data) || array_key_exists("ship_to", $data)){
             parent::setRequiredFields($this->getOthersRequiredFields());
