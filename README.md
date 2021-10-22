@@ -144,7 +144,7 @@ El sdk PHP permite trabajar con los ambientes de Sandbox y Producción de Decidi
 
 ```php
 	
-$ambient = "test";//valores posibles: "test" o "prod"
+$ambient = "test";//valores posibles: "test" , "prod" o "qa"
 $connector = new \Decidir\Connector($keys_data, $ambient);		
 
 ```
@@ -166,7 +166,7 @@ La misma recibe como parámetros la public key o private key provisto por Decidi
 $keys_data = array('public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
            'private_key' => '92b71cf711ca41f78362a7134f87ff65');
 
-$ambient = "test";//valores posibles: "test" o "prod"
+$ambient = "test";//valores posibles: "test" , "prod" o "qa"
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
 ```

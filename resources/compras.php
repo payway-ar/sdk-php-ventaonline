@@ -4,7 +4,7 @@ include_once dirname(__FILE__)."/../vendor/autoload.php";
 $keys_data = array('public_key' => '96e7f0d36a0648fb9a8dcb50ac06d260',
     'private_key' => '1b19bb47507c4a259ca22c12f78e881f');
 
-$ambient = "test";    //valores posibles: "test" o "prod"
+$ambient = "test";    //valores posibles: "test" , "prod" o "qa"
 
 $connector = new \Decidir\Connector($keys_data, $ambient);
 

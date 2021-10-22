@@ -9,7 +9,7 @@ $keys_data = array(
 		   		    'private_key' => '1b19bb47507c4a259ca22c12f78e881f'
 		   		);
 
-$ambient = "test";//valores posibles "test" o "prod"
+$ambient = "test";//valores posibles: "test" , "prod" o "qa"
 
 $connector = new \Decidir\Connector($keys_data, $ambient);
 

@@ -14,7 +14,7 @@ $data = json_decode($ord[0]['data']);
 $header_http_data = array('public_key' => $ord[0]['key_public'],
                           'private_key' => $ord[0]['key_private']);
 
-$ambient = "test";
+$ambient = "test"; //valores posibles: "test" , "prod" o "qa"
 
 if($data->mediopago->tipo == 1){
   $tarjeta = "VISA";
