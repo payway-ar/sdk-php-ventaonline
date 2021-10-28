@@ -118,9 +118,6 @@ class RESTClient{
 			array_push($header_http, 'apikey: '. $this->key);
 		}	
 
-		error_log(print_r($header_http,true),3,"/var/log/apache2/error_log.log");
-
-
 		$curl = curl_init();
 		$curl_post_data = array();
 
