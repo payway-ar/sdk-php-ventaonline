@@ -26,4 +26,10 @@ class Token{
 		return new \Decidir\Token\TokenResponse($ArrayResponse);
     }
 
+	public function toArray($jsonResponse){
+		$ResponseValues = json_decode(json_encode($jsonResponse),TRUE);
+
+		return $ResponseValues;
+	}
+
 }
