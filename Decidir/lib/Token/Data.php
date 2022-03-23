@@ -34,7 +34,7 @@ class Data extends \Decidir\Data\AbstractData {
 				"name" => "card_holder_birthday"
 			),
 			"card_holder_door_number"=> array(
-				"name" => "card_holder_birthday"
+				"name" => "card_holder_door_number"
 			),
         ));
 

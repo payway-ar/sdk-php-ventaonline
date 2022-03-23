@@ -26,6 +26,13 @@ class Token{
 		return new \Decidir\Token\TokenResponse($ArrayResponse);
     }
 
+	public function tokenCs($data){
+        $jsonData = new \Decidir\Token\DataCS($data);
+		$RESTResponse = $this->serviceREST->post("tokens", $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\Token\TokenResponse($ArrayResponse);
+    }
+
 	public function toArray($jsonResponse){
 		$ResponseValues = json_decode(json_encode($jsonResponse),TRUE);
 
