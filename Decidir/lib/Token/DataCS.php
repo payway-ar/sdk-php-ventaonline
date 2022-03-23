@@ -4,7 +4,7 @@ namespace Decidir\Token;
 class DataCS extends \Decidir\Token\Data{
 
     public function __construct(array $data) {
-
+        $this->setRequiredFields();
         $this->setOptionalFields(array(
             "fraud_detection" => array(
 				"name" => array(
