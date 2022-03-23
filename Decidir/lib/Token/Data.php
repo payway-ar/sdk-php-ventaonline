@@ -29,7 +29,13 @@ class Data extends \Decidir\Data\AbstractData {
             ),
             "number" => array(
 				"name" => "number"
-			)
+			),
+			"card_holder_birthday"=> array(
+				"name" => "card_holder_birthday"
+			),
+			"card_holder_door_number"=> array(
+				"name" => "card_holder_birthday"
+			),
         ));
 
 		parent::__construct($data);
