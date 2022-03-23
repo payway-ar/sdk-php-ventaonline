@@ -36,6 +36,10 @@ class Connector {
 		return $this->paymentTokenInstance;
 	}
 
+	public function tokenCs(){
+		return $this->paymentTokenInstance;
+	}
+
 	public function payment(){
 		return $this->paymentInstance;
 	}
