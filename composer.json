@@ -1,5 +1,5 @@
 {
-    "name": "teamv/php-sdk2",
+    "name": "decidir2/php-sdk2",
     "description": "SDK para Decidir",
     "require": {
         "php": ">=5.3"
