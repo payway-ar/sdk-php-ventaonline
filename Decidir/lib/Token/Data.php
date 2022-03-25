@@ -36,6 +36,16 @@ class Data extends \Decidir\Data\AbstractData {
 			"card_holder_door_number"=> array(
 				"name" => "card_holder_door_number"
 			),
+			"fraud_detection" => array(
+				"name" => array(
+                    "device_unique_identifier" => array(
+                        "name"=> "device_unique_identifier"
+                    )
+                )
+			),
+            "ip_address" => array(
+                "name" => "ip_address"
+            )
         ));
 
 		parent::__construct($data);

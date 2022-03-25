@@ -27,7 +27,7 @@ class Token{
     }
 
 	public function tokenCs($data){
-        $jsonData = new \Decidir\Token\DataCS($data);
+        $jsonData = new \Decidir\Token\Data($data);
 		$RESTResponse = $this->serviceREST->post("tokens", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Token\TokenResponse($ArrayResponse);
