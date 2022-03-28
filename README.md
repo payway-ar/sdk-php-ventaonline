@@ -15,6 +15,8 @@ Modulo para conexión con gateway de pago DECIDIR2
     + [Inicializar la clase correspondiente al conector](#initconector)
     + [Operatoria del Gateway](#operatoria)
       + [Health Check](#healthcheck)
+      + [Token](#token)
+      + [TokenCs](#tokenCs)
       + [Ejecución del Pago](#payment)
       + [Captura del Pago](#capture)
       + [Ejecución de pago offline](#pagooffline)
