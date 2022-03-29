@@ -20,7 +20,7 @@ class BatchClosure{
 	}
 
     public function batchClosure($data){
-        $jsonData = new \Decidir\Token\Data($data);
+        $jsonData = new \Decidir\BatchClosure\Data($data);
 		$RESTResponse = $this->serviceREST->post("closures/batchclosure", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\BatchClosure\BatchClosureResponse($ArrayResponse);
