@@ -10,6 +10,7 @@ class Connector {
 	private $paymentInstance = NULL;
 	private $tokenInstance = NULL;
 	private $paymentTokenInstance = NULL;
+	private $batchClosureInstance = NULL;
 	private $developer = NULL;
     private $grouper = NULL;
     private $service = NULL;
@@ -26,6 +27,7 @@ class Connector {
 		$this->paymentInstance = new \Decidir\Payment($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
 		$this->tokenInstance = new \Decidir\Tokenization($this->header_http, $this->mode);
 		$this->paymentTokenInstance = new \Decidir\Token($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
+		$this->batchClosureInstance = new \Decidir\BatchClosure($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
 	}
 
 	public function healthcheck(){
@@ -50,5 +52,9 @@ class Connector {
 
 	public function paymentToken(){
 		return $this->tokenInstance;
+	}
+
+	public function batchClosure(){
+		return $this->batchClosureInstance;
 	}
 }

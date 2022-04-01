@@ -17,6 +17,7 @@ Modulo para conexión con gateway de pago DECIDIR2
       + [Health Check](#healthcheck)
       + [Token](#token)
       + [TokenCs](#tokenCs)
+      + [Batch Closure](#tokenCs)
       + [Ejecución del Pago](#payment)
       + [Captura del Pago](#capture)
       + [Ejecución de pago offline](#pagooffline)
@@ -192,6 +193,109 @@ $response->getBuildTime();
 [<sub>Volver a inicio</sub>](#decidir-sdk-php)
 
 
+<a name="token"></a>
+### Token
+Este recurso permite obtener token de pago.
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+$data = array(
+      "card_number" => "4509790112684851",
+      "card_expiration_month" => "12",
+      "card_expiration_year" => "30", 
+      "card_holder_name" => "Barb",
+      "card_holder_birthday" => "24071990",
+      "card_holder_door_number" => 505,
+      "security_code" => "123",
+      "card_holder_identification" => array(
+          "type" => "dni",
+          "number" => "29123456"));
+       
+$response = $connector->token()->token($data);
+$respuesta = new TokenResponse();
+
+$respuesta->setId($response->get('id',null));
+$respuesta->setStatus($response->get('status',null));
+$respuesta->setCardNumberLength($response->get('card_number_length', null));
+$respuesta->setDateCreated($response->get('date_created', null));
+$respuesta->setBin($response->get('bin', null));
+$respuesta->setLastFourDigits($response->get('last_four_digits', null));
+$respuesta->setSecurityCodeLength($response->get('security_code_length', null));
+$respuesta->setExpirationMonth($response->get('expiration_month', null));
+$respuesta->setExpirationYear($response->get('expiration_year', null));
+$respuesta->setDateDue($response->get('date_due', null));
+$cardHolder = $response->get('cardholder', null);
+$respuesta->setType($cardHolder['identification']['type']);
+$respuesta->setNumber($cardHolder['identification']['number']);
+$respuesta->setName($cardHolder['name']);
+```
+
+
+### TokenCS
+Este recurso permite obtener token de pago.
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+$data = array(
+      "card_number" => "4509790112684851",
+      "card_expiration_month" => "12",
+      "card_expiration_year" => "30", 
+      "card_holder_name" => "Barb",
+      "card_holder_birthday" => "24071990",
+      "card_holder_door_number" => 505,
+      "security_code" => "123",
+      "card_holder_identification" => array(
+        "type" => "dni",
+        "number" => "29123456"
+      ),
+      "fraud_detection"=> array(
+          "device_unique_identifier"=> "12345"
+      ),
+      "ip_address"=> "192.168.100.1");
+       
+$response = $connector->token()->tokenCs($data);
+$respuesta = new TokenResponse();
+
+$respuesta->setId($response->get('id',null));
+$respuesta->setStatus($response->get('status',null));
+$respuesta->setCardNumberLength($response->get('card_number_length', null));
+$respuesta->setDateCreated($response->get('date_created', null));
+$respuesta->setBin($response->get('bin', null));
+$respuesta->setLastFourDigits($response->get('last_four_digits', null));
+$respuesta->setSecurityCodeLength($response->get('security_code_length', null));
+$respuesta->setExpirationMonth($response->get('expiration_month', null));
+$respuesta->setExpirationYear($response->get('expiration_year', null));
+$respuesta->setDateDue($response->get('date_due', null));
+$cardHolder = $response->get('cardholder', null);
+$respuesta->setType($cardHolder['identification']['type']);
+$respuesta->setNumber($cardHolder['identification']['number']);
+$respuesta->setName($cardHolder['name']);
+
+```
+
+### BatchClosure
+Este recurso permite realizar un cierre de lote.
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+$data = array(
+            "username"=> "admin",
+            "site_id"=> "00097001",
+            "payment_method_id"=> "113");
+       
+try{
+    $response = $connector->batchClosure()->batchClosure($data);
+} catch( \Exception $e ) {
+    return response()->json(['error' => $e->getMessage() ], 403);
+}
+
+$respuesta = new BatchClosureResponse();
+
+$respuesta->setBatchId($response->get('batch_id',null));
+$respuesta->setFileName($response->get('file_name',null));
+$respuesta->setErrors($response->get('errors',null));
+
+```
 <a name="payment"></a>
 
 ### Ejecución del Pago
