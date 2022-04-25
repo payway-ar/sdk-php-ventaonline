@@ -15,7 +15,7 @@ $ord = $orders_db->getRecords(array("id","key_public","key_private","status","da
 $header_http_data = array('public_key' => $ord[0]['key_public'],
                       'private_key' => $ord[0]['key_private']);
 
-$ambient = "test";
+$ambient = "test"; //valores posibles: "test" , "prod" o "qa"
 $connector = new \Decidir\Connector($header_http_data, $ambient);
 
 $paymentStatus = json_decode($ord[0]['payment_response']);

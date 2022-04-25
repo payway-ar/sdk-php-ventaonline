@@ -15,7 +15,7 @@ if($_POST) {
 	$header_http_data = array('public_key' => $ord[0]['key_public'],
                           'private_key' => $ord[0]['key_private']);
 
-	$ambient = "test";
+	$ambient = "test"; //valores posibles: "test" , "prod" o "qa"
 	$connector = new \Decidir\Connector($header_http_data, $ambient);
 
 	if($_POST['tipo'] == "parcial"){

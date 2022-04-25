@@ -13,6 +13,7 @@ class RESTClient{
 	public $service = NULL;
 
 	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
+	const DECIDIR_ENDPOINT_QA = "https://qa.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 	//const DECIDIR_ENDPOINT_TEST = "http://localhost:9001/";
@@ -25,6 +26,8 @@ class RESTClient{
 
 		if($mode == "test") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_TEST;
+		} elseif ($mode == "qa") {	
+			$this->endpoint = self::DECIDIR_ENDPOINT_QA;
 		} elseif ($mode == "prod") {	
 			$this->endpoint = self::DECIDIR_ENDPOINT_PROD;
 		}
