@@ -1,7 +1,8 @@
-Decidir SDK PHP
+<a name="inicio"></a>
+Payway SDK PHP
 ===============
 
-Modulo para conexión con gateway de pago DECIDIR2
+Modulo para conexión con gateway de pago Payway
   + [Introducción](#introduccion)
     + [Alcance](#alcance)
 	+ [Cierre de lotes](#cierre)
@@ -56,23 +57,19 @@ Modulo para conexión con gateway de pago DECIDIR2
 El flujo de una transacción a través de las **sdks** consta de dos pasos, la **generaci&oacute;n de un token de pago** por parte del cliente y el **procesamiento de pago** por parte del comercio. Existen sdks espec&iacute;ficas para realizar estas funciones en distintos lenguajes que se detallan a continuaci&oacute;n:
 
 + **Generaci&oacute;n de un token de pago.**  Se utiliza alguna de las siguentes **sdks front-end** :
-  + [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-  + [sdk Android](https://github.com/decidir/SDK-Android.v2)
-  + [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+  + [sdk Javascript](https://github.compayway-ar/sdk-javascript-ventaonline)
 + **Procesamiento de pago.**  Se utiliza alguna de las siguentes **sdks back-end** :
-  + [sdk Java](https://github.com/decidir/SDK-JAVA.v2)
-  + [sdk PHP](https://github.com/decidir/SDK-PHP.v2)
-  + [sdk .Net](https://github.com/decidir/SDK-.NET.v2)
-  + [sdk Node](https://github.com/decidir/SDK-.NODE.v2)
+  + [sdk Java](https://github.com/payway-ar/sdk-java-ventaonline)
+  + [sdk PHP](https://github.com/payway-ar/sdk-php-ventaonline)
+  + [sdk .Net](https://github.com/payway-ar/sdk-net-ventaonline)
+  + [sdk Node](https://github.com/payway-ar/sdk-node-ventaonline)
 
 
 ## Alcance
-La **sdk PHP** provee soporte para su **aplicaci&oacute;n back-end**, encargandose de la comunicaci&oacute;n del comercio con la **API Decidir** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
+La **sdk PHP** provee soporte para su **aplicaci&oacute;n back-end**, encargandose de la comunicaci&oacute;n del comercio con la **API Payway** utilizando su **API Key privada**<sup>1</sup> y el **token de pago** generado por el cliente.
 
-Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con **Decidir** a trav&eacute;s de alguna de las siguentes **sdks front-end**:
-+ [sdk IOS](https://github.com/decidir/SDK-IOS.v2)
-+ [sdk Android](https://github.com/decidir/SDK-Android.v2)
-+ [sdk Javascript](https://github.com/decidir/sdk-javascript-v2)
+Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con **Payway** a trav&eacute;s de alguna de las siguentes **sdks front-end**:
++ [sdk Javascript](https://github.com/payway-ar/sdk-javascript-ventaonline)
 
 ![imagen de sdks](./docs/img/DiagramaSDKs.png)</br>
 
@@ -82,7 +79,7 @@ Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con
 El cierre de lote le permite al comercio hacer la presentación ante cada Marca de las operaciones de Compras, Anulaciones y Devoluciones realizadas para que las mismas puedan ser liquidadas por cada medio de pago.+
 
 Los cierres de lotes de cada medio de pago pueden realizarse de 2 maneras:
-Manual: esta modalidad es “on demand”. Para ello, un usuario del comercio debe ingresar a la consola de Decidir y seleccionar el medio de pago a cerrar lote. Opción de menú: Menú --> Cerrar Lote. Para más detalle por favor consultar el Manual de Administración de Decidir.
+Manual: esta modalidad es “on demand”. Para ello, un usuario del comercio debe ingresar a la consola de Payway y seleccionar el medio de pago a cerrar lote. Opción de menú: Menú --> Cerrar Lote. Para más detalle por favor consultar el Manual de Administración de Payway.
 Automática: Los procesos se ejecutan diariamente luego de la medianoche, y al finalizar, se envían al comercio cada uno de los archivos del cierre de lote de cada medio de pago habilitado.
 Los resúmenes correspondientes a los cierres de lotes automáticos efectuados pueden ser enviados por:
 - E-MAIL
@@ -114,7 +111,7 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 
 
 ## Instalación
-El SDK se encuentra disponible para descargar desde [Github](https://github.com/decidir/sdk-php-v2) o desde composer con el siguiente comando:
+El SDK se encuentra disponible para descargar desde [Github](https://github.com/payway-ar/sdk-php-ventaonline) o desde composer con el siguiente comando:
 
 ```php
   
@@ -125,25 +122,25 @@ composer require decidir2/php-sdk
 Una vez instalo el SDK dentro del proyecto, es necesario tener descomentada la extension=php_curl.dll en el php.ini, ya que para la conexión al gateway se utiliza la clase curl del API de PHP.
 <br />		
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#inicio)
 
 
 ## Versiones de PHP soportadas
 
 La versión implementada de la SDK, está testeada para las versiones PHP desde 5.3.
 
-[Volver al inicio](#versiones)
+[Volver al inicio](#inicio)
 
 
 <a name="manualintegracion"></a>
 ## Manual de Integración
 
-Se encuentra disponible la documentación **[Manual de Integración Decidir2](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este se detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
+Se encuentra disponible la documentación **[Manual de Integración Payway](https://decidir.api-docs.io/1.0/guia-de-inicio/)** para su consulta online, en este se detalla el proceso de integración. En el mismo se explican los servicios y operaciones disponibles, con ejemplos de requerimientos y respuestas, aquí sólo se ejemplificará la forma de llamar a los distintos servicios utilizando la presente SDK.
 
 <a name="ambiente"></a>
 ## Ambientes
 
-El sdk PHP permite trabajar con los ambientes de Sandbox y Producción de Decidir. El ambiente se debe definir al instanciar el SDK.
+El sdk PHP permite trabajar con los ambientes de Sandbox y Producción de Payway. El ambiente se debe definir al instanciar el SDK.
 
 ```php
 	
@@ -152,7 +149,7 @@ $connector = new \Decidir\Connector($keys_data, $ambient);
 
 ```
 
-[Volver al inicio](#ambiente)
+[Volver al inicio](#inicio)
 
 <a name="uso"></a>
 ## Uso
@@ -160,10 +157,10 @@ $connector = new \Decidir\Connector($keys_data, $ambient);
 <a name="initconector"></a>
 ### Inicializar la clase correspondiente al conector.
 
-El SDK-PHP permite trabajar con los ambientes de desarrollo y de producción de Decidir.
+El SDK-PHP permite trabajar con los ambientes de desarrollo y de producción de Payway.
 El ambiente se debe instanciar como se indica a continuación.
 Instanciación de la clase `Decidir\Connector`
-La misma recibe como parámetros la public key o private key provisto por Decidir para el comercio y el ambiente en que se trabajara.
+La misma recibe como parámetros la public key o private key provisto por Payway para el comercio y el ambiente en que se trabajara.
 ```php
 
 $keys_data = array('public_key' => 'e9cdb99fff374b5f91da4480c8dca741',
@@ -175,13 +172,13 @@ $connector = new \Decidir\Connector($keys_data, $ambient);
 ```
 *Nota:* La sdk incluye un ejemplo de prueba completo el cual se debe acceder desde el navegador, allí permitirá configurar las distintas opciones.
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#inicio)
 <a name="operatoria"></a>
 
 ## Operatoria del Gateway
 <a name="healthcheck"></a>
 ### Health Check
-Este recurso permite conocer el estado actual de la API RESTful de DECIDIR.
+Este recurso permite conocer el estado actual de la API RESTful de Payway.
 
 ```php
 $connector = new \Decidir\Connector($keys_data, $ambient);
@@ -190,7 +187,7 @@ $response->getName();
 $response->getVersion();
 $response->getBuildTime();
 ```
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 
 <a name="token"></a>
@@ -372,7 +369,7 @@ try {
 }
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="capture"></a>
 
@@ -401,7 +398,7 @@ try {
 }
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="pagooffline"></a>
 
@@ -455,7 +452,7 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="rp"></a>
 ### Rapipago
@@ -539,7 +536,7 @@ $data = array(
 $response = $connector->payment()->ExecutePaymentOffline($data);
 
 ```
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="cp"></a>
 ### Cobro Express
@@ -584,7 +581,7 @@ $data = array(
 $response = $connector->payment()->ExecutePaymentOffline($data);
 
 ```
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="ce"></a>
 ### Cobro Express
@@ -630,7 +627,7 @@ $data = array(
 $response = $connector->payment()->ExecutePaymentOffline($data);
 
 ```
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 
 ### Formulario de Pago
@@ -720,7 +717,7 @@ Al obtener el hash se puede generar el formulario a partir de la url: *https://a
 
 ![Formulario de pago](docs/img/form_renderizado.jpg)</br>
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="getallpayments"></a>
 
@@ -745,7 +742,7 @@ $response->getResults();
 $response->getHas_more();
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="getpaymentinfo"></a>
 
@@ -812,7 +809,7 @@ Array (
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="refund"></a>
 
@@ -831,7 +828,7 @@ $response->getStatus();
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 
 <a name="deleterefund"></a>
@@ -849,7 +846,7 @@ $response->getStatus();
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="partialrefund"></a>
 
@@ -875,7 +872,7 @@ $response->getStatus();
 
 ```
 
-[<sub>Volver a inicio</sub>](#decidir-sdk-php)
+[<sub>Volver a inicio</sub>](#Inicio)
 
 
 <a name="deletepartialrefund"></a>
@@ -1148,7 +1145,7 @@ $data = array(
 
 ```
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#Inicio)
 
 
 #### Ticketing
@@ -1275,7 +1272,7 @@ $response = $connector->payment()->ExecutePayment($data);
 
 ```
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#Inicio)
 
 
 #### Digital Goods
@@ -1680,7 +1677,7 @@ $response = $connector->payment()->ExecutePayment($data);
 
 
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#Inicio)
 
 
 <a name="tablasreferencia"></a>
@@ -1695,7 +1692,7 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 1. Visa Debito no acepta devoluciones parciales en e-commerce.
 
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#Inicio)
 
 
 
@@ -1708,7 +1705,7 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 
 **NOTA** Si bien la API RESTful de DECIDIR admite compras en Dólares Americanos, la legislación argentina sólo permite transacciones en Pesos Argentinos. Es por esto que DECIDIR recomienda que todas las transacciones se cursen en dicha moneda.
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#Inicio)
 
 
 
@@ -1741,7 +1738,7 @@ https://decidirv2.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-imp
 | Tierra del Fuego | V |
 | Tucumán | T | 	
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#Inicio)
 
 <a name="errores"></a>
 ## Erorres
@@ -1754,5 +1751,6 @@ Listado de [Códigos de Errores](https://decidir.api-docs.io/1.0/tablas-de-refer
 ### Erorres de Marca 
 Listado de [Códigos de Errores de Medios de Pago](https://decidir.api-docs.io/1.0/tablas-de-referencia-e-informacion-para-el-implementador/payment_method_error_code_ids)
 
-[Volver al inicio](#decidir-sdk-php)
+[Volver al inicio](#Inicio)
+
 
