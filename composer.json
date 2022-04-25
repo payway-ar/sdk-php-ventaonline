@@ -1,6 +1,6 @@
 {
-    "name": "decidir2/php-sdk",
-    "description": "SDK para Decidir",
+    "name": "payway/php-sdk",
+    "description": "SDK para Payway ventas online",
     "require": {
         "php": ">=5.3"
     },
