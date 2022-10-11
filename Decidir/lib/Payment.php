@@ -21,6 +21,7 @@ class Payment{
 
 	public function ExecutePayment($data){
 		$data['amount'] = $this->rmDecAmount($data['amount']);
+		$data3ds = array();
 
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
 			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
@@ -30,9 +31,22 @@ class Payment{
 			foreach($data["sub_payments"] as $k => $d) {
 				$damount = $this->rmDecAmount($d["amount"]);
 				$data["sub_payments"][$k]["amount"] = $damount;
-                        }
                 }
-
+            }
+		
+		if (!empty($data["cardholder_auth_required"]) && $data["cardholder_auth_required"] == true){
+			$data3ds["device_type"] = $data["auth_3ds_data"]["device_type"];
+			$data3ds["accept_header"] = $data["auth_3ds_data"]["accept_header"];
+			$data3ds["user_agent"] = $data["auth_3ds_data"]["user_agent"];
+			$data3ds["ip"] = $data["auth_3ds_data"]["ip"];
+			$data3ds["java_enabled"] = $data["auth_3ds_data"]["java_enabled"];
+			$data3ds["language"] = $data["auth_3ds_data"]["language"];
+			$data3ds["color_depth"] = $data["auth_3ds_data"]["color_depth"];
+			$data3ds["screen_height"] = $data["auth_3ds_data"]["screen_height"];
+			$data3ds["screen_width"] = $data["auth_3ds_data"]["screen_width"];
+			$data3ds["time_zone_offset"] = $data["auth_3ds_data"]["time_zone_offset"];
+		}
+		$data["auth_3ds_data"] = $data3ds;
 		$jsonData = new \Decidir\Payment\Data($data);
 		$RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
