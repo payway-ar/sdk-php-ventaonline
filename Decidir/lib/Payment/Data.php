@@ -72,7 +72,7 @@ class Data extends \Decidir\Data\AbstractData {
 			"auth_3ds_data" => array(
 				"name" => array(
 					"device_type" => array(
-						"name" => "device_type"
+						"name" => ""
 					),
 					"accept_header" => array(
 						"name" => "accept_header"
