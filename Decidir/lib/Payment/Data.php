@@ -54,6 +54,9 @@ class Data extends \Decidir\Data\AbstractData {
 			"site_id" => array(
 				"name" => ""
 			),
+			"cardholder_auth_required" => array(
+				"name" => "cardholder_auth_required"
+			)
 		));
 
         $this->setOptionalFields(array(
@@ -65,6 +68,40 @@ class Data extends \Decidir\Data\AbstractData {
             ),
             "fraud_detection" => array(
 				"name" => "fraud_detection"
+			),
+			"auth_3ds_data" => array(
+				"name" => array(
+					"device_type" => array(
+						"name" => ""
+					),
+					"accept_header" => array(
+						"name" => "accept_header"
+					),
+					"user_agent" => array(
+						"name" => "user_agent"
+					),
+					"ip" => array(
+						"name" => "ip"
+					),
+					"java_enabled" => array(
+						"name" => "java_enabled"
+					),
+					"language" => array(
+						"name" => "language"
+					),
+					"color_depth" => array(
+						"name" => "color_depth"
+					),
+					"screen_height" => array(
+						"name" => "screen_height"
+					),
+					"screen_width" => array(
+						"name" => "screen_width"
+					),
+					"time_zone_offset" => array(
+						"name" => "device_type"
+					),
+				)
 			)
         ));
 

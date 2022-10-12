@@ -48,7 +48,7 @@ abstract class AbstractData {
 		
 		foreach($fieldValues as $index => $value){
 
-			if(is_array($value) && $index != "fraud_detection"){
+			if(is_array($value) && $index != "fraud_detection" && $index != "auth_3ds_data"){
 				$this->forValidateFields($value);
 
 			}else{
