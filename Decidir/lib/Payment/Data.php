@@ -54,9 +54,6 @@ class Data extends \Decidir\Data\AbstractData {
 			"site_id" => array(
 				"name" => ""
 			),
-			"cardholder_auth_required" => array(
-				"name" => "cardholder_auth_required"
-			)
 		));
 
         $this->setOptionalFields(array(
@@ -68,6 +65,9 @@ class Data extends \Decidir\Data\AbstractData {
             ),
             "fraud_detection" => array(
 				"name" => "fraud_detection"
+			),
+			"cardholder_auth_required" => array(
+				"name" => "cardholder_auth_required"
 			),
 			"auth_3ds_data" => array(
 				"name" => array(
