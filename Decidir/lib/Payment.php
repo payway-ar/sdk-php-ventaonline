@@ -34,7 +34,7 @@ class Payment{
             }
         }
 		
-		if (!empty($data["cardholder_auth_required"]) && $data["cardholder_auth_required"] == true){
+		if (array_key_exists("cardholder_auth_required", $data) && !empty($data["cardholder_auth_required"]) && $data["cardholder_auth_required"] == true){
 			$data3ds["device_type"] = $data["auth_3ds_data"]["device_type"];
 			$data3ds["accept_header"] = $data["auth_3ds_data"]["accept_header"];
 			$data3ds["user_agent"] = $data["auth_3ds_data"]["user_agent"];
