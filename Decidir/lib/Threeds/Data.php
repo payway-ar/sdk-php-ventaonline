@@ -9,8 +9,8 @@ class Data extends \Decidir\Data\AbstractData {
 			"id" => array(
 				"name" => "id"
 			),
-			"challenge_value" => array(
-				"name" => "challenge_value"
+			"instruction_value" => array(
+				"name" => "instruction_value"
 			),
 		));
 
