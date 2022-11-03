@@ -18,7 +18,7 @@ class ThreedsChallenge{
 		$this->serviceREST = new \Decidir\RESTClient($this->keys_data, $this->mode, $developer, $grouper, $service);
 	}
 
-    public function theedsChallenge($data){
+    public function threedsChallenge($data){
         $jsonData = new \Decidir\Threeds\Data($data);
 		$RESTResponse = $this->serviceREST->post("threeds/instruction", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
