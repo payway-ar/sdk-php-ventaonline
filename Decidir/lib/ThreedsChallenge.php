@@ -20,7 +20,7 @@ class ThreedsChallenge{
 
     public function threedsChallenge($data){
         $jsonData = new \Decidir\Threeds\Data($data);
-		$RESTResponse = $this->serviceREST->post("threeds/instruction", $jsonData->getData());
+		$RESTResponse = $this->serviceREST->post("payments/threeds/instruction", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Threeds\ThreedsResponse($ArrayResponse);
     }
