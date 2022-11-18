@@ -57,7 +57,8 @@ class RESTClient{
 
 		}elseif($action == 'tokens'){
 			$this->key = $this->keys_data['public_key'];
-
+		}elseif($action == 'threeds/instruction'){
+			$this->formKey = $this->keys_data['x_consumer_username'];
 		}elseif($action == 'validate'){
 			$this->key = $this->keys_data['form_apikey'];
 			$this->formKey = $this->keys_data['form_site'];
@@ -114,7 +115,7 @@ class RESTClient{
 						'X-Source:'.$this->jsonData,
 					);
 
-		if($this->action == 'validate'){
+		if($this->action == 'validate' || $this->action == 'threeds/instruction'){
 			array_push($header_http, 'apikey: '. $this->key);
 			array_push($header_http, 'X-Consumer-Username: '. $this->formKey);
 		}else{
