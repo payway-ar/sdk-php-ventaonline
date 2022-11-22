@@ -37,6 +37,7 @@ class RESTClient{
 		if($url != 'validate'){
 			if ($url == 'orchestrator/checkout/payments/link'){
 				$this->endpoint = $this->endpoint.'/api/'.$url;
+				$this->url = $this->endpoint;
 				return;
 			}
 			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
