@@ -121,6 +121,13 @@ class Payment{
 		return new \Decidir\Validate\ValidateResponse($ArrayResponse);
 	}
 
+	public function GenerateLink($data){
+		$jsonData = new \Decidir\Checkout\Hash\Data($data);
+		$RESTResponse = $this->serviceREST->post("api/orchestrator/checkout/payments/link", $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\Checkout\Hash\HashResponse($ArrayResponse);
+	}
+
 	public function Refund($data, $operationId){
 		if(empty($operationId)){
 			throw new \Exception("Empty Operation id");
