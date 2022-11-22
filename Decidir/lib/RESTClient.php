@@ -52,7 +52,7 @@ class RESTClient{
 	public function setKey($action){
 		$this->action = $action;
 
-		if($action == 'healthcheck' || $action == 'api/orchestrator/checkout/payments/link'){
+		if($action == 'healthcheck' || $action == 'orchestrator/checkout/payments/link'){
 			$this->key = "";
 
 		}elseif($action == 'tokens'){
