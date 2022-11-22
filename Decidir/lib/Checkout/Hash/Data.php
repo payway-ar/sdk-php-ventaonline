@@ -71,6 +71,9 @@ class Data extends \Decidir\Data\AbstractData {
             "installments" => array(
                 "name" => array()
             ),
+            "origin_platform" => array(
+                "name" => ""
+            )
             
         ));
 
