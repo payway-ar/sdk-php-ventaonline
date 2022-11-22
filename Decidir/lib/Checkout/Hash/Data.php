@@ -5,8 +5,10 @@ class Data extends \Decidir\Data\AbstractData {
 
 	public function __construct(array $data) {
 
-		$this->setRequiredFields(array(
-			"id" => array(
+		$this->setRequiredFields(array());
+
+        $this->setOptionalFields(array(
+            "id" => array(
 				"name" => ""
 			),
 			"site" => array(
@@ -21,10 +23,6 @@ class Data extends \Decidir\Data\AbstractData {
             "template_id"=> array(
                 "name"=> ""
             ),
-
-		));
-
-        $this->setOptionalFields(array(
             "cancel_url" => array(
                 "name" => ""
             ),
