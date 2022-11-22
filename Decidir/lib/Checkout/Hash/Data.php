@@ -12,6 +12,22 @@ class Data extends \Decidir\Data\AbstractData {
 			"site" => array(
 				"name" => ""
 			),
+            "total_price" => array(
+                "name"=> ""
+            ),
+            "life_time"=> array(
+                "name"=> ""
+            ),
+            "template_id"=> array(
+                "name"=> ""
+            ),
+
+		));
+
+        $this->setOptionalFields(array(
+            "cancel_url" => array(
+                "name" => ""
+            ),
             "products"=> array(
                 "name" => array(
                     "id"=> array(
@@ -36,22 +52,6 @@ class Data extends \Decidir\Data\AbstractData {
                         "name" => ""
                     ),
                 )
-            ),
-            "total_price" => array(
-                "name"=> ""
-            ),
-            "life_time"=> array(
-                "name"=> ""
-            ),
-            "template_id"=> array(
-                "name"=> ""
-            ),
-
-		));
-
-        $this->setOptionalFields(array(
-            "cancel_url" => array(
-                "name" => ""
             ),
             "notifications_url" => array(
                 "name" => ""
