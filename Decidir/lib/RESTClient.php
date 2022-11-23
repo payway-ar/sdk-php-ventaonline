@@ -35,7 +35,13 @@ class RESTClient{
 
 	public function setUrl($url){
 		if($url != 'validate'){
+			if ($url == 'orchestrator/checkout/payments/link'){
+				$this->endpoint = $this->endpoint.'/api/'.$url;
+				$this->url = $this->endpoint;
+				return;
+			}
 			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+			
 			//Para testing local es probable que se requiera modificar el concatenado del URL..
 			//$this->endpoint = $this->endpoint.$url;
 		}else{	
@@ -52,7 +58,7 @@ class RESTClient{
 	public function setKey($action){
 		$this->action = $action;
 
-		if($action == 'healthcheck'){
+		if($action == 'healthcheck' || $action == 'orchestrator/checkout/payments/link'){
 			$this->key = "";
 
 		}elseif($action == 'tokens'){
