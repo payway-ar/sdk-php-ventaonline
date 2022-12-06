@@ -40,6 +40,11 @@ class RESTClient{
 				$this->url = $this->endpoint;
 				return;
 			}
+			if ($url == 'closures/batchclosure'){
+				$this->endpoint = $this->endpoint.'/api/v1/'.$url;
+				$this->url = $this->endpoint;
+				return;
+			}
 			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
 			
 			//Para testing local es probable que se requiera modificar el concatenado del URL..
@@ -112,7 +117,7 @@ class RESTClient{
     }
 
 	//RESTResource
-	private function RESTService($method = "GET", $data, $query = array()){
+	private function RESTService($method = "GET", $data = "", $query = array()){
         $this->encodeHeader64();
 		$header_http = array(
 						'Cache-Control: no-cache',
