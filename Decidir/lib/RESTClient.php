@@ -40,7 +40,7 @@ class RESTClient{
 				$this->url = $this->endpoint;
 				return;
 			}
-			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+			$this->endpoint = $this->endpoint.'/api/v1/'.$url;
 			
 			//Para testing local es probable que se requiera modificar el concatenado del URL..
 			//$this->endpoint = $this->endpoint.$url;
