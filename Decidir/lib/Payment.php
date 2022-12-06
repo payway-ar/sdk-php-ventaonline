@@ -29,7 +29,8 @@ class Payment{
 
 		if(!empty($data["sub_payments"])) {
 			foreach($data["sub_payments"] as $k => $d) {
-				$damount = $this->rmDecAmount($d["amount"]);
+				// $damount = $this->rmDecAmount($d["amount"]);
+				$damount = $d["amount"];
 				$data["sub_payments"][$k]["amount"] = $damount;
             }
         }
