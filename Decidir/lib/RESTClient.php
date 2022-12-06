@@ -40,7 +40,12 @@ class RESTClient{
 				$this->url = $this->endpoint;
 				return;
 			}
-			$this->endpoint = $this->endpoint.'/api/v1/'.$url;
+			if ($url == 'closures/batchclosure'){
+				$this->endpoint = $this->endpoint.'/api/v1/'.$url;
+				$this->url = $this->endpoint;
+				return;
+			}
+			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
 			
 			//Para testing local es probable que se requiera modificar el concatenado del URL..
 			//$this->endpoint = $this->endpoint.$url;
