@@ -20,7 +20,7 @@ class Payment{
 	}
 
 	public function ExecutePayment($data){
-		// $data['amount'] = $this->rmDecAmount($data['amount']);
+		$data['amount'] = $this->rmDecAmount($data['amount']);
 		$data3ds = array();
 
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
@@ -29,8 +29,8 @@ class Payment{
 
 		if(!empty($data["sub_payments"])) {
 			foreach($data["sub_payments"] as $k => $d) {
-				// $damount = $this->rmDecAmount($d["amount"]);
-				$damount = $d["amount"];
+				$damount = $this->rmDecAmount($d["amount"]);
+				// $damount = $d["amount"];
 				$data["sub_payments"][$k]["amount"] = $damount;
             }
         }
@@ -192,7 +192,7 @@ class Payment{
 	}
 
 	public function rmDecAmount($amount){
-		$formatedAmount = intval($amount*100);	
+		$formatedAmount = $amount*100;	
 
 		return $formatedAmount;
 	}
