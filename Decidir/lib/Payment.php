@@ -20,7 +20,7 @@ class Payment{
 	}
 
 	public function ExecutePayment($data){
-		$data['amount'] = $this->rmDecAmount($data['amount']);
+		$data['amount'] = $data['amount'];
 		$data3ds = array();
 
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
