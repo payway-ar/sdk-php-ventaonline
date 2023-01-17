@@ -20,7 +20,7 @@ class Payment{
 	}
 
 	public function ExecutePayment($data){
-		// $data['amount'] = $this->rmDecAmount($data['amount']);
+		$data['amount'] = $data['amount'];
 		$data3ds = array();
 
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
@@ -29,7 +29,6 @@ class Payment{
 
 		if(!empty($data["sub_payments"])) {
 			foreach($data["sub_payments"] as $k => $d) {
-				// $damount = $this->rmDecAmount($d["amount"]);
 				$damount = $d["amount"];
 				$data["sub_payments"][$k]["amount"] = $damount;
             }
@@ -56,10 +55,10 @@ class Payment{
 	}
 
 	public function ExecutePaymentOffline($data){
-		$data['amount'] = $this->rmDecAmount($data['amount']);
+		$data['amount'] = $data['amount'];
 
 		if(!empty($data['surcharge'])){
-			$data['surcharge'] = $this->rmDecAmount($data['surcharge']);
+			$data['surcharge'] = $data['surcharge'];
 		}
 		
 		if($data['payment_method_id'] == 25){
@@ -84,7 +83,7 @@ class Payment{
 	}
 
 	public function CapturePayment($operationId, $data){
-		$data['amount'] = $this->rmDecAmount($data['amount']);
+		$data['amount'] = $data['amount'];
 
 		$RESTResponse = $this->serviceREST->put("payments/".$operationId, json_encode($data));
         $ArrayResponse = $this->toArray($RESTResponse);
@@ -110,7 +109,7 @@ class Payment{
 	}
 
 	public function Validate($data){
-		$data['payment']['amount'] = $this->rmDecAmount($data['payment']['amount']);
+		$data['payment']['amount'] = $data['payment']['amount'];
 
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
 			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
@@ -161,7 +160,6 @@ class Payment{
 			throw new \Exception("Empty Operation id");
 		}
 
-		// $data['amount'] = $this->rmDecAmount($data['amount']);
 		$jsonData = new \Decidir\PartialRefund\Data($data);
 
 		$RESTResponse = $this->serviceREST->post("payments/".$operationId."/refunds", $jsonData->getData());
@@ -187,12 +185,12 @@ class Payment{
 	}
 
 	public function setCybersource($data){
-		$data['purchase_totals']['amount']= $this->rmDecAmount($data['purchase_totals']['amount']);
+		$data['purchase_totals']['amount']=$data['purchase_totals']['amount'];
 		$this->cybersource = $data;
 	}
 
 	public function rmDecAmount($amount){
-		$formatedAmount = intval($amount*100);	
+		$formatedAmount = $amount*100;	
 
 		return $formatedAmount;
 	}
