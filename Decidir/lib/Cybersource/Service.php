@@ -70,7 +70,7 @@ class Service extends AbstractData
 		foreach($productsData as $index => $product) {
 			foreach($product as $idProd => $value){
 				if($idProd == 'csittotalamount' || $idProd == 'csitunitprice'){
-					$product[$idProd] = ($product[$idProd]*100);
+					$product[$idProd] = (int) ($product[$idProd]*100);
 				}
 			}
 			$this->products_data[] = new Product($product);

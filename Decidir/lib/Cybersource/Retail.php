@@ -101,7 +101,7 @@ class Retail extends AbstractData
 		foreach($productsData as $index => $product) {
 			foreach($product as $idProd => $value){
 				if($idProd == 'csittotalamount' || $idProd == 'csitunitprice'){
-					$product[$idProd] = ($product[$idProd]*100);
+					$product[$idProd] = (int) ($product[$idProd]*100);
 				}
                 if(in_array($idProd, $this->products_keys)) {
                     $products[$index][$this->convertKeyProduct($idProd)] = $product[$idProd];
