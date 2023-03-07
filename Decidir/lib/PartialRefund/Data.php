@@ -6,7 +6,7 @@ include_once dirname(__FILE__)."/../Data/AbstractData.php";
 class Data extends \Decidir\Data\AbstractData {
 
 	public function __construct(array $data) {
-		$this->setRequiredFields(array(
+		$this->setOptionalFields(array(
 			"sub_payments" => array(
 				"name" => array(
 					"id" => array(
@@ -16,7 +16,10 @@ class Data extends \Decidir\Data\AbstractData {
                         "name"=> "amount"
                     ),
 				)
-			)
+				),
+				"amount" => array(
+					"name"=> "amount"
+				)
 		));
 
 		parent::__construct($data);
