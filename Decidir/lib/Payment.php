@@ -143,8 +143,10 @@ class Payment{
 				$data["sub_payments"][$k]["amount"] = $damount;
 			}
 		}
-		if($data['amount'] > 0){
-			$data['amount'] = $this->rmDecAmount($data['amount']);
+		if(!empty ($data['amount'])){
+			if($data['amount'] > 0){
+				$data['amount'] = $this->rmDecAmount($data['amount']);
+			}
 		}
 		$jsonData = new \Decidir\PartialRefund\Data($data);
 
