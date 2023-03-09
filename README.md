@@ -311,7 +311,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 | token  | token generado en el primer paso  |SI   |Alfanumerico de hasta 36 caracteres. No se podra ingresar un token utilizado para un  pago generado anteriormente.   | ""  |
 | payment_method_id  | id del medio de pago  |SI  |El id debe coincidir con el medio de pago de tarjeta ingresada.Se valida que sean los primeros 6 digitos de la tarjeta ingresada al generar el token.    | payment_method_id: 1,  |
 |bin   |primeros 6 numeros de la tarjeta   |SI |Importe minimo = 1 ($0.01)  |bin: "456578"  |
-|amount  |importe del pago   |  SI| Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=20000  |
+|amount  |importe del pago   |  SI| Se debe incluir el punto decimal como separador. Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=200.00  |
 |currency   |moneda   | SI|Valor permitido: ARS   | ARS  |
 |installments   |cuotas del pago   | SI|"Valor minimo = 1 Valor maximo = 99"     |  installments: 1 |
 |payment_type   |forma de pago   | SI| Valor permitido: single / distributed
@@ -380,7 +380,7 @@ Para el caso de la operatoria de transacción en dos pasos, la captura o confirm
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-|amount  |importe del pago   |  SI| Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=20000  |
+|amount  |importe del pago   |  SI|  Se debe incluir el punto como separador decimal. Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=200.00  |
 
 
 #### Ejemplo
@@ -645,7 +645,7 @@ Este servicio permite integrar en el comercio un formulario de pago. Utiliza el 
 |site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
 |customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
 |customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
-|payment.amount  | Monto de la compra  | SI | Numérico |   |
+|payment.amount  | Monto de la compra  | SI | Numérico, los dos ultimos digitos son los decimales (se envia 1000 y llegan 10.00) | 1000  |
 |payment.currency  | Tipo de moneda  | NO | Letras |   |
 |payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
 |payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
@@ -682,7 +682,7 @@ $data = array(
         "email" => "user@mail.com",
   ),
   "payment" => array(
-        "amount" => 12.03,
+        "amount" => 1203,
         "currency" => "ARS",
         "payment_method_id" => 1,
         "bin" => "45979",
@@ -856,12 +856,12 @@ Mediante este recurso, se genera una solicitud de devolución parcial de un pago
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo|
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-| amount  | importe del pago a devolver  |NO   | Antes del cierre, si se completa el campo por un monto menor al de la compra se toma como devolucion parcial; si se ingresa el monto total o no se envia dicho campo se toma como anulacion. |  1000 |
+| amount  | importe del pago a devolver  |NO   | Antes del cierre, si se completa el campo por un monto menor al de la compra se toma como devolucion parcial; si se ingresa el monto total o no se envia dicho campo se toma como anulacion. Usar el punto como separador decimal |  10.00 |
 
 ```php
 
 $data = array(
-	"amount" => 1.00
+	"amount" => 10.00
 	);
 $response = $connector->payment()->partialRefund($data,'574673'); //574671 id de la operacion de compra
 $response->getId();
@@ -1039,7 +1039,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
 |item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitaro del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 #### Ejemplo
 ```php
@@ -1184,7 +1184,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
 |item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitaro del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 #### Ejemplo
 ```php
@@ -1310,7 +1310,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
 |item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitaro del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20.00"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 
 #### Ejemplo
@@ -1438,7 +1438,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
 |item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitaro del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20.00"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 #### Ejemplo
 ```php
