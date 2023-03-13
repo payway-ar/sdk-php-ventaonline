@@ -76,9 +76,6 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
             "country" => array(
                 "name" => "setCountry"
             ),
-            "customer_id" => array(
-                "name" => "setCustomerId"
-            ),
             "email" => array(
                 "name" => "setEmail"
             ),
