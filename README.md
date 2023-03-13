@@ -1037,8 +1037,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 |item|productDescription(string)|Conditional|String (255)|Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
-|item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC"|
+|item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 20,"|Cantidad productos del mismo tipo agregados al carrito|
+|item|totalAmount(amount)|Conditional|Decimal (15)|Payments|"total_amount": 1,00"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC". Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales.|
 |item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20.00"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 #### Ejemplo
@@ -1063,7 +1063,6 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
         "ship_to" => array(
           "city" => "Buenos Aires",
           "country" => "AR",
-          "customer_id" => "martinid",
           "email" => "accept@decidir.com.ar",
           "first_name" => "martin",
           "last_name" => "perez",
@@ -1182,8 +1181,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
 |item|productDescription(string)|Conditional|String (255)|Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
-|item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC"|
+|item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 20,"|Cantidad productos del mismo tipo agregados al carrito|
+|item|totalAmount(amount)|Conditional|Decimal (15)|Payments|"total_amount": 1,00"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC". Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales.|
 |item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20.00"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 #### Ejemplo
@@ -1308,8 +1307,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |item|productDescription(string)|Conditional|String (255)|Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
-|item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC"|
+|item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 20,"|Cantidad productos del mismo tipo agregados al carrito|
+|item|totalAmount(amount)|Conditional|Decimal (15)|Payments|"total_amount": 1,00"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC". Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales.|
 |item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20.00"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 
@@ -1436,8 +1435,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |item|productDescription(string)|Conditional|String (255)|Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
-|item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"| "Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC"|
+|item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 20,"|Cantidad productos del mismo tipo agregados al carrito|
+|item|totalAmount(amount)|Conditional|Decimal (15)|Payments|"total_amount": 1,00"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC". Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales.|
 |item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20.00"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
 
 #### Ejemplo
