@@ -48,9 +48,6 @@ class Service extends AbstractData
 			"street" => array(
 				"name" => "setStreet"
 			),
-			"ship_to" => array(
-				"name" => "setShipTo"
-			),
             "service_type" => array(
                 "name" => "setServiceType"
             ),

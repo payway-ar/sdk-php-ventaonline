@@ -48,9 +48,6 @@ class Travel extends AbstractData
 			"street" => array(
 				"name" => "setStreet"
 			),
-			"ship_to" => array(
-				"name" => "setShipTo"
-			),
             "reservation_code" => array(
                 "name" => "setReservationCode"
             ),
