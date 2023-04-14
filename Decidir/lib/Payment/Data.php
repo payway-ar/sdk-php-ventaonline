@@ -102,6 +102,12 @@ class Data extends \Decidir\Data\AbstractData {
 						"name" => "device_type"
 					),
 				)
+			),
+			"is_tokenized_payment" => array(
+				"name" => "is_tokenized_payment"
+			),
+			"token_card_data" => array(
+				"name" => "token_card_data"
 			)
         ));
 

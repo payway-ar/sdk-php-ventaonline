@@ -22,6 +22,7 @@ class Payment{
 	public function ExecutePayment($data){
 		$data['amount'] = $data['amount'];
 		$data3ds = array();
+		$tokenCardData = array();
 
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
 			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
@@ -33,6 +34,13 @@ class Payment{
 				$data["sub_payments"][$k]["amount"] = $damount;
             }
         }
+
+		if (!empty($data["is_tokenized_payment"]) && $data["is_tokenized_payment"] == true){
+			$tokenCardData["token"] = $data["token_card_data"]["token"];
+			$tokenCardData["eci"] = $data["token_card_data"]["eci"];
+			$tokenCardData["cryptogram"] = $data["token_card_data"]["cryptogram"];
+			$data["token_card_data"] = $tokenCardData;
+		}
 		
 		if (array_key_exists("cardholder_auth_required", $data) && !empty($data["cardholder_auth_required"]) && $data["cardholder_auth_required"] == true){
 			$data3ds["device_type"] = $data["auth_3ds_data"]["device_type"];
