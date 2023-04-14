@@ -108,10 +108,14 @@ class Data extends \Decidir\Data\AbstractData {
 			),
 			"token_card_data" => array(
 				"name" => array(
-					"name" =>"token",
-					"name" =>"eci",
+					"name" =>"token"
+				),
+				"name" => array(
+					"name" =>"eci"
+				),
+				"name" => array(
 					"name" =>"cryptogram"
-				)
+				),
 			)
         ));
 
