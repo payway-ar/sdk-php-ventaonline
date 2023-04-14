@@ -107,7 +107,11 @@ class Data extends \Decidir\Data\AbstractData {
 				"name" => "is_tokenized_payment"
 			),
 			"token_card_data" => array(
-				"name" => "token_card_data"
+				"name" => array(
+					"name" =>"token",
+					"name" =>"eci",
+					"name" =>"cryptogram"
+				)
 			)
         ));
 
