@@ -103,6 +103,23 @@ class Data extends \Decidir\Data\AbstractData {
 					),
 				)
 			),
+			"card_data" => array(
+				"name" => array(
+					"name" =>"card_holder_name"
+				),
+				"name" => array(
+					"name" =>"last_four_digits"
+				),
+				"name" => array(
+					"name" =>"card_holder_birthday"
+				),
+				"name" => array(
+					"name" =>"card_holder_door_number"
+				),
+				"name" => array(
+					"name" =>"card_holder_identification"
+				),
+			),
 			"is_tokenized_payment" => array(
 				"name" => "is_tokenized_payment"
 			),
