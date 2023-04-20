@@ -68,6 +68,12 @@ class DataPCI extends \Decidir\Data\AbstractData {
 			"aggregate_data" => array(
 				"name" => ""
 			),
+			"description" => array(
+				"name" => "description"
+			),
+			"cardholder_auth_required" => array(
+				"name" => "cardholder_auth_required"
+			),
 
         ));
 
