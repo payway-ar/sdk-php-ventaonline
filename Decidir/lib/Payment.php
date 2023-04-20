@@ -56,9 +56,8 @@ class Payment{
 		}
 		$data["auth_3ds_data"] = $data3ds;
 
-		if (array_key_exists("card_data", $data) && !empty($data["card_data"])){
+		if (array_key_exists("card_data", $data)){
 			$jsonData = new \Decidir\Payment\DataPCI($data);
-
 		} else {
 			$jsonData = new \Decidir\Payment\Data($data);
 		}
