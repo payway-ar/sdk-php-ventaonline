@@ -62,7 +62,7 @@ class Payment{
 		// 	$jsonData = new \Decidir\Payment\Data($data);
 		// }
 		// $RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
-		$RESTResponse = $this->serviceREST->post("payments", $data);
+		$RESTResponse = $this->serviceREST->post("payments", $data->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Payment\PaymentResponse($ArrayResponse);
 	}
