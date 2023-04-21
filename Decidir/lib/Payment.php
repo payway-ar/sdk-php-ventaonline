@@ -20,7 +20,7 @@ class Payment{
 	}
 
 	public function ExecutePayment($data){
-		$data['amount'] = $data['amount'];
+		// $data['amount'] = $data['amount'];
 		$data3ds = array();
 		$tokenCardData = array();
 
