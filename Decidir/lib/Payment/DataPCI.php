@@ -5,7 +5,7 @@ class DataPCI extends \Decidir\Data\AbstractData {
 
 	public function __construct(array $data) {
 
-		$this->setRequiredFields(array(
+        $this->setOptionalFields(array(
 			"site_transaction_id" => array(
 				"name" => "site_transaction_id"
 			),
@@ -33,9 +33,6 @@ class DataPCI extends \Decidir\Data\AbstractData {
 			"card_data" => array(
 				"name" => ""
 			),
-		));
-
-        $this->setOptionalFields(array(
             "site_id" => array(
                 "name" => "site_id"
             ),

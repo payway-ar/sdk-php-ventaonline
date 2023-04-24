@@ -56,13 +56,13 @@ class Payment{
 			$data["auth_3ds_data"] = $data3ds;
 		}
 
-		// if (array_key_exists("card_data", $data)){
-		// 	$jsonData = new \Decidir\Payment\DataPCI($data);
-		// } else {
-		// 	$jsonData = new \Decidir\Payment\Data($data);
-		// }
-		// $RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
-		$RESTResponse = $this->serviceREST->post("payments", json_encode($data));
+		if (array_key_exists("card_data", $data)){
+			$jsonData = new \Decidir\Payment\DataPCI($data);
+		} else {
+			$jsonData = new \Decidir\Payment\Data($data);
+		}
+		$RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
+		// $RESTResponse = $this->serviceREST->post("payments", json_encode($data));
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Payment\PaymentResponse($ArrayResponse);
 	}
