@@ -102,7 +102,24 @@ class Data extends \Decidir\Data\AbstractData {
 						"name" => "device_type"
 					),
 				)
-			)
+				),
+				"is_tokenized_payment" => array(
+					"name" => "is_tokenized_payment"
+				),
+				"token_card_data" => array(
+					"name" => array(
+						"name" =>"token"
+					),
+					"name" => array(
+						"name" =>"eci"
+					),
+					"name" => array(
+						"name" =>"cryptogram"
+					),
+				),
+				"spv" => array(
+					"name" => "spv"
+				),
         ));
 
 		parent::__construct($data);
