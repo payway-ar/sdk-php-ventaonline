@@ -1,11 +1,11 @@
 <?php
 namespace Decidir\Payment;
 
-class Data extends \Decidir\Data\AbstractData {
+class DataPCI extends \Decidir\Data\AbstractData {
 
 	public function __construct(array $data) {
 
-		$this->setRequiredFields(array(
+        $this->setOptionalFields(array(
 			"id" => array(
 				"name" => ""
 			),
@@ -39,9 +39,6 @@ class Data extends \Decidir\Data\AbstractData {
 			"payment_type" => array(
 				"name" => "payment_type"
 			),
-			"establishment_name" => array(
-				"name" => ""
-			),
 			"sub_payments" => array(
 				"name" => ""
 			),
@@ -54,10 +51,30 @@ class Data extends \Decidir\Data\AbstractData {
 			"site_id" => array(
 				"name" => ""
 			),
-		));
-
-        $this->setOptionalFields(array(
-            "user_id" => array(
+			"establishment_name" => array(
+				"name" => ""
+			),
+			"card_data" => array(
+				"name" => ""
+			),
+            "is_tokenized_payment" => array(
+				"name" => "is_tokenized_payment"
+			),
+			"token_card_data" => array(
+				"name" => array(
+					"name" =>"token"
+				),
+				"name" => array(
+					"name" =>"eci"
+				),
+				"name" => array(
+					"name" =>"cryptogram"
+				),
+			),
+			"spv" => array(
+                "name" => "spv"
+            ),
+			"user_id" => array(
                 "name" => "user_id"
             ),
             "description" => array(
@@ -102,38 +119,8 @@ class Data extends \Decidir\Data\AbstractData {
 						"name" => "device_type"
 					),
 				)
-			),
-			"card_data" => array(
-				"name" => array(
-					"name" =>"card_holder_name"
-				),
-				"name" => array(
-					"name" =>"last_four_digits"
-				),
-				"name" => array(
-					"name" =>"card_holder_birthday"
-				),
-				"name" => array(
-					"name" =>"card_holder_door_number"
-				),
-				"name" => array(
-					"name" =>"card_holder_identification"
-				),
-			),
-			"is_tokenized_payment" => array(
-				"name" => "is_tokenized_payment"
-			),
-			"token_card_data" => array(
-				"name" => array(
-					"name" =>"token"
-				),
-				"name" => array(
-					"name" =>"eci"
-				),
-				"name" => array(
-					"name" =>"cryptogram"
-				),
 			)
+
         ));
 
 		parent::__construct($data);

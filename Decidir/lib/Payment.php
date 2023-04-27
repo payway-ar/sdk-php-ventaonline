@@ -20,7 +20,7 @@ class Payment{
 	}
 
 	public function ExecutePayment($data){
-		$data['amount'] = $data['amount'];
+		// $data['amount'] = $data['amount'];
 		$data3ds = array();
 		$tokenCardData = array();
 
@@ -53,11 +53,16 @@ class Payment{
 			$data3ds["screen_height"] = $data["auth_3ds_data"]["screen_height"];
 			$data3ds["screen_width"] = $data["auth_3ds_data"]["screen_width"];
 			$data3ds["time_zone_offset"] = $data["auth_3ds_data"]["time_zone_offset"];
+			$data["auth_3ds_data"] = $data3ds;
 		}
-		$data["auth_3ds_data"] = $data3ds;
 
-		$jsonData = new \Decidir\Payment\Data($data);
+		// if (array_key_exists("card_data", $data)){
+		$jsonData = new \Decidir\Payment\DataPCI($data);
+		// } else {
+		// 	$jsonData = new \Decidir\Payment\Data($data);
+		// }
 		$RESTResponse = $this->serviceREST->post("payments", $jsonData->getData());
+		// $RESTResponse = $this->serviceREST->post("payments", json_encode($data));
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Payment\PaymentResponse($ArrayResponse);
 	}
