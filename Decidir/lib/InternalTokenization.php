@@ -27,7 +27,7 @@ class InternalTokenization{
 
     public function cryptogram($data){
 		$jsonData = new \Decidir\InternalTokenization\Cryptogram\DataCryptogram($data);
-		$RESTResponse = $this->serviceREST->post("transaction_gateway/payments", array(), $jsonData->getData());
+		$RESTResponse = $this->serviceREST->post("transaction_gateway/payments", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\InternalTokenization\Cryptogram\CryptogramResponse($ArrayResponse);
 	}
