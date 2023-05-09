@@ -19,17 +19,17 @@ class InternalTokenization{
 	}
 
 	public function token($data){
-		$jsonData = new Decidir\InternalTokenization\Token\DataTokenization($data);
+		$jsonData = new \Decidir\InternalTokenization\Token\DataTokenization($data);
 		$RESTResponse = $this->serviceREST->post("transaction_gateway/tokens", array(), $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
-		return new Decidir\InternalTokenization\Token\TokenizationResponse($ArrayResponse);
+		return new \Decidir\InternalTokenization\Token\TokenizationResponse($ArrayResponse);
 	}
 
     public function cryptogram($data){
-		$jsonData = new Decidir\InternalTokenization\Cryptogram\DataCryptogram($data);
+		$jsonData = new \Decidir\InternalTokenization\Cryptogram\DataCryptogram($data);
 		$RESTResponse = $this->serviceREST->post("transaction_gateway/payments", array(), $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
-		return new Decidir\InternalTokenization\Cryptogram\CryptogramResponse($ArrayResponse);
+		return new \Decidir\InternalTokenization\Cryptogram\CryptogramResponse($ArrayResponse);
 	}
 
     
