@@ -20,7 +20,7 @@ class InternalTokenization{
 
 	public function token($data){
 		$jsonData = new \Decidir\InternalTokenization\Token\DataTokenization($data);
-		$RESTResponse = $this->serviceREST->post("transaction_gateway/tokens", array(), $jsonData->getData());
+		$RESTResponse = $this->serviceREST->post("transaction_gateway/tokens", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\InternalTokenization\Token\TokenizationResponse($ArrayResponse);
 	}
