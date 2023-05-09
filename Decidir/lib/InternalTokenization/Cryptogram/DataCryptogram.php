@@ -5,7 +5,7 @@ class DataCryptogram extends \Decidir\Data\AbstractData {
 
 	public function __construct(array $data) {
 
-		$this->setRequiredFields(array(
+		$this->setOptionalsFields(array(
 			"store_credential" => array(
                 "name" => "store_credentials"
             ),
