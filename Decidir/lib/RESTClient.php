@@ -12,7 +12,8 @@ class RESTClient{
 	public $jsonData = NULL;
 	public $service = NULL;
 
-	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
+	const DECIDIR_ENDPOINT_TEST = "https://dev.decidir.com";
+
 	const DECIDIR_ENDPOINT_QA = "https://qa.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
@@ -41,6 +42,11 @@ class RESTClient{
 				return;
 			}
 			if ($url == 'closures/batchclosure'){
+				$this->endpoint = $this->endpoint.'/api/v1/'.$url;
+				$this->url = $this->endpoint;
+				return;
+			}
+			if ($url == 'transaction_gateway/tokens' || $url =='transaction_gateway/payments'){
 				$this->endpoint = $this->endpoint.'/api/v1/'.$url;
 				$this->url = $this->endpoint;
 				return;
