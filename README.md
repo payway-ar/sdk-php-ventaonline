@@ -20,6 +20,8 @@ Modulo para conexión con gateway de pago Payway
       + [TokenCs](#tokenCs)
       + [Batch Closure](#tokenCs)
       + [Ejecución del Pago](#payment)
+      + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
+      + [Ejecución de pago simple con 3ds](#payment-simple-3ds)
       + [Captura del Pago](#capture)
       + [Ejecución de pago offline](#pagooffline)
         + [Pago Facil](#pf)
@@ -226,7 +228,7 @@ $respuesta->setType($cardHolder['identification']['type']);
 $respuesta->setNumber($cardHolder['identification']['number']);
 $respuesta->setName($cardHolder['name']);
 ```
-
+[<sub>Volver a inicio</sub>](#Inicio)
 
 ### TokenCS
 Este recurso permite obtener token de pago.
@@ -294,7 +296,6 @@ $respuesta->setErrors($response->get('errors',null));
 
 ```
 <a name="payment"></a>
-
 ### Ejecución del Pago
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
 Además del token de pago y los parámetros propios de la transacción, el comercio deberá identificar la compra con el site_transaction_id.
@@ -370,6 +371,117 @@ try {
 ```
 
 [<sub>Volver a inicio</sub>](#Inicio)
+
+<a name="payment-pci-tokenizado"></a>
+### Ejecución del pago PCI Tokenizado
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+
+$data = array(
+    "site_transaction_id" => "tokeniz" . rand(),
+    "establishment_name" => "Store",
+    "spv" => null,
+    "bin" => "4507990",
+    "payment_method_id" => 1,
+    "amount" => 50000,
+    "currency" => "ARS",
+    "installments" => 1,
+    "description" => "PCI pago tokenizado",
+    "payment_type" => "single",
+    "sub_payments" => [],
+    "fraud_detection" => array(
+        "send_to_cs" => false
+    ),
+    "card_data" => array(
+        "card_holder_name" => "Luis Perez",
+        "last_four_digits" => "1112",
+        "card_holder_birthday" => "01012000",
+        "card_holder_door_number" => 666,
+        "card_holder_identification" => array(
+            "type" => "dni",
+            "number" => "41371431"
+        ),
+        "security_code" => "666",
+        "card_expiration_month" => "03",
+        "card_expiration_year" => "30"
+    ),
+    "cardholder_auth_required" => false,
+    "is_tokenized_payment" => true,
+    "token_card_data" => array(
+        "token" => "4507990000004905",
+        "eci" => "05",
+        "cryptogram" => "cryptogram_123467890"
+    ),
+    "aggregate_data" => array(
+        "indicator" => "1",
+        "identification_number" => "30598910045",
+        "bill_to_pay" => "Decidir_Test",
+        "bill_to_refund" => "Decidir_Test",
+        "merchant_name" => "DECIDIR",
+        "street" => "Lavarden",
+        "number" => "247",
+        "postal_code" => "C1437FBE",
+        "category" => "05044",
+        "channel" => "005",
+        "geographic_code" => "C1437",
+        "city" => "Ciudad de Buenos Aires",
+        "merchant_id" => "decidir_Agregador",
+        "province" => "Buenos Aires",
+        "country" => "Argentina",
+        "merchant_email" => "qa@decidir.com",
+        "merchant_phone" => "+541135211111"
+    )
+);
+
+try {
+	$response = $connector->payment()->ExecutePayment($data);
+} catch( \Exception $e ) {
+	var_dump($e->getData());
+}
+```
+
+
+<a name="payment-simple-3ds"></a>
+
+### Ejecución de pago simple con 3ds
+En este caso se necesita agregar el flag "cardholder_auth_required" en true y se le debe pasar el objeto "auth_3ds_data". 
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+
+$data = array(
+    "site_transaction_id" => "{{site_transaction_id}}",
+    "token" => "{{token}}",
+    "payment_method_id" => 1,
+    "bin" => 450799,
+    "amount" => 100,
+    "currency" => "ARS",
+    "installments" => 1,
+    "payment_type" => "distributed",
+    "sub_payments" => [],
+    "cardholder_auth_required" => true,
+    "auth_3ds_data" => array(
+        "device_type" => "BROWSER",
+        "accept_header" => "application/json",
+        "user_agent" => "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0)Gecko/20100101",
+        "ip" => "1.12.123.255",
+        "java_enabled" => true,
+        "language" => "es",
+        "color_depth" => "32",
+        "screen_height" => 28,
+        "screen_width" => 4,
+        "time_zone_offset" => 570
+    )
+);
+
+try {
+	$response = $connector->payment()->ExecutePayment($data);
+} catch( \Exception $e ) {
+	var_dump($e->getData());
+}
+```
+
 
 <a name="capture"></a>
 
