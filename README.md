@@ -30,6 +30,7 @@ Modulo para conexión con gateway de pago Payway
       + [TokenCs](#tokenCs)
       + [Batch Closure](#tokenCs)
       + [Ejecución del Pago](#payment)
+      + [Ejecución del Pago PCI](#pci)
       + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
       + [Ejecución de pago simple con 3ds](#payment-simple-3ds)
       + [Captura del Pago](#capture)
@@ -381,6 +382,77 @@ try {
 ```
 
 [<sub>Volver a inicio</sub>](#Inicio)
+
+<a name="pci"></a>
+#### Transacción PCI
+A continuaci&oacute;n se muestra un ejemplo con una transacci&oacute;n pci sin [Cybersource](#cybersource).
+
+*Aclaracion* : amount es un campo long el cual representa el valor en centavos.
+
+#### Ejemplo
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient);
+
+$data = array(
+      "site_transaction_id" => "12042017_20",
+      "token" => "be211413-757b-487e-bb0c-283d21c0fb6f",
+      "customer" => array(
+                        "id" => "customer", 
+                        "email" => "user@mail.com"
+                        "ip_address" => "192.168.100.2"
+                        ),
+      "payment_method_id" => 1,
+      "bin" => "450799",
+      "amount" => 5.00,
+      "currency" => "ARS",
+      "installments" => 1,
+      "description" => "",
+      "establishment_name" => "Nombre establecimiento",
+      "payment_type" => "single",
+      "sub_payments" => array(),
+      "card_data" => array(
+	"card_number" => "4509790112684851",
+        "card_expiration_month" => "12",
+        "card_expiration_year" => "30", 
+        "card_holder_name" => "Barb",
+        "security_code" => "123",
+        "card_holder_identification" => array(
+	        "type" => "dni",
+	        "number" => "29123456"
+        ),
+      ),
+      "aggregate_data" => array(
+	"name" => ""
+      ),
+    );
+
+try {
+	$response = $connector->payment()->ExecutePayment($data);
+	$response->getId();
+	$response->getToken();
+	$response->getUser_id();
+	$response->getPayment_method_id();
+	$response->getBin();
+	$response->getAmount();
+	$response->getCurrency();
+	$response->getInstallments();
+	$response->getPayment_type();
+	$response->getDate_due();
+	$response->getSub_payments();
+	$response->getStatus();
+	$response->getStatus_details()->ticket
+	$response->getStatus_details()->card_authorization_code
+	$response->getStatus_details()->address_validation_code
+	$response->getStatus_details()->error
+	$response->getDate();
+	$response->getEstablishment_name();
+	$response->getFraud_detection();
+	$response->getAggregate_data();
+	$response->getSite_id();
+} catch( \Exception $e ) {
+	var_dump($e->getData());
+}
+```
 
 <a name="payment-pci-tokenizado"></a>
 ### Ejecución del pago PCI Tokenizado
