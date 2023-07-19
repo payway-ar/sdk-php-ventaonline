@@ -403,7 +403,7 @@ $data = array(
                         ),
       "payment_method_id" => 1,
       "bin" => "450799",
-      "amount" => 5.00,
+      "amount" => 500,
       "currency" => "ARS",
       "installments" => 1,
       "description" => "",
