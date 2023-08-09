@@ -173,6 +173,17 @@ class Payment{
 			throw new \Exception("Empty Operation id");
 		}
 
+		if(!empty($data["sub_payments"])) {
+			foreach($data["sub_payments"] as $k => $d) {
+				$damount = $d["amount"];
+				$data["sub_payments"][$k]["amount"] = $damount;
+			}
+		}
+		if(!empty ($data['amount'])){
+			if($data['amount'] > 0){
+				$data['amount'] = $data['amount'];
+			}
+		}
 		$jsonData = new \Decidir\PartialRefund\Data($data);
 
 		$RESTResponse = $this->serviceREST->post("payments/".$operationId."/refunds", $jsonData->getData());
@@ -203,7 +214,7 @@ class Payment{
 	}
 
 	public function rmDecAmount($amount){
-		$formatedAmount = $amount*100;	
+		$formatedAmount = $amount;	
 
 		return $formatedAmount;
 	}

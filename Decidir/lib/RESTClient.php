@@ -123,7 +123,7 @@ class RESTClient{
     }
 
 	//RESTResource
-	private function RESTService($method = "GET", $data = "", $query = array()){
+	private function RESTService($method = "GET", $data="", $query = array()){
         $this->encodeHeader64();
 		$header_http = array(
 						'Cache-Control: no-cache',

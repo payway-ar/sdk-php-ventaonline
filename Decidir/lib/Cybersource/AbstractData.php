@@ -40,8 +40,13 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
             }
         }
 
-        if(array_key_exists("bill_to", $data) || array_key_exists("ship_to", $data)){
-            parent::setRequiredFields($this->getOthersRequiredFields());
+        if(array_key_exists("bill_to", $data)){
+            parent::setRequiredFields($this->getOthersRequiredFieldsBillTo());
+            parent::setOptionalFields($this->getOthersOptionalFields());
+
+        }
+        if(array_key_exists("ship_to", $data)){
+            parent::setRequiredFields($this->getOthersRequiredFieldsShipTo());
             parent::setOptionalFields($this->getOthersOptionalFields());
         }
 
@@ -63,7 +68,7 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
 	    $this->field_optional = $data;
     }
 
-    public function getOthersRequiredFields(){
+    public function getOthersRequiredFieldsBillTo(){
         return array(
             "city" => array(
                 "name" => "setCity"
@@ -71,8 +76,37 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
             "country" => array(
                 "name" => "setCountry"
             ),
-            "customer_id" => array(
-                "name" => "setCustomerId"
+            "email" => array(
+                "name" => "setEmail"
+            ),
+            "first_name" => array(
+                "name" => "setFirstName"
+            ),
+            "last_name" => array(
+                "name" => "setLastName"
+            ),
+            "phone_number" => array(
+                "name" => "setPhoneNumber"
+            ),
+            "postal_code" => array(
+                "name" => "setPostalCode"
+            ),
+            "state" => array(
+                "name" => "setState"
+            ),
+            "street1" => array(
+                "name" => "setStreet1"
+            )
+        );
+    }
+
+    public function getOthersRequiredFieldsShipTo(){
+        return array(
+            "city" => array(
+                "name" => "setCity"
+            ),
+            "country" => array(
+                "name" => "setCountry"
             ),
             "email" => array(
                 "name" => "setEmail"
