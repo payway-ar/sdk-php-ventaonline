@@ -33,6 +33,7 @@ Modulo para conexión con gateway de pago Payway
       + [Ejecución del Pago PCI](#pci)
       + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
       + [Ejecución de pago simple con 3ds](#payment-simple-3ds)
+      + [Ejecución de Instruction 3DS](#instruction-3ds)
       + [Captura del Pago](#capture)
       + [Ejecución de pago offline](#pagooffline)
         + [Pago Facil](#pf)
@@ -563,6 +564,27 @@ try {
 	var_dump($e->getData());
 }
 ```
+
+<a name="instruction-3ds"></a>
+
+### Ejecución de instruction 3ds
+Se agrega el objeto con los atributos id e instruction_value. 
+
+```php
+
+$data = array(
+    "id" => "{{id}}",
+    "instruction_value" => "{{instruction_value}}",
+);
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+
+try{
+	$response = $connector->threedsChallenge()->threedsChallenge($data);
+} catch( \Exception $e ) {
+	var_dump($e->getData());
+}
+```
+
 
 
 <a name="capture"></a>
