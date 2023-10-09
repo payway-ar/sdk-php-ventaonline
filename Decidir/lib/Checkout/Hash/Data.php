@@ -62,7 +62,10 @@ class Data extends \Decidir\Data\AbstractData {
             ),
             "origin_platform" => array(
                 "name" => ""
-            )
+            ),
+            "public_apikey" => array(
+                "name" => array()
+            ),
             
         ));
 
