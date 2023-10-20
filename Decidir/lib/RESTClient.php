@@ -35,31 +35,28 @@ class RESTClient{
 	}
 
 	public function setUrl($url){
+		
 		if($url != 'validate'){
 			if ($url == 'orchestrator/checkout/payments/link'){
-				$this->endpoint = $this->endpoint.'/api/'.$url;
-				$this->url = $this->endpoint;
+				$this->url = $this->endpoint.'/api/'.$url;
 				return;
 			}
 			if ($url == 'closures/batchclosure'){
-				$this->endpoint = $this->endpoint.'/api/v1/'.$url;
-				$this->url = $this->endpoint;
+				$this->url = $this->endpoint.'/api/v1/'.$url;
 				return;
 			}
 			if ($url == 'transaction_gateway/tokens' || $url =='transaction_gateway/payments'){
-				$this->endpoint = $this->endpoint.'/api/v1/'.$url;
-				$this->url = $this->endpoint;
+				$this->url = $this->endpoint.'/api/v1/'.$url;
 				return;
 			}
-			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+			$this->url = $this->endpoint.'/api/v2/'.$url;
 			
 			//Para testing local es probable que se requiera modificar el concatenado del URL..
 			//$this->endpoint = $this->endpoint.$url;
 		}else{	
-			$this->endpoint = $this->endpoint.'/web/'.$url;
+			$this->url = $this->endpoint.'/web/'.$url;
 		}
 
-		$this->url = $this->endpoint;
 	}
 
 	public function getUrl($url){
