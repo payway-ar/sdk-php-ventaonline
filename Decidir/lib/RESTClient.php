@@ -13,6 +13,7 @@ class RESTClient{
 	public $service = NULL;
 
 	const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
+
 	const DECIDIR_ENDPOINT_QA = "https://qa.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
@@ -34,15 +35,28 @@ class RESTClient{
 	}
 
 	public function setUrl($url){
+		
 		if($url != 'validate'){
-			$this->endpoint = $this->endpoint.'/api/v2/'.$url;
+			if ($url == 'orchestrator/checkout/payments/link'){
+				$this->url = $this->endpoint.'/api/'.$url;
+				return;
+			}
+			if ($url == 'closures/batchclosure'){
+				$this->url = $this->endpoint.'/api/v1/'.$url;
+				return;
+			}
+			if ($url == 'transaction_gateway/tokens' || $url =='transaction_gateway/payments'){
+				$this->url = $this->endpoint.'/api/v1/'.$url;
+				return;
+			}
+			$this->url = $this->endpoint.'/api/v2/'.$url;
+			
 			//Para testing local es probable que se requiera modificar el concatenado del URL..
 			//$this->endpoint = $this->endpoint.$url;
 		}else{	
-			$this->endpoint = $this->endpoint.'/web/'.$url;
+			$this->url = $this->endpoint.'/web/'.$url;
 		}
 
-		$this->url = $this->endpoint;
 	}
 
 	public function getUrl($url){
@@ -52,12 +66,13 @@ class RESTClient{
 	public function setKey($action){
 		$this->action = $action;
 
-		if($action == 'healthcheck'){
+		if($action == 'healthcheck' || $action == 'orchestrator/checkout/payments/link'){
 			$this->key = "";
 
 		}elseif($action == 'tokens'){
 			$this->key = $this->keys_data['public_key'];
-
+		}elseif($action == 'threeds/instruction'){
+			$this->formKey = $this->keys_data['x_consumer_username'];
 		}elseif($action == 'validate'){
 			$this->key = $this->keys_data['form_apikey'];
 			$this->formKey = $this->keys_data['form_site'];
@@ -114,7 +129,7 @@ class RESTClient{
 						'X-Source:'.$this->jsonData,
 					);
 
-		if($this->action == 'validate'){
+		if($this->action == 'validate' || $this->action == 'threeds/instruction'){
 			array_push($header_http, 'apikey: '. $this->key);
 			array_push($header_http, 'X-Consumer-Username: '. $this->formKey);
 		}else{

@@ -11,6 +11,8 @@ class Connector {
 	private $tokenInstance = NULL;
 	private $paymentTokenInstance = NULL;
 	private $batchClosureInstance = NULL;
+	private $threedsChallengeInstance = NULL;
+	private $internalTokenizationInstance = NULL;
 	private $developer = NULL;
     private $grouper = NULL;
     private $service = NULL;
@@ -28,6 +30,8 @@ class Connector {
 		$this->tokenInstance = new \Decidir\Tokenization($this->header_http, $this->mode);
 		$this->paymentTokenInstance = new \Decidir\Token($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
 		$this->batchClosureInstance = new \Decidir\BatchClosure($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
+		$this->threedsChallengeInstance = new \Decidir\ThreedsChallenge($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
+		$this->internalTokenizationInstance = new \Decidir\InternalTokenization($this->header_http, $this->mode, $this->developer, $this->grouper, $this->service);
 	}
 
 	public function healthcheck(){
@@ -56,5 +60,13 @@ class Connector {
 
 	public function batchClosure(){
 		return $this->batchClosureInstance;
+	}
+
+	public function threedsChallenge(){
+		return $this->threedsChallengeInstance;
+	}
+
+	public function internalTokenization(){
+		return $this->internalTokenizationInstance;
 	}
 }
