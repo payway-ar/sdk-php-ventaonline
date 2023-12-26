@@ -15,7 +15,6 @@ Payway SDK PHP
 Modulo para conexión con gateway de pago Payway
   + [Introducción](#introduccion)
     + [Alcance](#alcance)
-	+ [Cierre de lotes](#cierre)
 	+ [TimeOut](#timeout)
     + [Diagrama de secuencia](#diagrama-secuencia)			
   + [Instalación](#instalación)
@@ -28,7 +27,6 @@ Modulo para conexión con gateway de pago Payway
       + [Health Check](#healthcheck)
       + [Token](#token)
       + [TokenCs](#tokenCs)
-      + [Batch Closure](#tokenCs)
       + [Ejecución del Pago](#payment)
       + [Ejecución del Pago PCI](#pci)
       + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
@@ -88,21 +86,6 @@ Para generar el token de pago, la aplicaci&oacute;n cliente realizar&aacute; con
 ![imagen de sdks](./docs/img/DiagramaSDKs.png)</br>
 
 [Volver al inicio](#alcance)
-<a name="cierre"></a>
-## Cierre de lotes
-El cierre de lote le permite al comercio hacer la presentación ante cada Marca de las operaciones de Compras, Anulaciones y Devoluciones realizadas para que las mismas puedan ser liquidadas por cada medio de pago.+
-
-Los cierres de lotes de cada medio de pago pueden realizarse de 2 maneras:
-Manual: esta modalidad es “on demand”. Para ello, un usuario del comercio debe ingresar a la consola de Payway y seleccionar el medio de pago a cerrar lote. Opción de menú: Menú --> Cerrar Lote. Para más detalle por favor consultar el Manual de Administración de Payway.
-Automática: Los procesos se ejecutan diariamente luego de la medianoche, y al finalizar, se envían al comercio cada uno de los archivos del cierre de lote de cada medio de pago habilitado.
-Los resúmenes correspondientes a los cierres de lotes automáticos efectuados pueden ser enviados por:
-- E-MAIL
-- FTP/SFTP
-
-En caso de que el comercio opte por recibir los resúmenes vía e-mail, debe indicarnos a qué dirección o direcciones de correo electrónico desea recibir tales archivos.
-En caso de que el comercio opte por recibir los resúmenes vía FTP o SFTP, debe indicarnos los siguientes datos: URL del servidor, usuario y clave.
-
-[<sub>Volver a inicio</sub>](#inicio)
 <a name="timeout"></a>
 ## TimeOut
 El tiempo standard de Timeout para una transaccion es de **6 segundos**. Puede existir casos excepcionales, mucho flujo de transacciones concurrentes , en el cual el timeout puede variar entre** 20 a 30 segundos**. Si el cliente decide configurar un timeout menor al indicado, deberá anular las transacciones en estado "Autorizadas" de manera manual.
@@ -284,29 +267,6 @@ $respuesta->setName($cardHolder['name']);
 
 ```
 
-### BatchClosure
-Este recurso permite realizar un cierre de lote.
-
-```php
-$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
-$data = array(
-            "username"=> "admin",
-            "site_id"=> "00097001",
-            "payment_method_id"=> "113");
-       
-try{
-    $response = $connector->batchClosure()->batchClosure($data);
-} catch( \Exception $e ) {
-    return response()->json(['error' => $e->getMessage() ], 403);
-}
-
-$respuesta = new BatchClosureResponse();
-
-$respuesta->setBatchId($response->get('batch_id',null));
-$respuesta->setFileName($response->get('file_name',null));
-$respuesta->setErrors($response->get('errors',null));
-
-```
 <a name="payment"></a>
 ### Ejecución del Pago
 Una vez generado y almacenado el token de pago, se deberá ejecutar la solicitud de pago más el token previamente generado.
