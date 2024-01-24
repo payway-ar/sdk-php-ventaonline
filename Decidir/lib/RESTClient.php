@@ -17,7 +17,8 @@ class RESTClient{
 	const DECIDIR_ENDPOINT_QA = "https://qa.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
-	//const DECIDIR_ENDPOINT_TEST = "http://localhost:9001/";
+	const DECIDIR_ENDPOINT_SANDBOX = "https://developers.decidir.com";
+	// const DECIDIR_ENDPOINT_TEST = "https://dev.decidir.com";
 
 	public function __construct($keys_data_array, $mode = "test", $developer="", $grouper="", $service = "SDK-PHP"){
 		$this->keys_data = $keys_data_array;
@@ -31,6 +32,8 @@ class RESTClient{
 			$this->endpoint = self::DECIDIR_ENDPOINT_QA;
 		} elseif ($mode == "prod") {	
 			$this->endpoint = self::DECIDIR_ENDPOINT_PROD;
+		}elseif ($mode == "sandbox") {	
+			$this->endpoint = self::DECIDIR_ENDPOINT_SANDBOX;
 		}
 	}
 
