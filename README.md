@@ -1175,6 +1175,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 |------------|------------|------------|------------|------------|------------|------------|
 |fraud_detection|send_to_cs(Boolean)|Required|Boolean |MDD40 - Fraud Update|"send_to_cs": true/false| |
 |fraud_detection|Channel(String)|Required|String |MDD6 - Sales Channel|"channel": "Web"| |
+|fraud_detection|device_unique_id(String)|Required|String|Unique identifier for the device|"device_unique_id": "1234-1234"| |
 |billTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
 |billTo|country(string)|Required|String (2)|Payments|"country": "AR","|[Código ISO](http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
 |billTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
@@ -1223,6 +1224,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
   $cs_data = array(
         "send_to_cs" => true,
         "channel" => "Web",
+        "device_unique_id" => "1234-1234",
         "bill_to" => array(
           "city" => "Buenos Aires",
           "country" => "AR",
@@ -1332,6 +1334,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
 |------------|------------|------------|------------|------------|------------|------------|
 |fraud_detection|send_to_cs(Boolean)|Required|Boolean |MDD40 - Fraud Update|"send_to_cs": true/false| |
 |fraud_detection|Channel(String)|Required|String |MDD6 - Sales Channel|"channel": "Web"| |
+|fraud_detection|device_unique_id(String)|Required|String|Unique identifier for the device|"device_unique_id": "1234-1234"| |
 |billTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
 |billTo|country(string)|Required|String (2)|Payments|"country": "AR","|[Código ISO](http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
 |billTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
@@ -1368,6 +1371,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
   $cs_data = array(
         "send_to_cs" => true,
         "channel" => "Web",
+        "device_unique_id" => "1234-1234",
         "bill_to" => array(
           "city" => "Buenos Aires",
           "country" => "AR",
@@ -1459,6 +1463,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |------------|------------|------------|------------|------------|------------|------------|
 |fraud_detection|send_to_cs(Boolean)|Required|Boolean |MDD40 - Fraud Update|"send_to_cs": true/false| |
 |fraud_detection|Channel(String)|Required|String |MDD6 - Sales Channel|"channel": "Web"| |
+|fraud_detection|device_unique_id(String)|Required|String|Unique identifier for the device|"device_unique_id": "1234-1234"| |
 |billTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
 |billTo|country(string)|Required|String (2)|Payments|"country": "AR","|[Código ISO](http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
 |billTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
@@ -1495,6 +1500,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 $cs_data = array(
       "send_to_cs" => true,
       "channel" => "Web",
+      "device_unique_id" => "1234-1234",
       "bill_to" => array(
         "city" => "Buenos Aires",
         "country" => "AR",
@@ -1584,6 +1590,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |------------|------------|------------|------------|------------|------------|------------|
 |fraud_detection|send_to_cs(Boolean)|Required|Boolean |MDD40 - Fraud Update|"send_to_cs": true/false| |
 |fraud_detection|Channel(String)|Required|String |MDD6 - Sales Channel|"channel": "Web"| |
+|fraud_detection|device_unique_id(String)|Required|String|Unique identifier for the device|"device_unique_id": "1234-1234"| |
 |billTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
 |billTo|country(string)|Required|String (2)|Payments|"country": "AR","|[Código ISO](http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
 |billTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
@@ -1621,6 +1628,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 $cs_data = array(
     "send_to_cs" => true,
     "channel" => "Web",
+    "device_unique_id" => "1234-1234",
     "bill_to" => array(
         "city" => "Buenos Aires",
         "country" => "AR",
@@ -1711,6 +1719,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tra
 |------------|------------|------------|------------|------------|------------|------------|
 |fraud_detection|send_to_cs(Boolean)|Required|Boolean |MDD40 - Fraud Update|"send_to_cs": true/false| |
 |fraud_detection|Channel(String)|Required|String |MDD6 - Sales Channel|"channel": "Web"| |
+|fraud_detection|device_unique_id(String)|Required|String|Unique identifier for the device|"device_unique_id": "1234-1234"| |
 |billTo|city(string)|Required|String (50)|Payments|"city": "Buenos Aires","|Ciudad / Debe comenzar con una letra|
 |billTo|country(string)|Required|String (2)|Payments|"country": "AR","|[Código ISO](http://apps.cybersource.com/library/documentation/sbc/quickref/countries_alpha_list.pdf )|
 |billTo|customerID(string)|Required|String (50)|Payments|"customer_id": "leilaid","|Identificador del usuario unico logueado al portal (No puede ser una direccion de email)|
@@ -1759,6 +1768,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tra
 $cs_data = array(
     "send_to_cs" => true,
     "channel" => "Web",
+    "device_unique_id" => "1234-1234",
     "bill_to" => array(
         "city" => "Buenos Aires",
         "country" => "AR",
