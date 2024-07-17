@@ -47,7 +47,7 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
         }
         if(array_key_exists("ship_to", $data)){
             parent::setRequiredFields($this->getOthersRequiredFieldsShipTo());
-            parent::setOptionalFields($this->getOthersOptionalFields());
+            parent::setOptionalFields($this->getOthersOptionalFieldsShipTo());
         }
 
         if(array_key_exists("bill_to", $data)){
@@ -96,6 +96,9 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
             ),
             "street1" => array(
                 "name" => "setStreet1"
+            ),
+	    "customer_id" => array(
+            	"name" => "setCustomerId"
             )
         );
     }
@@ -140,10 +143,21 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
         );
     }
 
-	public function getRequiredFields($data){
-		return $this->field_required;
-	}
+   public function getOthersOptionalFieldsShipTo(){
+        return array(
+            "street2" => array(
+                "name" => "setStreet2"
+            ),
+            "customer_id" => array(
+                "name" => "setCustomer_id"
+            )
+        );
+    }
 
+   public function getRequiredFields($data){
+	return $this->field_required;
+   }
+	
 	public function getOptionalFields(){
 	    return $this->field_optional;
     }
