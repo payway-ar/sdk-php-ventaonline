@@ -30,10 +30,7 @@ class Retail extends AbstractData
 			),
             "ship_to" => array(
                 "name" => "setShipTo"
-			),
-            "customer_id" => array(
-                "name" => "setCustomerId"
-            ),
+			)
 		));
 
         $optionalFields = array(
