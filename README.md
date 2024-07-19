@@ -3,7 +3,7 @@ Payway SDK PHP
 ===============
 
 # Aclaración
-### A partir de la version 2.0 el campo amount de todos los pagos y operaciones son de tipo Long, se consideran los 2 ultimos digitos como la parte decimal del importe.
+### El campo amount de todos los pagos y operaciones son de tipo Long, se consideran los 2 ultimos digitos como la parte decimal del importe.
 
 |Monto| Ejemplo SDK |
 | ------------ | ------------ |
@@ -1220,7 +1220,17 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 
 #### Ejemplo
 ```php
-
+  $csmdd = array(
+            array(
+                "csmdd17" => "17"
+            ),
+            array(
+                "csmdd18" => "18"
+            ),
+            array(
+                "csmdd19" => "19.999"
+            )
+        );
   $cs_data = array(
         "send_to_cs" => true,
         "channel" => "Web",
@@ -1265,7 +1275,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
         "tax_voucher_required" => true,
         "customer_loyality_number" => "123232",
         "coupon_code" => "cupon22",
-        "csmdd17" => "17"
+        "csmdds" => $csmdd
       );
 
   //Datos de productos, array con los diferentes productos involucrados.
@@ -1367,7 +1377,17 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
 
 #### Ejemplo
 ```php
-    
+  $csmdd = array(
+            array(
+                "csmdd17" => "17"
+            ),
+            array(
+                "csmdd18" => "18"
+            ),
+            array(
+                "csmdd19" => "19.999"
+            )
+        );
   $cs_data = array(
         "send_to_cs" => true,
         "channel" => "Web",
@@ -1396,7 +1416,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
         "street" => "RIO 4041",
         "delivery_type"=> "Pick up",
         "days_to_event"=> 55,
-        "csmdd17" => "17"
+        "csmdds" => $csmdd
       );
 
   //Datos de productos, array con los diferentes productos involucrados.
@@ -1496,7 +1516,17 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 
 #### Ejemplo
 ```php
-
+$csmdd = array(
+            array(
+                "csmdd17" => "17"
+            ),
+            array(
+                "csmdd18" => "18"
+            ),
+            array(
+                "csmdd19" => "19.999"
+            )
+        );
 $cs_data = array(
       "send_to_cs" => true,
       "channel" => "Web",
@@ -1524,7 +1554,7 @@ $cs_data = array(
       "date_of_birth" => "129412",
       "street" => "RIO 4041",
       "delivery_type"=> "Pick up",
-      "csmdd17" => "17"
+      "csmdds" => $csmdd
     );
 
 //lista de productos cybersource
@@ -1624,7 +1654,17 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 
 #### Ejemplo
 ```php
-
+$csmdd = array(
+            array(
+                "csmdd17" => "17"
+            ),
+            array(
+                "csmdd18" => "18"
+            ),
+            array(
+                "csmdd19" => "19.999"
+            )
+        );
 $cs_data = array(
     "send_to_cs" => true,
     "channel" => "Web",
@@ -1655,7 +1695,7 @@ $cs_data = array(
     "reference_payment_service1" => "reference1",
     "reference_payment_service2" => "reference2",
     "reference_payment_service3" => "reference3",
-    "csmdd17" => "17"
+    "csmdds" => $csmdd
 );
 
 //lista de productos cybersource
