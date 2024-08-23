@@ -324,7 +324,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 | payment_method_id  | id del medio de pago  |SI  |El id debe coincidir con el medio de pago de tarjeta ingresada.Se valida que sean los primeros 6 digitos de la tarjeta ingresada al generar el token.    | payment_method_id: 1,  |
 |bin   |primeros 6 numeros de la tarjeta   |SI |Importe minimo = 1 ($0.01)  |bin: "456578"  |
 |amount  |importe del pago   |  SI| Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=20000  |
-|currency   |moneda   | SI|Valor permitido: ARS   | ARS  |
+|currency   |moneda   | SI|Valor permitido: ARS / USD   | ARS  |
 |installments   |cuotas del pago   | SI|"Valor minimo = 1 Valor maximo = 99"     |  installments: 1 |
 |payment_type   |forma de pago   | SI| Valor permitido: single / distributed
 |"single"   |
@@ -612,7 +612,7 @@ Una vez generado y almacenado el token de Pago Offline, se deberá ejecutar la s
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 8 números enteros  |  SI|  8 dígitos,variable |  amount: "1100"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Moneda  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -659,7 +659,7 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 8 números enteros  |  SI|  8 dígitos,variable |  amount: "1100"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Moneda  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -704,7 +704,7 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 8 números enteros  |  SI|  8 dígitos,variable |  amount: "1100"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Moneda  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -741,7 +741,7 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 8 números enteros  |  SI|  8 dígitos,variable |  amount: "1100"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Moneda  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
@@ -786,7 +786,7 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 |token  |Token generado en el primer paso |  SI|  36 dígitos,variable|  token: "03508514-1578-4140-ba02-6bdd65e2af95" |
 |payment_method_id  | id del tipo de metodo de Pago Offline  |  SI|  Dos dígitos |  payment_method_id: "26"|
 |amount  | Monto de la operación. 8 números enteros   |  SI|  8 dígitos,variable |  amount: "1100"|
-|currency  | Son los días que existen entre el 1er y 2do vencimiento  |  SI|  3 letras |  currency: "ARS"|
+|currency  | Moneda  |  SI|  3 letras |  currency: "ARS"|
 |payment_type  | Tipo de pago  |  SI|  Letras |  payment_type: "single"|
 |email  | email del usuario que esta haciendo uso del sitio  |Condicional   |Sin validacion   | email: "user@mail.com",  |
 |invoice_expiration  | Fecha en que vence el cupón  |  SI|  Formato AAMMDD |  invoice_expiration: "191123"|
