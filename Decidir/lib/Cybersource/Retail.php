@@ -195,7 +195,7 @@ class Retail extends AbstractData
 	}
 
 	public function setDispatchMethod($index, $value) {
-		$this->dataSet['retail_transaction_data'][$index] = $value;
+		$this->dataSet[$index] = $value;
 	}
 
 	public function setTaxVoucherRequired($index, $value) {
