@@ -75,4 +75,8 @@ class Response extends \Decidir\Data\AbstractData {
         }
         return implode('_', $ret);
     }
+
+    public function getDataFieldValue($field) {
+        return $this->dataResponse[$field] ?? null;
+    }
 }
