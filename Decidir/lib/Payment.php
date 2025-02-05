@@ -135,7 +135,6 @@ class Payment{
 	}
 
 	public function Forms($data){
-		$data['payment']['amount'] = $this->rmDecAmount($data['payment']['amount']);
 
 		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
 			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
