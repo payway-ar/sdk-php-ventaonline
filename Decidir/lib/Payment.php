@@ -134,6 +134,20 @@ class Payment{
 		return new \Decidir\Validate\ValidateResponse($ArrayResponse);
 	}
 
+	public function Forms($data){
+		$data['payment']['amount'] = $this->rmDecAmount($data['payment']['amount']);
+
+		if(!empty($this->cybersource) && $this->cybersource['send_to_cs'] == true){
+			$data['fraud_detection'] = json_decode(json_encode($this->cybersource),TRUE);
+		}
+
+		$jsonData = new \Decidir\Forms\Data($data);	
+
+		$RESTResponse = $this->serviceREST->post("forms", $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\Forms\FormsResponse($ArrayResponse);
+	}
+
 	public function GenerateLink($data){
 		$jsonData = new \Decidir\Checkout\Hash\Data($data);
 		$data['origin_platform'] = "SDK-PHP";

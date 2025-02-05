@@ -828,19 +828,19 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 
 <a name="getvalidateform"></a>
 
-Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "validate" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
+Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "Forms" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
 
 ![Caso2](docs/img/validate_cao2.png)</br>
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-|site.id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
+|site.site_id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
 |site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
 |site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
 |customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
 |customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
 |payment.amount  | Monto de la compra  | SI | Numérico |   |
-|payment.currency  | Tipo de moneda  | NO | Letras |   |
+|payment.currency  | Tipo de moneda  | NO | Letras | "ARS" o "USD"   |
 |payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
 |payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
 |payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
@@ -855,17 +855,17 @@ pago es distribuido por monto, ya que si es por porcentaje toma los configurados
 
 ```php
 
-//Para este servicio es necesario enviar junto al public y private key el "form_apikey" y "form_site".
+//Para este servicio es necesario enviar el "public_key" y "private_key".
 $keys_data = array(
-              'form_apikey' => '5cde7e72ea1e430db94d4312346a3744 ',
-              'form_site' => '00021625'
+            'public_key' => '5cde7e72ea1e430db94d4312346a3744',
+            'private_key' => '12332asdjhasdjh223jkh4j1j2j2jh3jh2',
           );
 
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array(
   "site" => array(
-        "id" => "03101980", //opcional, si no se tiene Merchant no se envía este atributo
+        "site_id" => "03101980", //opcional, si no se tiene Merchant no se envía este atributo
         "transaction_id" => "Swatch op",
         "template" => array(
             "id" => 5 
@@ -884,21 +884,22 @@ $data = array(
         "payment_type" => "single",
         "sub_payments" => array()
   ),
+  "public_apikey" => $keys_data['public_key'], // en este tiene que venir el valor del public_key
   "success_url" => "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
   "cancel_url" => "https://swatch.com/api/result",
   "redirect_url" => "", //si no se informa el "success_url" es requerido
   "fraud_detection" => array() //si no esta activado cybersource no enviar este atributo
 );
 
-$response = $connector->payment()->Validate($data);
+$response = $connector->payment()->Forms($data);
 
 ```
 
-#### Respuesta servicio validate
+#### Respuesta servicio Forms
 
 ```php
 
-$response = $connector->payment()->Validate($data);
+$response = $connector->payment()->Forms($data);
 
 $response->getHash(); //respuesta: 46711cd8-81f8-4228-96cc-ac3e90c75622"
 

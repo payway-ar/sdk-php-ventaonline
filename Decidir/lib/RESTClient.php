@@ -38,7 +38,8 @@ class RESTClient{
 	}
 
 	public function setUrl($url){
-		if($url != 'validate'){
+		
+		if($url != 'validate' && $url !== 'forms'){
 			if ($url == 'orchestrator/checkout/payments/link'){
 				$this->endpoint = $this->endpoint.'/api/'.$url;
 				$this->url = $this->endpoint;
