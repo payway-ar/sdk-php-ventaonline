@@ -7,6 +7,8 @@ class Payment{
 	public $keys_data = array();
 	public $cybersource;
 	public $developer=NULL;
+	public $grouper=NULL;
+	public $developer=NULL;
     public $grouper=NULL;
     public $service = NULL;
 
