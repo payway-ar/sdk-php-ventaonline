@@ -8,7 +8,6 @@ class Payment{
 	public $cybersource;
 	public $grouper=NULL;
 	public $developer=NULL;
-    public $grouper=NULL;
     public $service = NULL;
 
 	public function __construct($keys_data, $mode, $developer, $grouper, $service){
