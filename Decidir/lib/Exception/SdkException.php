@@ -8,7 +8,7 @@ class SdkException extends \Exception
     protected $code;
     protected $previous;
 
-    public function __construct($message, $code = 0, ?array $data = null, ?\Exception $previous = null){
+    public function __construct($message, $code = 0, $data, ?\Exception $previous = null){
         parent::__construct($message, $code, $previous);
         $this->data = $data;
     }
