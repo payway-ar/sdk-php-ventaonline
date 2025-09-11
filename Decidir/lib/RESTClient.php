@@ -14,7 +14,7 @@ class RESTClient{
 
 	const DECIDIR_ENDPOINT_TEST = "https://dev.decidir.com";
 
-	const DECIDIR_ENDPOINT_DESA = "http://decidir.payway-dev.tanzu.intra;
+	const DECIDIR_ENDPOINT_DESA = "http://decidir.payway-dev.tanzu.intra";
 	const DECIDIR_ENDPOINT_QA = "https://qa.decidir.com";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
@@ -197,5 +197,6 @@ class RESTClient{
 		return json_decode($response, true);
 	}
 }
+
 
 
