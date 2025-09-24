@@ -15,13 +15,13 @@ class RESTClient{
 	const DECIDIR_ENDPOINT_TEST = "https://dev.decidir.com";
 
 	const DECIDIR_ENDPOINT_DESA = "http://decidir.payway-dev.tanzu.intra";
-	const DECIDIR_ENDPOINT_QA = "https://qa.decidir.com";
+	const DECIDIR_ENDPOINT_QA = "http://decidir.payway-qa.tanzu.intra";
 	const DECIDIR_ENDPOINT_PROD = "https://api.decidir.com";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
 	const DECIDIR_ENDPOINT_SANDBOX = "https://developers.decidir.com";
 	// const DECIDIR_ENDPOINT_TEST = "https://dev.decidir.com";
 
-	public function __construct($keys_data_array, $mode = "desa", $developer="", $grouper="", $service = "SDK-PHP"){
+	public function __construct($keys_data_array, $mode = "qa", $developer="", $grouper="", $service = "SDK-PHP"){
 		$this->keys_data = $keys_data_array;
 		$this->developer = $developer;
         $this->grouper = $grouper;
@@ -197,6 +197,7 @@ class RESTClient{
 		return json_decode($response, true);
 	}
 }
+
 
 
 
