@@ -493,7 +493,7 @@ $connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
 
 $data = array(
    	"site_transaction_id" => "12042017_20",
-	"token" => "be211413-757b-487e-bb0c-283d21c0fb6f"
+	"token" => "be211413-757b-487e-bb0c-283d21c0fb6f",
     "payment_method_id" => 1,
     "bin" => "450799",
     "amount" => 396010,
