@@ -30,6 +30,7 @@ Modulo para conexión con gateway de pago Payway
       + [Ejecución del Pago](#payment)
       + [Ejecución del Pago PCI](#pci)
       + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
+      + [Ejecución del pago comercio agregador](#payment-agregator)
       + [Ejecución de pago simple con 3ds](#payment-simple-3ds)
       + [Ejecución de Instruction 3DS](#instruction-3ds)
       + [Captura del Pago](#capture)
@@ -483,7 +484,56 @@ try {
 	var_dump($e->getData());
 }
 ```
+<a name="payment-agregator"></a>
 
+### Ejecución de pago de comercio agregador
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+
+$data = array(
+   	"site_transaction_id" => "12042017_20",
+	"token" => "be211413-757b-487e-bb0c-283d21c0fb6f"
+    "payment_method_id" => 1,
+    "bin" => "450799",
+    "amount" => 396010,
+    "currency" => "ARS",
+    "installments" => 12,
+    "payment_type" => "single",
+    "establishment_name" => "Test Conexiones",
+    "sub_payments" => array(),
+    "aggregate_data" => array(
+        "indicator" => "1",
+        "identification_number" => "30598910045",
+        "bill_to_pay" => "Decidir_Test",
+        "bill_to_refund" => "Decidir_Test",
+        "merchant_name" => "EMPRESA TEST DECIDIR",
+        "street" => "Sub Cm Pedro Arabere",
+        "number" => "123456",
+        "postal_code" => "C1437FBE",
+        "category" => "50044",
+        "channel" => "005",
+        "geographic_code" => "C1437",
+        "product" => "productoXXproductoXX",
+        "city" => "Ciudad de Buenos Aires",
+        "merchant_id" => "decidir_Agregador",
+        "province" => "B",
+        "country" => "ARG",
+        "merchant_email" => "qa@decidir.com",
+        "merchant_phone" => "+541135211111",
+        "origin_country" => "032",
+        "merchant_url" => "hola@gmail.com",
+        "aggregator_name" => "payfact",
+        "gateway_id" => "sarasaPayway"
+    )
+);
+
+try {
+	$response = $connector->payment()->ExecutePayment($data);
+} catch( \Exception $e ) {
+	var_dump($e->getData());
+}
+```
 
 <a name="payment-simple-3ds"></a>
 
