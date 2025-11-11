@@ -939,7 +939,11 @@ $response->getHash(); //respuesta: 46711cd8-81f8-4228-96cc-ac3e90c75622"
 
 #### Formulario renderizado
 
-Al obtener el hash se puede generar el formulario a partir de la url: *https://api.decidir.com/web/form?hash=46711cd8-81f8-4228-96cc-ac3e90c75622*.
+Al obtener el hash se puede generar el formulario a partir de la url: 
+
+sandbox => *https://developers.decidir.com/web/forms/{hash}?apikey={public_apikey}*
+
+prod => *https://live.decidir.com/web/forms/{hash}?apikey={public_apikey}*
 
 
 ![Formulario de pago](docs/img/form_renderizado.jpg)</br>
