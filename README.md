@@ -1263,6 +1263,7 @@ Se han definido cinco verticales de negocio que requieren parámetros específic
 #### Retail
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Retail. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+[Documentación - Retail](https://documentacion-ventasonline.payway.com.ar/docs/gateway/szb63u2kn58e5-cybersourse-retail) 
 
 | Descripcion (Data set) | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest|Comentarios|
 |------------|------------|------------|------------|------------|------------|------------|
@@ -1307,9 +1308,9 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 |item|productDescription(string)|Conditional|String (255)|Payments|"description": "Popular Black Sabbath 2016","|Descripcion general del producto|
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
-|item|quantity(integer)|Conditional|Integer (10)|Payments|"total_amount": 20,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"quantity": 1,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 20"|"Precio Unitaro del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 1,"|Cantidad productos del mismo tipo agregados al carrito|
+|item|totalAmount(amount)|Conditional||Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 1200"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."| 
 
 #### Ejemplo
 ```php
@@ -1378,18 +1379,18 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
           "csitproductdescription" => "NOTEBOOK L845 SP4304LA DF TOSHIBA", //Descripción del producto. MANDATORIO.
           "csitproductname" => "NOTEBOOK L845 SP4304LA DF TOSHIBA",  //Nombre del producto. MANDATORIO.
           "csitproductsku" => "LEVJNSL36GN", //Código identificador del producto. MANDATORIO.
-          "csittotalamount" => 600, 
+          "csittotalamount" => 1200, 
           "csitquantity" => 1,//Cantidad del producto. MANDATORIO.
-          "csitunitprice" => 600 //Formato Idem CSITTOTALAMOUNT. MANDATORIO 
+          "csitunitprice" => 1200 //Formato Idem CSITTOTALAMOUNT. MANDATORIO 
           ),
         array(
           "csitproductcode" => "default", //Código de producto. MANDATORIO.
           "csitproductdescription" => "PENDRIVE 2GB KINGSTON", //Descripción del producto. MANDATORIO.
           "csitproductname" => "PENDRIVE 2GB", //Nombre del producto. MANDATORIO.
           "csitproductsku" => "KSPDRV2g", //Código identificador del producto. MANDATORIO.
-          "csittotalamount" => 600, //MANDATORIO
+          "csittotalamount" => 1200, //MANDATORIO
           "csitquantity" => 1, //Cantidad del producto. MANDATORIO.
-          "csitunitprice" => 600 //Formato Idem CSITTOTALAMOUNT. MANDATORIO 
+          "csitunitprice" => 1200 //Formato Idem CSITTOTALAMOUNT. MANDATORIO 
         )
       );   
 
@@ -1432,6 +1433,7 @@ $data = array(
 #### Ticketing
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Ticketing. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+[Documentación - Ticketing](https://documentacion-ventasonline.payway.com.ar/docs/gateway/zrf947tv94afc-cybersourse-ticketing) 
 
 | Descripcion (Data set) | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest|Comentarios|
 |------------|------------|------------|------------|------------|------------|------------|
@@ -1571,6 +1573,7 @@ $response = $connector->payment()->ExecutePayment($data);
 #### Digital Goods
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Digital Goods. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+[Documentación - Digital Goods](https://documentacion-ventasonline.payway.com.ar/docs/gateway/mbpu3o5rso0e2-cybersourse-digital-goods) 
 
 | Descripcion (Data set) | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest|Comentarios|
 |------------|------------|------------|------------|------------|------------|------------|
@@ -1708,6 +1711,7 @@ $response = $connector->payment()->ExecutePayment($data);
 #### Services
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Digital Goods. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
+[Documentación - Services](https://documentacion-ventasonline.payway.com.ar/docs/gateway/bo2f68vz6x9rw-cybersourse-services) 
 
 | Descripcion (Data set) | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest|Comentarios|
 |------------|------------|------------|------------|------------|------------|------------|
@@ -1848,6 +1852,7 @@ $response = $connector->payment()->ExecutePayment($data);
 #### Travel
 
 Los siguientes parámetros se deben enviar específicamente para la vertical Travel. Además se deben enviar datos específicos de cada pasajero involucrado en la transacción.
+[Documentación - Travel](https://documentacion-ventasonline.payway.com.ar/docs/gateway/bml3xwx0xuvpi-cybersourse-travel) 
 
 | Descripcion (Data set) | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest|Comentarios|
 |------------|------------|------------|------------|------------|------------|------------|
@@ -2005,7 +2010,7 @@ $response = $connector->payment()->ExecutePayment($data);
 
 ### Códigos de Medios de pago
 
-https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medios-de-pago#medios-de-pago-disponibles
+[Medios de pago disponibles](https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medios-de-pago#medios-de-pago-disponibles)
 
 1. Visa Debito no acepta devoluciones parciales en e-commerce.
 
@@ -2014,7 +2019,7 @@ https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medi
 <a name="divisasa"></a>
 ### Divisas Aceptadas 
 
-https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medios-de-pago#divisas-aceptadas
+[Medios de pago con Divisas Aceptadas](https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medios-de-pago#divisas-aceptadas)
 
 | Divisa | Descripción | Código API
 ---------|-------------|--------
@@ -2028,7 +2033,7 @@ https://documentacion-ventasonline.payway.com.ar/docs/gateway/3jw3eiapx1jwu-medi
 
 ### Provincias
 
-https://documentacion-ventasonline.payway.com.ar/docs/gateway/vwd3zic062ibr-manejo-de-errores-cyber-source#c%c3%b3digos-de-provincias-para-cybersource
+[Códigos de Provincia para Cybersource](https://documentacion-ventasonline.payway.com.ar/docs/gateway/vwd3zic062ibr-manejo-de-errores-cyber-source#c%c3%b3digos-de-provincias-para-cybersource)
 
 | Provincia | Código |
 |----------|-------------|
