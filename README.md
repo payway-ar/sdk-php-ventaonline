@@ -28,6 +28,7 @@ Modulo para conexión con gateway de pago Payway
       + [Token](#token)
       + [TokenCs](#tokenCs)
       + [Ejecución del Pago](#payment)
+      + [Campo TID](#payment-TID)
       + [Ejecución del Pago PCI](#pci)
       + [Ejecución del pago PCI Tokenizado](#payment-pci-tokenizado)
       + [Ejecución del pago comercio agregador](#payment-agregator)
@@ -345,6 +346,117 @@ try {
 }
 ```
 
+[<sub>Volver a inicio</sub>](#Inicio)
+
+<a name="payment-TID"></a>
+
+### Campo TID (Transaction ID)
+Es un identificador único de una transacción que permite vincular una compra con una liquidación o una compra con un contracargo.
+
+Para las marcas Visa, Mastercard y American Express, es posible obtener un identificador llamado Transaction ID (de acá en más TID) como respuesta de una autorización o devolución.
+
+Se informa el TID en la respuesta de Pago Simple, Pago Distribuido, Pre Autorizado y sus devoluciones.
+Solo se retorna en transacciones aprobadas por las marcas.
+
+#### Ejemplo de respuesta para una transacción simple:
+```json
+{
+    "id": 971344,
+    "site_transaction_id": "SINGLE_1527712473",
+    "payment_method_id": 1,
+    "card_brand": "Visa",
+    "amount": 2000,
+    "currency": "ars",
+    "status": "approved",
+    "status_details": {
+        "ticket": "4",
+        "card_authorization_code": "203430",
+        "address_validation_code": "VTE0011",
+        "error": null
+    },
+    "date": "2025-03-30T00:00Z",
+    "customer": {
+        "id": "juan",
+        "email": "jmejia@prismamp.com",
+	"ip_address": "192.168.0.1"
+    },
+    "bin": "373953",
+    "installments": 1,
+    "first_installment_expiration_date": null,
+    "payment_type": "single",
+    "sub_payments": [],
+    "site_id": "00020220",
+    "fraud_detection": {
+        "status": null
+    },
+    "establishment_name": null,
+    "spv": null,
+    "confirmed": null,
+    "pan": null,
+    "customer_token": "23e560af28e73b3c001f465d5d54c15ee1f34826744a4ddf68dc6b469dc604f5",
+    "card_data": "/tokens/971344",
+    "tid": "364656548412345"
+}
+```
+#### Ejemplo de respuesta para una transacción distribuida:
+```json
+{
+  "id": 971255,
+  "site_transaction_id": "DISTRIBUTED_1527712473",
+  "payment_method_id": 1,
+  "card_brand": "Visa",
+  "amount": 2000,
+  "currency": "ars",
+  "status": "approved",
+  "status_details": {
+    "ticket": "4",
+    "card_authorization_code": "203430",
+    "address_validation_code": "VTE0011",
+    "error": null
+  },
+  "date": "2025-03-30T00:00Z",
+  "customer": {
+    "id": "juan",
+    "email": "jmejia@prismamp.com",
+    "ip_address": "192.168.0.1"
+  },
+  "bin": "373953",
+  "installments": 1,
+  "first_installment_expiration_date": null,
+  "payment_type": "distributed",
+  "sub_payments": [
+    {
+      "site_id": "04052023",
+      "installments": 1,
+      "amount": 1000,
+      "ticket": "211",
+      "card_authorization_code": "058205",
+      "subpayment_id": 1265395,
+      "tid": "234567891234567"
+    },
+    {
+      "site_id": "00009007",
+      "installments": 1,
+      "amount": 1000,
+      "ticket": "626",
+      "card_authorization_code": "048246",
+      "subpayment_id": 1265394,
+      "tid": "345678912345678"
+    }
+  ],
+  "site_id": "00020220",
+  "fraud_detection": {
+    "status": null
+  },
+  "establishment_name": null,
+  "spv": null,
+  "confirmed": null,
+  "pan": null,
+  "customer_token": "23e560a3b3c001f465d5d55ee1f3542c468712744a4ddf68dc6b469dc604f5",
+  "card_data": "/tokens/971255",
+  "tid": "123456789123456"
+}
+```
 [<sub>Volver a inicio</sub>](#Inicio)
 
 <a name="pci"></a>
