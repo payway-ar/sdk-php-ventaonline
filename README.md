@@ -2,8 +2,8 @@
 Payway SDK PHP
 ===============
 
-# Aclaración
-### El campo amount de todos los pagos y operaciones son de tipo Long, se consideran los 2 ultimos digitos como la parte decimal del importe.
+### Aclaración
+### ¡IMPORTANTE! El parámetro amount no debe contener ni puntos ni comas, ya que los últimos dos dígitos siempre serán utilizados para la parte decimal del importe. Ejemplo: 1200 ARS ≈ AR$ 12,00
 
 |Monto| Ejemplo SDK |
 | ------------ | ------------ |
@@ -287,7 +287,7 @@ Además del token de pago y los parámetros propios de la transacción, el comer
 | token  | token generado en el primer paso  |SI   |Alfanumerico de hasta 36 caracteres. No se podra ingresar un token utilizado para un  pago generado anteriormente.   | ""  |
 | payment_method_id  | id del medio de pago  |SI  |El id debe coincidir con el medio de pago de tarjeta ingresada.Se valida que sean los primeros 6 digitos de la tarjeta ingresada al generar el token.    | payment_method_id: 1,  |
 |bin   |primeros 6 numeros de la tarjeta   |SI |Importe minimo = 1 ($0.01)  |bin: "456578"  |
-|amount  |importe del pago   |  SI| Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=20000  |
+|amount  |importe del pago   |  SI| Importe Maximo = 922337203685 ($9223372036.85) |amount=20000  |
 |currency   |moneda   | SI|Valor permitido: ARS, USD   | ARS  |
 |installments   |cuotas del pago   | SI|"Valor minimo = 1 Valor maximo = 99"     |  installments: 1 |
 |payment_type   |forma de pago   | SI| Valor permitido: single / distributed
@@ -644,7 +644,7 @@ Para el caso de la operatoria de transacción en dos pasos, la captura o confirm
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-|amount  |importe del pago   |  SI| Importe Maximo = 9223372036854775807 ($92233720368547758.07) |amount=20000  |
+|amount  |importe del pago   |  SI| Importe Maximo = 922337203685 ($9223372036.85) |amount=20000  |
 
 
 #### Ejemplo
@@ -1258,6 +1258,8 @@ $response = $connector->token()->tokenDelete($data, 'af49025a-f1b7-4363-a1cb-1ed
 Para utilizar el Servicio de Control de Fraude Cybersource, en la ejecución del pago, deben enviarse datos adicionales sobre la operación de compra que se quiere realizar.
 Se han definido cinco verticales de negocio que requieren parámetros específicos, así como también parámetros comunes a todas las verticales.
 
+#### ¡IMPORTANTE! El parámetro amount no debe contener ni puntos ni comas, ya que los últimos dos dígitos siempre serán utilizados para la parte decimal del importe. Esto aplica también para todos los campos que sean montos en la ejecución del pago con Cybersource: purchaseTotals.grandTotalAmount, item.totalAmount y item.unitPrice. Ejemplo: 1200 ARS ≈ AR$ 12,00
+
 [Volver al inicio](#cybersource)
 
 #### Retail
@@ -1292,7 +1294,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 |shipTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041"|Calle Numero interior Numero Exterior / Para los casos que no son de envío a domicilio, jamás enviar la dirección propia del comercio o correo donde se retire la mercadería, en ese caso replicar los datos de facturación.|
 |shipTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041"|Barrio|
 |purchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS" |http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
-|purchaseTotals|grandTotalAmount(amount)|Required|Long (15)|Payments|"amount": 2000|"Cantidad total de la transaccion./"999999CC" sin decimales"|
+|purchaseTotals|grandTotalAmount(integer)|Required|Integer (12)|Payments|"amount": 1200|
 |customer_in_site (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"days_in_site": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
 |customer_in_site (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
 |customer_in_site (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
@@ -1309,8 +1311,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Ret
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 1,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 1200"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."| 
+|item|totalAmount(integer)|Conditional|Integer (12)|Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY" |
+|item|unitPrice(integer)|Conditional|Integer (12)|Payments|"unit_price": 1200"|"Precio Unitario del producto." | 
 
 #### Ejemplo
 ```php
@@ -1452,7 +1454,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
 |billTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041","|Calle Numero interior Numero Exterior|
 |billTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041","|Barrio|
 |purchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS" |http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
-|purchaseTotals|grandTotalAmount(amount)|Required|Long (15)|Payments|"amount": 1200||
+|purchaseTotals|grandTotalAmount(integer)|Required|Integer (12)|Payments|"amount": 1200|
 |customer_in_site (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"days_in_site": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
 |customer_in_site (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
 |customer_in_site (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
@@ -1467,8 +1469,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tic
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 1,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 1200"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
+|item|totalAmount(integer)|Conditional|Integer (12)|Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY" |
+|item|unitPrice(integer)|Conditional|Integer (12)|Payments|"unit_price": 1200"|"Precio Unitario del producto." | 
 
 #### Ejemplo
 ```php
@@ -1592,7 +1594,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |billTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041","|Calle Numero interior Numero Exterior|
 |billTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041","|Barrio|
 |purchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS" |http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
-|purchaseTotals|grandTotalAmount(amount)|Required|Long (15)|Payments|"amount": 1200|
+|purchaseTotals|grandTotalAmount(integer)|Required|Integer (12)|Payments|"amount": 1200|
 |customer_in_site (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"days_in_site": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
 |customer_in_site (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
 |customer_in_site (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
@@ -1606,8 +1608,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 1,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 1200"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."| 
+|item|totalAmount(integer)|Conditional|Integer (12)|Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY" |
+|item|unitPrice(integer)|Conditional|Integer (12)|Payments|"unit_price": 1200"|"Precio Unitario del producto." | 
 
 
 #### Ejemplo
@@ -1713,6 +1715,7 @@ $response = $connector->payment()->ExecutePayment($data);
 Los siguientes parámetros se deben enviar específicamente para la vertical Digital Goods. Además se deben enviar datos específicos de cada producto involucrado en la transacción.
 [Documentación - Services](https://documentacion-ventasonline.payway.com.ar/docs/gateway/bo2f68vz6x9rw-cybersourse-services) 
 
+
 | Descripcion (Data set) | API Fields | Required/Optional | Data Type | Origen del dato | Campo referente en ApiRest|Comentarios|
 |------------|------------|------------|------------|------------|------------|------------|
 |fraud_detection|send_to_cs(Boolean)|Required|Boolean |MDD40 - Fraud Update|"send_to_cs": true/false| |
@@ -1730,7 +1733,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |billTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041","|Calle Numero interior Numero Exterior|
 |billTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041","|Barrio|
 |purchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS" |http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
-|purchaseTotals|grandTotalAmount(amount)|Required|Long (15)|Payments|"amount": 1200|
+|purchaseTotals|grandTotalAmount(integer)|Required|Integer (12)|Payments|"amount": 1200|
 |customer_in_site (General for all Verticals)|MDD7- Fecha Registro Comprador (num Dias)|Optional|String (255)|Payments|"days_in_site": 243,"|Numero de dias que tiene registrado un cliente en el portal del comercio.|
 |customer_in_site (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
 |customer_in_site (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
@@ -1747,8 +1750,8 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Dig
 |item|productName(string)|Conditional|String (255)|Payments|"name": "popblacksabbat2016ss","|Nombre en catalogo del producto|
 |item|productSKU(string)|Conditional|String (255)|Payments|"sku": "asas","|SKU en catalogo|
 |item|quantity(integer)|Conditional|Integer (10)|Payments|"quantity": 1,"|Cantidad productos del mismo tipo agregados al carrito|
-|item|totalAmount(amount)|Conditional||Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."|
-|item|unitPrice(amount)|Conditional|String (15)|Payments|"unit_price": 1200"|"Precio Unitario del producto / "999999.CC" Es mandatorio informar los decimales, usando el punto como separador de decimales. No se permiten comas, ni como separador de miles ni como separador de decimales."| 
+|item|totalAmount(integer)|Conditional|Integer (12)|Payments|"total_amount": 1200,"|"Precio total = Precio unitario * quantity / CSITTOTALAMOUNT = CSITUNITPRICE * CSITQUANTITY" |
+|item|unitPrice(integer)|Conditional|Integer (12)|Payments|"unit_price": 1200"|"Precio Unitario del producto." | 
 
 #### Ejemplo
 ```php
@@ -1871,7 +1874,7 @@ Los siguientes parámetros se deben enviar específicamente para la vertical Tra
 |billTo|street1(string)|Required|String (60)|Payments|"street1": "LAVALLE 4041","|Calle Numero interior Numero Exterior|
 |billTo|street2(string)|Optional|String (60)|Payments|"street2": "LAVALLE 4041","|Barrio|
 |purchaseTotals|currency(string)|Required|String (5)|Payments|"currency": "ARS" |http://apps.cybersource.com/library/documentation/sbc/quickref/currencies.pdf|
-|purchaseTotals|grandTotalAmount(amount)|Required|Long (15)|Payments|"amount": 1200|
+|purchaseTotals|grandTotalAmount(integer)|Required|Integer (12)|Payments|"amount": 1200|
 |customer_in_site (General for all Verticals)|MDD8- Usuario Guest? (S/N)|Optional|String (255)|Payments|"is_guest": false,"|Valor Boleano para indicar si el usuario esta comprando como invitado en la pagina del comercio. Valores posibles (S/N)|
 |customer_in_site (General for all Verticals)|MDD9- Customer password Hash|Optional|String (255)|Payments|"password": "abracadabra","|Valor del password del usuario registrado en el portal del comercio. Incluir el valor en hash|
 |customer_in_site (General for all Verticals)|MDD10- Historico de compras del comprador (Num transacciones)|Optional|String (255)|Payments|"num_of_transactions": 1,"|Conteo de transacciones realizadas por el mismo usuario registrado en el portal del comercio|
