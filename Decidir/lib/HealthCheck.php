@@ -3,7 +3,7 @@ namespace Decidir;
 
 class HealthCheck{
 	public $data = array();
-	public $header_data = NULL;
+	public $header_http = NULL;
 	public $mode = NULL;
 	public $instanceHk = NULL;
 

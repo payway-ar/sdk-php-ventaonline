@@ -2,6 +2,7 @@
 namespace Decidir;
 
 class Tokenization{
+	public $header_http = NULL;
 	public $mode = NULL;
 	public $serviceREST = NULL;
 
