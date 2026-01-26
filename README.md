@@ -898,9 +898,7 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 
 <a name="getvalidateform"></a>
 
-Este servicio permite integrar en el comercio un formulario de pago. Utiliza el recurso "Forms" para obtener un hash a partir de los datos de la operacion, luego este hash sera utilizado al momento de llamar al recurso "form" el cual devolvera el formulario renderizado propio para cada comercio listo para ser utilizado y completar el flujo de pago.
-
-![Caso2](docs/img/validate_cao2.png)</br>
+Este servicio permite integrar un formulario de pago en el comercio, invocando el recurso /checkout-payment-button/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
@@ -961,30 +959,30 @@ $data = array(
   "fraud_detection" => array() //si no esta activado cybersource no enviar este atributo
 );
 
-$response = $connector->payment()->Forms($data);
+$response = $connector->payment()->GenerateLink($data);
 
 ```
 
-#### Respuesta servicio Forms
+#### Respuesta servicio Checkout
 
 ```php
-
-$response = $connector->payment()->Forms($data);
-
-$response->getHash(); //respuesta: 46711cd8-81f8-4228-96cc-ac3e90c75622"
-
+$response = $connector->payment()->GenerateLink($data);
+```
+```json
+{
+    "payment_link": "https://developers.decidir.com/web/checkout/1C1DAA54DE5D2244E385F3859685B82A"
+}
 ```
 
 #### Formulario renderizado
 
-Al obtener el hash se puede generar el formulario a partir de la url: 
+Una vez generado el link de pago, el formulario se visualiza accediendo a la URL devuelta por el servicio:
 
-sandbox => *https://developers.decidir.com/web/forms/{hash}?apikey={public_apikey}*
+Sandbox: https://developers.decidir.com/web/checkout/{payment_id}
 
-prod => *https://live.decidir.com/web/forms/{hash}?apikey={public_apikey}*
+Producción: https://ventasonline.payway.com.ar/web/checkout/{payment_id}
 
-
-![Formulario de pago](docs/img/form_renderizado.jpg)</br>
+![Formulario de pago](docs/img/checkout-example.png)</br>
 
 [<sub>Volver a inicio</sub>](#Inicio)
 
