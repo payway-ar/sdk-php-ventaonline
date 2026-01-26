@@ -150,7 +150,7 @@ class Payment{
 	public function GenerateLink($data){
 		$jsonData = new \Decidir\Checkout\Hash\Data($data);
 		$data['origin_platform'] = "SDK-PHP";
-		$RESTResponse = $this->serviceREST->post("orchestrator/checkout/payments/link", $jsonData->getData());
+		$RESTResponse = $this->serviceREST->post("checkout-payment-button/link", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Checkout\Hash\HashResponse($ArrayResponse);
 	}
