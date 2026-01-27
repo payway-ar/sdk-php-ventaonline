@@ -898,23 +898,17 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 
 <a name="getvalidateform"></a>
 
-Este servicio permite integrar un formulario de pago en el comercio, invocando el recurso /checkout-payment-button/link, el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
+Este servicio permite integrar un formulario de pago en el comercio, invocando el método GenerateLink($data), el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-|site.site_id  | Merchant  | Condicional | Numérico de 20 digitos   | id: "12365436"  |
-|site.template.id  | Id de formulario de pago, el id es unico para cada comercio y es generado previamente por Decidir | SI | Numérico de 20 digitos  |   |
-|site.transaction_id  | Numero de operación  | SI | Alfanumérico  de 40 digitos |   |
-|customer.id  | d que identifica al usuario  | NO | Alfanumérico  de 40 digitos |   |
-|customer.email | Email del cliente. Se envía información del pago  | Es requerido si se desea realizar el envío de mails | Alfanumérico  de 40 digitos | email:"user@mail.com"  |
-|payment.amount  | Monto de la compra  | SI | Numérico |   |
-|payment.currency  | Tipo de moneda  | NO | Letras | "ARS" o "USD"   |
-|payment.payment_method_id  | Id del medio de pago  | SI | Númerico |   |
-|payment.bin  | Primeros 6 dígitos de la tarjeta  | NO | Númerico |   |
-|payment.installments  | Cantidad de cuotas  | SI | Númerico |   |
-|payment.payment_type  | Indica si es simple o distribuida  | SI | Valores posibles: "single", "distributed" |   |
-|payment.sub_payments  | Se utiliza para pagos distribuidos. Informa los subpayments  | Es requerido si el
-pago es distribuido por monto, ya que si es por porcentaje toma los configurados desde Adm Sites (SAC) | NA |   |
+|site  | Merchant  | SI | Numérico de 8 digitos   | id: "12365436"  |
+|template_id  | Identificador de la plantilla del formulario de pago | SI | Numérico  | 1  |
+|amount  | Monto de la compra  | SI | Numérico |   |
+|currency  | Tipo de moneda  | NO | Letras | "ARS" o "USD"   |
+|payment_method_id  | Id del medio de pago  | SI | Númerico |   |
+|payment_description | Descripción del pago| NO | Alfanumérico | "TEST"  |
+|installments  | Cantidad de cuotas posibles  | SI | Array de número | [3]  |
 |success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
 |cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
 |redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
@@ -932,31 +926,17 @@ $keys_data = array(
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array(
-  "site" => array(
-        "site_id" => "03101980", //opcional, si no se tiene Merchant no se envía este atributo
-        "transaction_id" => "Swatch op",
-        "template" => array(
-            "id" => 5 
-        ),
-  ),
-  "customer" => array(
-        "id" => "001",
-        "email" => "user@mail.com",
-  ),
-  "payment" => array(
-        "amount" => 1203,
-        "currency" => "ARS",
-        "payment_method_id" => 1,
-        "bin" => "45979",
-        "installments" => 1,
-        "payment_type" => "single",
-        "sub_payments" => array()
-  ),
-  "public_apikey" => $keys_data['public_key'], // en este tiene que venir el valor del public_key
-  "success_url" => "https://shop.swatch.com/es_ar/", //si no se informa el "redirect_url" es requerido
+   "site" => "03101980",
+   "template_id" => 1 
+   "amount" => 1203,
+   "currency" => "ARS",
+   "payment_method_id" => 1,
+  "installments" => [1],
+  "public_apikey" => $keys_data['public_key'],
+  "success_url" => "https://shop.swatch.com/es_ar/", 
   "cancel_url" => "https://swatch.com/api/result",
-  "redirect_url" => "", //si no se informa el "success_url" es requerido
-  "fraud_detection" => array() //si no esta activado cybersource no enviar este atributo
+  "redirect_url" => "", 
+  "fraud_detection" => array() 
 );
 
 $response = $connector->payment()->GenerateLink($data);
@@ -980,7 +960,7 @@ Una vez generado el link de pago, el formulario se visualiza accediendo a la URL
 
 Sandbox: https://developers.decidir.com/web/checkout/{payment_id}
 
-Producción: https://ventasonline.payway.com.ar/web/checkout/{payment_id}
+Producción: https://live.decidir.com/web/checkout/{payment_id}
 
 ![Formulario de pago](docs/img/checkout-example.png)</br>
 
