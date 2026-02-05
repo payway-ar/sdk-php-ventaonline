@@ -900,18 +900,64 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 
 Este servicio permite integrar un formulario de pago en el comercio, invocando el método GenerateLink($data), el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
 
-|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
-| ------------ | ------------ | ------------ | ------------ | ------------ |
-|site  | Merchant  | SI | Numérico de 8 digitos   | id: "12365436"  |
-|template_id  | Identificador de la plantilla del formulario de pago | SI | Numérico  | 1  |
-|amount  | Monto de la compra  | SI | Numérico |   |
-|currency  | Tipo de moneda  | NO | Letras | "ARS" o "USD"   |
-|payment_method_id  | Id del medio de pago  | SI | Númerico |   |
-|payment_description | Descripción del pago| NO | Alfanumérico | "TEST"  |
-|installments  | Cantidad de cuotas posibles  | SI | Array de número | [3]  |
-|success_url  | Url a donde se rediccionará una vez que el usuario finalice la operación desde la página de feedback  | SI | Númerico |   |
-|cancel_url  | Url donde se rediccionará si el cliente quiere cancelar el formulario  | SI | NA |   |
-|redirect_url  | Url en la cual se enviaran los datos de la operación una vez finalizada la misma para que el comercio pueda capturarlos y mostrarlos como lo desee  | Es requerido en los casos donde no informe el campo "success_url" | NA |   |
+| Campo | Descripcion | Oblig | Restricciones | Ejemplo |
+|---|---|---|---|---|
+| site | Merchant | SI | Numérico de 8 digitos | id: "12365436" |
+| template_id | Identificador de la plantilla del formulario de pago | SI | Numérico | 1 |
+| amount | Monto de la compra | SI | Numérico (centavos) | 1200 |
+| currency | Tipo de moneda | NO | Letras | "ARS" |
+| payment_method_id | Id del medio de pago | SI | Numérico | 1 |
+| payment_description | Descripción del pago | NO | Alfanumérico | "TEST" |
+| installments | Cantidad de cuotas posibles | SI | Array de número | [3] |
+| success_url | Url a donde se redireccionará al finalizar (feedback) | SI | URL | https://shop.example.com/success |
+| cancel_url | Url donde se redireccionará si el cliente cancela | SI | URL | https://shop.example.com/cancel |
+| redirect_url | Url para enviar datos de la operación una vez finalizada (alternativa) | Cond | URL | https://shop.example.com/redirect |
+| fraud_detection.send_to_cs | Indica si se envía la información a Cybersource | SI | Booleano | true |
+| fraud_detection.channel | Canal de venta | SI | String | "Web" |
+| fraud_detection.device_unique_id | Identificador único del dispositivo | SI | String | "1234-1234" |
+| fraud_detection.billTo.city | Ciudad de facturación | SI | String (50). Debe comenzar con letra | "Buenos Aires" |
+| fraud_detection.billTo.country | País de facturación (código ISO) | SI | String (2) | "AR" |
+| fraud_detection.billTo.customer_id | Identificador único del usuario en el portal (no email) | SI | String (50) | "leilaid" |
+| fraud_detection.billTo.email | Email del comprador | SI | String (100) | "accept@decidir.com.ar" |
+| fraud_detection.billTo.first_name | Nombre del titular | SI | String (60). Sin caracteres especiales | "leila" |
+| fraud_detection.billTo.last_name | Apellido del titular | SI | String (60). Sin caracteres especiales | "sosa" |
+| fraud_detection.billTo.phone_number | Teléfono del comprador | SI | String (15) | "1548866329" |
+| fraud_detection.billTo.postal_code | Código postal de facturación | SI | String (10) | "1427" |
+| fraud_detection.billTo.state | Provincia/estado (valida US si country = US) | SI | String (2) | "BA" |
+| fraud_detection.billTo.street1 | Calle y número (facturación) | SI | String (60) | "LAVALLE 4041" |
+| fraud_detection.billTo.street2 | Complemento de dirección (barrio) | NO | String (60) | "Barrio XYZ" |
+| fraud_detection.shipTo.city | Ciudad de envío | SI | String (50). Debe comenzar con letra | "Buenos Aires" |
+| fraud_detection.shipTo.country | País de envío (código ISO) | SI | String (2) | "AR" |
+| fraud_detection.shipTo.email | Email del destinatario | SI | String (100) | "accept@decidir.com.ar" |
+| fraud_detection.shipTo.first_name | Nombre del destinatario | SI | String (60). Sin caracteres especiales | "leila" |
+| fraud_detection.shipTo.last_name | Apellido del destinatario | SI | String (60). Sin caracteres especiales | "sosa" |
+| fraud_detection.shipTo.phone_number | Teléfono de envío | SI | String (15) | "1549066329" |
+| fraud_detection.shipTo.postal_code | Código postal de envío | SI | String (10) | "1427" |
+| fraud_detection.shipTo.state | Provincia/estado de envío | SI | String (2) | "BA" |
+| fraud_detection.shipTo.street1 | Calle y número (envío). Si no es envío, replicar facturación | SI | String (60) | "LAVALLE 4041" |
+| fraud_detection.shipTo.street2 | Complemento de dirección envío (barrio) | NO | String (60) | "Barrio XYZ" |
+| fraud_detection.purchaseTotals.currency | Moneda de la transacción | SI | String (5) | "ARS" |
+| fraud_detection.purchaseTotals.grandTotalAmount | Importe total de la compra (centavos) | SI | Integer (12) | 1200 |
+| fraud_detection.customer_in_site.days_in_site | Días desde el registro del comprador en el portal | NO | String (255) | "243" |
+| fraud_detection.customer_in_site.is_guest | Cliente como invitado? | NO | Booleano / String | false |
+| fraud_detection.customer_in_site.password | Hash del password del usuario registrado | NO | String (255) | "abracadabra" |
+| fraud_detection.customer_in_site.num_of_transactions | Histórico de compras (cantidad transacciones) | NO | String (255) | "1" |
+| fraud_detection.customer_in_site.cellphone_number | Teléfono móvil adicional del comprador | NO | String (255) | "12121" |
+| fraud_detection.customer_in_site.street | Domicilio del cliente | NO | String (255) | "Av. Corrientes 1234" |
+| fraud_detection.days_to_delivery | Número de días para entrega (Retail MDD12) | NO | String (255) | "55" |
+| fraud_detection.dispatch_method | Método de despacho (Retail MDD13) | NO | String (255). Catálogo sugerido | "storepickup" |
+| fraud_detection.tax_voucher_required | Cliente requiere comprobante fiscal (Retail MDD14) | NO | Booleano / String | true |
+| fraud_detection.customer_loyality_number | Número de cliente frecuente (Retail MDD15) | NO | String (255) | "123232" |
+| fraud_detection.coupon_code | Código de cupón/promoción (Retail MDD16) | NO | String (255) | "cupon22" |
+| fraud_detection.items | Lista de items (array). Cada item contiene campos listados abajo | Cond | Array | ver items.* |
+| fraud_detection.items[].code | Código de producto | Cond | String (255) | "popblacksabbat2016" |
+| fraud_detection.items[].description | Descripción del producto | Cond | String (255) | "Popular Black Sabbath 2016" |
+| fraud_detection.items[].name | Nombre del producto en catálogo | Cond | String (255) | "popblacksabbat2016ss" |
+| fraud_detection.items[].sku | SKU del producto | Cond | String (255) | "asas" |
+| fraud_detection.items[].quantity | Cantidad del item | Cond | Integer (10) | 1 |
+| fraud_detection.items[].total_amount | Precio total del item (centavos) | Cond | Integer (12) | 1200 |
+| fraud_detection.items[].unit_price | Precio unitario del producto (centavos) | Cond | Integer (12) | 1200 |
+
 
 #### Ejemplo
 
@@ -919,24 +965,87 @@ Este servicio permite integrar un formulario de pago en el comercio, invocando e
 
 //Para este servicio es necesario enviar el "public_key" y "private_key".
 $keys_data = array(
-            'public_key' => '5cde7e72ea1e430db94d4312346a3744',
-            'private_key' => '12332asdjhasdjh223jkh4j1j2j2jh3jh2',
-          );
+  'public_key' => '5cde7e72ea1e430db94d4312346a3744',
+  'private_key' => '12332asdjhasdjh223jkh4j1j2j2jh3jh2',
+);
 
 $connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array(
-   "site" => "03101980",
-   "template_id" => 1 
-   "amount" => 1203,
-   "currency" => "ARS",
-   "payment_method_id" => 1,
+  "site" => "03101980",
+  "template_id" => 1 
+  "amount" => 1203,
+  "currency" => "ARS",
+  "payment_method_id" => 1,
   "installments" => [1],
   "public_apikey" => $keys_data['public_key'],
   "success_url" => "https://shop.swatch.com/es_ar/", 
   "cancel_url" => "https://swatch.com/api/result",
   "redirect_url" => "", 
-  "fraud_detection" => array() 
+  "fraud_detection" => array(
+      "send_to_cs" => true,
+      "channel" => "Web",
+      "device_unique_id" => "1234-1234",
+
+      "billTo" => array(
+          "city" => "Buenos Aires",
+          "country" => "AR",
+          "customer_id" => "leilaid",
+          "email" => "accept@decidir.com.ar",
+          "first_name" => "leila",
+          "last_name" => "leila",
+          "phone_number" => "1548866329",
+          "postal_code" => "1427",
+          "state" => "BA",
+          "street1" => "LAVALLE 4041",
+          "street2" => "LAVALLE 4041"
+      ),
+
+      "shipTo" => array(
+          "city" => "Buenos Aires",
+          "country" => "AR",
+          "email" => "accept@decidir.com.ar",
+          "first_name" => "leila",
+          "last_name" => "sosa",
+          "phone_number" => "1549066329",
+          "postal_code" => "1427",
+          "state" => "BA",
+          "street1" => "LAVALLE 4041",
+          "street2" => "LAVALLE 4041"
+      ),
+
+      "purchaseTotals" => array(
+          "currency" => "ARS",
+          "grandTotalAmount" => 1200
+      ),
+
+      "customer_in_site" => array(
+          "days_in_site" => 243,
+          "is_guest" => false,
+          "password" => "abracadabra",
+          "num_of_transactions" => 1,
+          "cellphone_number" => "12121",
+          "street" => "Av. Corrientes 1234"
+      ),
+
+      "days_to_delivery" => "55",
+      "dispatch_method" => "storepickup",
+      "tax_voucher_required" => true,
+      "customer_loyality_number" => "123232",
+      "coupon_code" => "cupon22",
+
+      "items" => array(
+          array(
+              "code" => "popblacksabbat2016",
+              "description" => "Popular Black Sabbath 2016",
+              "name" => "popblacksabbat2016ss",
+              "sku" => "asas",
+              "quantity" => 1,
+              "total_amount" => 1200,
+              "unit_price" => 1200
+          )
+      )
+  )
 );
 
 $response = $connector->payment()->GenerateLink($data);
