@@ -906,7 +906,7 @@ Este servicio permite integrar un formulario de pago en el comercio, invocando e
 > - `template_id = 1` → Checkout estándar **sin Cybersource** (transacción sin control de fraude Cybersource).
 > - `template_id = 2` → Checkout **con Cybersource habilitado** (misma operatoria, pero con evaluación antifraude).
 >
-> Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio. El campo fraud_detection solo se envía para operar con template_id = 2.
+> Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio. El campo fraud_detection solo se envía en caso de operar con el template_id = 2.
 
 ## Aclaraciones
 
