@@ -906,17 +906,14 @@ Este servicio permite integrar un formulario de pago en el comercio, invocando e
 > - `template_id = 1` → Checkout estándar **sin Cybersource** (transacción sin control de fraude Cybersource).
 > - `template_id = 2` → Checkout **con Cybersource habilitado** (misma operatoria, pero con evaluación antifraude).
 >
-> Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio. El campo fraud_detection solo se envía en caso de operar con el template_id = 2.
+> Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio. El campo fraud_detection solo se envía en caso de operar con el template_id = 2, estos aplican **exclusivamente para comercios del rubro RETAIL**.  
 
-## Aclaraciones
-
-> ⚠️  Los siguientes campos aplican **exclusivamente para comercios del rubro RETAIL**.   ⚠️ 
 
 | Campo                                                | Descripcion | Oblig | Restricciones | Ejemplo |
 |------------------------------------------------------|---|---|---|---|
 | site                                                 | Merchant | SI | Numérico de 8 digitos | id: "12365436" |
 | template_id                                          | Identificador de la plantilla del formulario de pago | SI | Numérico | 1 |
-| amount                                               | Monto de la compra | SI | Numérico (centavos) | 1200 |
+| total_price                                          | Monto de la compra | SI | Numérico (centavos) | 1200.00 |
 | currency                                             | Tipo de moneda | NO | Letras | "ARS" |
 | payment_method_id                                    | Id del medio de pago | SI | Numérico | 1 |
 | payment_description                                  | Descripción del pago | NO | Alfanumérico | "TEST" |
@@ -987,7 +984,7 @@ $connector = new \Decidir\Connector($keys_data, $ambient);
 $data = array(
   "site" => "03101980",
   "template_id" => 1 
-  "amount" => 1203,
+  "total_price" => 1200.00,
   "currency" => "ARS",
   "payment_method_id" => 1,
   "installments" => [1],
