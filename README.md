@@ -900,6 +900,18 @@ $response = $connector->payment()->ExecutePaymentOffline($data);
 
 Este servicio permite integrar un formulario de pago en el comercio, invocando el método GenerateLink($data), el cual devuelve un enlace personalizado para el formulario de pago del comercio, listo para ser utilizado y completar el flujo de pago.
 
+### CONSIDERACIONES: 
+
+> ⚠️ **IMPORTANTE – `template_id` y uso de Cybersource**
+> - `template_id = 1` → Checkout estándar **sin Cybersource** (transacción sin control de fraude Cybersource).
+> - `template_id = 2` → Checkout **con Cybersource habilitado** (misma operatoria, pero con evaluación antifraude).
+>
+> Asegúrate de seleccionar el `template_id` correcto según el flujo configurado para tu comercio. El campo fraud_detection solo se envía para operar con template_id = 2.
+
+## Aclaraciones
+
+> ⚠️  Los siguientes campos aplican **exclusivamente para comercios del rubro RETAIL**.   ⚠️ 
+
 | Campo                                                | Descripcion | Oblig | Restricciones | Ejemplo |
 |------------------------------------------------------|---|---|---|---|
 | site                                                 | Merchant | SI | Numérico de 8 digitos | id: "12365436" |
@@ -909,6 +921,7 @@ Este servicio permite integrar un formulario de pago en el comercio, invocando e
 | payment_method_id                                    | Id del medio de pago | SI | Numérico | 1 |
 | payment_description                                  | Descripción del pago | NO | Alfanumérico | "TEST" |
 | installments                                         | Cantidad de cuotas posibles | SI | Array de número | [3] |
+| origin_platform                                      | Plataforma de origen desde la cual se realiza la operación | SI | Alfanumérico | "SDK-PHP"|
 | success_url                                          | Url a donde se redireccionará al finalizar (feedback) | SI | URL | https://shop.example.com/success |
 | cancel_url                                           | Url donde se redireccionará si el cliente cancela | SI | URL | https://shop.example.com/cancel |
 | redirect_url                                         | Url para enviar datos de la operación una vez finalizada (alternativa) | Cond | URL | https://shop.example.com/redirect |
@@ -978,6 +991,8 @@ $data = array(
   "currency" => "ARS",
   "payment_method_id" => 1,
   "installments" => [1],
+  "origin_platform": "SDK-PHP",
+  "payment_description": "Producto o Servicio",
   "public_apikey" => $keys_data['public_key'],
   "success_url" => "https://shop.swatch.com/es_ar/", 
   "cancel_url" => "https://swatch.com/api/result",
@@ -991,27 +1006,27 @@ $data = array(
           "city" => "Buenos Aires",
           "country" => "AR",
           "customer_id" => "leilaid",
-          "email" => "accept@decidir.com.ar",
+          "email" => "email@dominio.com",
           "first_name" => "leila",
-          "last_name" => "leila",
+          "last_name" => "sosa",
           "phone_number" => "1548866329",
           "postal_code" => "1427",
           "state" => "BA",
           "street1" => "LAVALLE 4041",
-          "street2" => "LAVALLE 4041"
+          "street2" => "10 A"
       ),
 
       "ship_to" => array(
           "city" => "Buenos Aires",
           "country" => "AR",
-          "email" => "accept@decidir.com.ar",
+          "email" => "email@dominio.com",
           "first_name" => "leila",
           "last_name" => "sosa",
           "phone_number" => "1549066329",
           "postal_code" => "1427",
           "state" => "BA",
           "street1" => "LAVALLE 4041",
-          "street2" => "LAVALLE 4041"
+          "street2" => "10 A"
       ),
 
       "purchase_totals" => array(
