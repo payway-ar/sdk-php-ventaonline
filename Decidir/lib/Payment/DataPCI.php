@@ -127,7 +127,7 @@ class DataPCI extends \Decidir\Data\AbstractData {
 	}
 
 	public function getData(){
-		return $array = json_encode($this->getDataField());
+		return json_encode($this->getDataField());
 	}
 }
 
