@@ -1,6 +1,7 @@
 <a name="inicio"></a>
 Payway SDK PHP
 ===============
+![banner](./docs/img/payway_banner.png)</br>
 
 # Aclaración
 ### A partir de la version 2.0 el campo amount de todos los pagos y operaciones son de tipo Long, se consideran los 2 ultimos digitos como la parte decimal del importe.
