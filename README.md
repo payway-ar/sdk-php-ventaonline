@@ -3,8 +3,8 @@ Payway SDK PHP
 ===============
 ![banner](./docs/img/payway_banner.png)</br>
 
-# Aclaración
-### A partir de la version 2.0 el campo amount de todos los pagos y operaciones son de tipo Long, se consideran los 2 ultimos digitos como la parte decimal del importe.
+### Aclaración
+### ¡IMPORTANTE! El parámetro amount no debe contener ni puntos ni comas, ya que los últimos dos dígitos siempre serán utilizados para la parte decimal del importe. Ejemplo: 1200 ARS ≈ AR$ 12,00
 
 |Monto| Ejemplo SDK |
 | ------------ | ------------ |
