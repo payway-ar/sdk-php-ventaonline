@@ -23,5 +23,15 @@ El flujo de una transacción a través de las **sdks** consta de dos pasos, la *
   + [sdk .Net](https://github.com/payway-ar/sdk-net-ventaonline)
   + [sdk Node](https://github.com/payway-ar/sdk-node-ventaonline)
 
+## Soporte de Integración
+
+**Payway** ofrece un servicio de Soporte 24x7 con el siguiente alcance: 
++ Lunes a Viernes de 9 a 18 horas: Soporte Técnico, Atención Comercial y Soporte Transaccional.
++ Fuera de Horario Laboral: Control de Red.
+### CANALES DE ATENCIÓN
++ Teléfono: +54 11 4379 3460
++ Implementaciones: integraciones-ventasonline@payway.com.ar
++ Control de Red: controldered@payway.com.ar (en caso de disrupción transaccional)
+
 ## Consult&aacute;n la documentaci&oacute;n
 PHP - API Doc ->  [sdk PHP API Doc](https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/branches/main/ddw69qltg92u5-alcance)
