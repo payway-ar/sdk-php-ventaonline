@@ -161,6 +161,13 @@ class Payment{
 		return $this->toArray($RESTResponse);
 	}
 
+	public function GetCheckoutHistory($data){
+		$jsonData = new \Decidir\CheckoutHistory\Data($data);
+		$RESTResponse = $this->serviceREST->get("checkout-payment-button/get-history", array(), $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\CheckoutHistory\CheckoutHistoryResponse($ArrayResponse);
+	}
+
 	public function Refund($data, $operationId){
 		if(empty($operationId)){
 			throw new \Exception("Empty Operation id");

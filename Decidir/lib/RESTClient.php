@@ -40,6 +40,7 @@ class RESTClient{
 		
 		if($url != 'validate' && $url !== 'forms'){
 			if ($url == 'checkout-payment-button/link'
+				|| $url == 'checkout-payment-button/get-history'
 				|| $url == 'checkout-payment-button/transaction/history'){
 				$this->url = $this->endpoint.'/api/v1/'.$url;
 				return;
