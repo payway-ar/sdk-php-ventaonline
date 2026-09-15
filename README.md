@@ -41,6 +41,7 @@ Modulo para conexión con gateway de pago Payway
         + [Caja de Pagos](#cp)
         + [Cobro Express](#ce)
       + [Formulario de Pago](#getvalidateform)  
+        + [Historial de una Transacción](#transactionhistory)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)	
       	+ [Información adicional de tarjeta](#infoadicionaltarjeta)
@@ -1084,6 +1085,39 @@ Sandbox: https://developers.decidir.com/web/checkout/{payment_id}
 Producción: https://live.decidir.com/web/checkout/{payment_id}
 
 ![Formulario de pago](docs/img/checkout-example.png)</br>
+
+[<sub>Volver a inicio</sub>](#Inicio)
+
+<a name="transactionhistory"></a>
+
+### Historial de una Transacción
+
+Mediante este recurso, se genera una solicitud del historial de estados de una transacción puntual del [Formulario de Pago](#getvalidateform) (checkout-payment-button), pasando como parámetro el `charge_id`.
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|charge_id  |Id de la transacción a consultar  |SI   |Sin validacion   | "15297805"  |
+
+*Nota:* la respuesta es una lista (no un objeto), por lo que se recorre como array asociativo.
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+
+try {
+    $response = $connector->payment()->GetCheckoutTransactionHistory("15297805");
+    foreach ($response as $movimiento) {
+        $movimiento['transaction_id'];
+        $movimiento['status_id'];
+        $movimiento['status_description'];
+        $movimiento['created_at'];
+        $movimiento['holder_name'];
+        $movimiento['card_number'];
+        $movimiento['payment_method_id'];
+    }
+} catch( \Exception $e ) {
+    var_dump($e->getData());
+}
+```
 
 [<sub>Volver a inicio</sub>](#Inicio)
 
