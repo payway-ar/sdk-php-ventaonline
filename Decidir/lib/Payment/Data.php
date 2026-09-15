@@ -120,6 +120,9 @@ class Data extends \Decidir\Data\AbstractData {
 					"name" =>"card_holder_identification"
 				),
 			),
+			"external_payment_data" => array(
+				"name" => ""
+			),
 			"is_tokenized_payment" => array(
 				"name" => "is_tokenized_payment"
 			),

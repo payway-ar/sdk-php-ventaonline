@@ -57,6 +57,9 @@ class DataPCI extends \Decidir\Data\AbstractData {
 			"card_data" => array(
 				"name" => ""
 			),
+			"external_payment_data" => array(
+				"name" => ""
+			),
             "is_tokenized_payment" => array(
 				"name" => "is_tokenized_payment"
 			),
