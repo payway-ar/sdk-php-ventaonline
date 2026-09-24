@@ -1097,9 +1097,8 @@ Mediante este recurso, se genera una solicitud de listado del historial de links
 
 |Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
 | ------------ | ------------ | ------------ | ------------ | ------------ |
-|platform  |Plataforma de origen  |SI   |Alfanumerico   | "MyPayway"  |
-|cuit  |CUIT del comercio (11 dígitos, con guiones)  |Condicional, se debe enviar cuit o site_id   |Sin validacion   | "27-18284117-5"  |
-|site_id  |Site del comercio  |Condicional, se debe enviar cuit o site_id   |Sin validacion   | "31002638"  |
+|platform  |Plataforma de origen  |SI   |Alfanumerico   | "SDK-PHP"  |
+|site_id  |Site del comercio  |se debe enviar site_id |Sin validacion   | "12344"  |
 |operation_id  |Id de la operación  |NO   |Sin validacion   | "31002638T175933..."  |
 |status  |Estado del link  |NO   |Sin validacion   | "vencido"  |
 |from_date  |Fecha desde  |NO   |Formato ISO (`YYYY-MM-DDTHH:mm:ss`)   | "2025-10-01T00:00:00"  |
@@ -1118,8 +1117,8 @@ Mediante este recurso, se genera una solicitud de listado del historial de links
 $connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
 
 $data = array(
-    "cuit" => "27-18284117-5",
-    "platform" => "MyPayway",
+    "site_id" => "12344",
+    "platform" => "SDK-PHP",
     "page" => 0,
     "items_per_page" => 10,
     "from_date" => "2025-10-01T00:00:00",
