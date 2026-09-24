@@ -155,6 +155,19 @@ class Payment{
 		return new \Decidir\Checkout\Hash\HashResponse($ArrayResponse);
 	}
 
+	public function GetCheckoutTransactionHistory($chargeId){
+		$jsonData = new \Decidir\TransactionHistory\Data(array("chargeId" => $chargeId));
+		$RESTResponse = $this->serviceREST->get("checkout-payment-button/transaction/history", array(), $jsonData->getData());
+		return $this->toArray($RESTResponse);
+	}
+
+	public function GetCheckoutHistory($data){
+		$jsonData = new \Decidir\CheckoutHistory\Data($data);
+		$RESTResponse = $this->serviceREST->get("checkout-payment-button/get-history", array(), $jsonData->getData());
+		$ArrayResponse = $this->toArray($RESTResponse);
+		return new \Decidir\CheckoutHistory\CheckoutHistoryResponse($ArrayResponse);
+	}
+
 	public function Refund($data, $operationId){
 		if(empty($operationId)){
 			throw new \Exception("Empty Operation id");

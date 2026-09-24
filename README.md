@@ -41,6 +41,8 @@ Modulo para conexión con gateway de pago Payway
         + [Caja de Pagos](#cp)
         + [Cobro Express](#ce)
       + [Formulario de Pago](#getvalidateform)  
+        + [Historial de Links de Pago](#checkouthistory)
+        + [Historial de una Transacción](#transactionhistory)
       + [Listado de Pagos](#getallpayments)
       + [Información de un Pago](#getpaymentinfo)	
       	+ [Información adicional de tarjeta](#infoadicionaltarjeta)
@@ -1084,6 +1086,89 @@ Sandbox: https://developers.decidir.com/web/checkout/{payment_id}
 Producción: https://live.decidir.com/web/checkout/{payment_id}
 
 ![Formulario de pago](docs/img/checkout-example.png)</br>
+
+[<sub>Volver a inicio</sub>](#Inicio)
+
+<a name="checkouthistory"></a>
+
+### Historial de Links de Pago
+
+Mediante este recurso, se genera una solicitud de listado del historial de links de pago generados a través del [Formulario de Pago](#getvalidateform) (checkout-payment-button), con filtros. Se debe informar `cuit` o `site_id` (al menos uno de los dos), y `platform` es siempre obligatorio.
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|platform  |Plataforma de origen  |SI   |Alfanumerico   | "MyPayway"  |
+|cuit  |CUIT del comercio (11 dígitos, con guiones)  |Condicional, se debe enviar cuit o site_id   |Sin validacion   | "27-18284117-5"  |
+|site_id  |Site del comercio  |Condicional, se debe enviar cuit o site_id   |Sin validacion   | "31002638"  |
+|operation_id  |Id de la operación  |NO   |Sin validacion   | "31002638T175933..."  |
+|status  |Estado del link  |NO   |Sin validacion   | "vencido"  |
+|from_date  |Fecha desde  |NO   |Formato ISO (`YYYY-MM-DDTHH:mm:ss`)   | "2025-10-01T00:00:00"  |
+|to_date  |Fecha hasta  |NO   |Formato ISO (`YYYY-MM-DDTHH:mm:ss`)   | "2025-10-06T23:00:00"  |
+|page  |Página solicitada  |NO   |Numérico, default 0   | 0  |
+|items_per_page  |Cantidad de resultados por página  |NO   |Numérico, default 10   | 10  |
+|description  |Descripción del link  |NO   |Sin validacion   | "Producto"  |
+|currency  |Moneda  |NO   |ARS / USD   | "ARS"  |
+|establishment_number  |Número de establecimiento  |NO   |Numérico   | 15475999  |
+|max_amount  |Monto máximo  |NO   |Numérico   | 5000  |
+|min_amount  |Monto mínimo  |NO   |Numérico   | 100  |
+|installments  |Cantidad de cuotas  |NO   |Numérico   | 3  |
+|payment_method_id  |Id del medio de pago  |NO   |Numérico   | 1  |
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+
+$data = array(
+    "cuit" => "27-18284117-5",
+    "platform" => "MyPayway",
+    "page" => 0,
+    "items_per_page" => 10,
+    "from_date" => "2025-10-01T00:00:00",
+    "to_date" => "2025-10-06T23:00:00"
+);
+
+try {
+    $response = $connector->payment()->GetCheckoutHistory($data);
+    $response->getHistory();
+    $response->getCount();
+    $response->getPage();
+    $response->getTotalItems();
+} catch( \Exception $e ) {
+    var_dump($e->getData());
+}
+```
+
+[<sub>Volver a inicio</sub>](#Inicio)
+
+<a name="transactionhistory"></a>
+
+### Historial de una Transacción
+
+Mediante este recurso, se genera una solicitud del historial de estados de una transacción puntual del [Formulario de Pago](#getvalidateform) (checkout-payment-button), pasando como parámetro el `charge_id`.
+
+|Campo | Descripcion  | Oblig | Restricciones  |Ejemplo   |
+| ------------ | ------------ | ------------ | ------------ | ------------ |
+|charge_id  |Id de la transacción a consultar  |SI   |Sin validacion   | "15297805"  |
+
+*Nota:* la respuesta es una lista (no un objeto), por lo que se recorre como array asociativo.
+
+```php
+$connector = new \Decidir\Connector($keys_data, $ambient, "", "", "SDK-PHP");
+
+try {
+    $response = $connector->payment()->GetCheckoutTransactionHistory("15297805");
+    foreach ($response as $movimiento) {
+        $movimiento['transaction_id'];
+        $movimiento['status_id'];
+        $movimiento['status_description'];
+        $movimiento['created_at'];
+        $movimiento['holder_name'];
+        $movimiento['card_number'];
+        $movimiento['payment_method_id'];
+    }
+} catch( \Exception $e ) {
+    var_dump($e->getData());
+}
+```
 
 [<sub>Volver a inicio</sub>](#Inicio)
 
