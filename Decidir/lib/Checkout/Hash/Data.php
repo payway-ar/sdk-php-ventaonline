@@ -51,9 +51,6 @@ class Data extends \Decidir\Data\AbstractData {
                     ),
                 )
             ),
-            "notifications_url" => array(
-                "name" => ""
-            ),
             "success_url" => array(
                 "name" => ""
             ),
