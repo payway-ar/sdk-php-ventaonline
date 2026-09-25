@@ -5,6 +5,7 @@ abstract class AbstractData extends \Decidir\Data\AbstractData
 {	
 	private $field_required = array();
 	private $field_optional = array();
+	private $dataSet = array();
 
 	public function __construct(array $data){
 	    $this->dataResponse = $data;

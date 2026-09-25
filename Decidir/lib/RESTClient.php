@@ -5,6 +5,8 @@ class RESTClient{
 	private $url = NULL;
 	private $endpoint = NULL;
 	private $keys_data = array();
+	private $developer = NULL;
+	private $grouper = NULL;
 	private $key = NULL;
 	private $formKey = NULL;
 	private $statusCodeResponse = array(200, 201, 204);
