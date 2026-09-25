@@ -148,8 +148,8 @@ class Payment{
 	}
 
 	public function GenerateLink($data){
-		$jsonData = new \Decidir\Checkout\Hash\Data($data);
 		$data['origin_platform'] = "SDK-PHP";
+		$jsonData = new \Decidir\Checkout\Hash\Data($data);
 		$RESTResponse = $this->serviceREST->post("checkout-payment-button/link", $jsonData->getData());
 		$ArrayResponse = $this->toArray($RESTResponse);
 		return new \Decidir\Checkout\Hash\HashResponse($ArrayResponse);

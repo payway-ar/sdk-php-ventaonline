@@ -12,7 +12,7 @@ Payway SDK PHP
 | $3000,00 | 300000 |
 
 
-Modulo para conexión con gateway de pago Payway
+Modulo para conexión con gateway de pago Payway. Historial de cambios: [CHANGELOG](CHANGELOG.md).
   + [Introducción](#introduccion)
     + [Alcance](#alcance)
 	+ [TimeOut](#timeout)
@@ -114,7 +114,7 @@ A continuación, se presenta un diagrama con el Flujo de un Pago.
 ## Instalación
 El SDK se encuentra disponible para descargar desde [Github](https://github.com/payway-ar/sdk-php-ventaonline) o desde composer con el siguiente comando:
 
-```php
+```bash
   
 composer require decidir2/php-sdk 
 
@@ -128,7 +128,18 @@ Una vez instalo el SDK dentro del proyecto, es necesario tener descomentada la e
 <a name="versiones"></a>
 ## Versiones de PHP soportadas
 
-La versión implementada de la SDK, está testeada para las versiones PHP desde 5.3.
+La información de esta sección corresponde al código de la versión actual de la SDK. Requiere **PHP 7.0 o superior** y no es compatible con PHP 5.x.
+
+| Versión de PHP | Estado | Observaciones |
+| ------------ | ------------ | ------------ |
+| 5.x | No soportada | El código utiliza sintaxis de PHP 7.0 o superior (operador `??`). |
+| 7.0 a 7.4 | Compatible con una limitación | Todas las operaciones funcionan, excepto la serialización a JSON de la respuesta del formulario de pago (`FormsResponse`, por ejemplo con `json_encode`), que requiere PHP 8.0 o superior. |
+| 8.0 a 8.3 | Compatible | |
+| 8.4 y 8.5 | Compatible | Genera un aviso de deprecación menor en `SdkException`, sin impacto en el funcionamiento. |
+
+*Nota:* verificado ejecutando los flujos de la SDK contra un cliente REST simulado, sin conexión al gateway, en las versiones 7.0 a 8.5.
+
+*Versiones anteriores:* la sintaxis que impide su uso en PHP 5.x se incorporó en la versión 2.0.3. Las versiones anteriores (hasta la 2.0.2) no presentan errores de sintaxis en PHP 5.6, por lo que podrían ser compatibles con versiones más antiguas de PHP. Esto no fue verificado de forma completa.
 
 [Volver al inicio](#inicio)
 
@@ -333,10 +344,10 @@ try {
 	$response->getDate_due();
 	$response->getSub_payments();
 	$response->getStatus();
-	$response->getStatus_details()->ticket
-	$response->getStatus_details()->card_authorization_code
-	$response->getStatus_details()->address_validation_code
-	$response->getStatus_details()->error
+	$response->getStatus_details()->ticket;
+	$response->getStatus_details()->card_authorization_code;
+	$response->getStatus_details()->address_validation_code;
+	$response->getStatus_details()->error;
 	$response->getDate();
 	$response->getEstablishment_name();
 	$response->getFraud_detection();
@@ -406,10 +417,10 @@ try {
 	$response->getDate_due();
 	$response->getSub_payments();
 	$response->getStatus();
-	$response->getStatus_details()->ticket
-	$response->getStatus_details()->card_authorization_code
-	$response->getStatus_details()->address_validation_code
-	$response->getStatus_details()->error
+	$response->getStatus_details()->ticket;
+	$response->getStatus_details()->card_authorization_code;
+	$response->getStatus_details()->address_validation_code;
+	$response->getStatus_details()->error;
 	$response->getDate();
 	$response->getEstablishment_name();
 	$response->getFraud_detection();
@@ -484,7 +495,7 @@ $data = array(
         "merchant_url" => "hola@gmail.com",
         "aggregator_name" => "payfact",
         "gateway_id" => "sarasaPayway",
-		"seller_id": "seller_123"
+		"seller_id" => "seller_123"
     )
 );
 
@@ -564,7 +575,7 @@ $data = array(
         "merchant_url" => "hola@gmail.com",
         "aggregator_name" => "payfact",
         "gateway_id" => "sarasaPayway",
-		"seller_id": "seller_123"
+		"seller_id" => "seller_123"
     )
 );
 
@@ -920,7 +931,6 @@ Este servicio permite integrar un formulario de pago en el comercio, invocando e
 | payment_method_id                                    | Id del medio de pago | SI | Numérico | 1 |
 | payment_description                                  | Descripción del pago | NO | Alfanumérico | "TEST" |
 | installments                                         | Cantidad de cuotas posibles | SI | Array de número | [3] |
-| origin_platform                                      | Plataforma de origen desde la cual se realiza la operación | SI | Alfanumérico | "SDK-PHP"|
 | success_url                                          | Url a donde se redireccionará al finalizar (feedback) | SI | URL | https://shop.example.com/success |
 | cancel_url                                           | Url donde se redireccionará si el cliente cancela | SI | URL | https://shop.example.com/cancel |
 | redirect_url                                         | Url para enviar datos de la operación una vez finalizada (alternativa) | Cond | URL | https://shop.example.com/redirect |
@@ -985,13 +995,12 @@ $connector = new \Decidir\Connector($keys_data, $ambient);
 
 $data = array(
   "site" => "03101980",
-  "template_id" => 1 
+  "template_id" => 1,
   "total_price" => 1200.00,
   "currency" => "ARS",
   "payment_method_id" => 1,
   "installments" => [1],
-  "origin_platform": "SDK-PHP",
-  "payment_description": "Producto o Servicio",
+  "payment_description" => "Producto o Servicio",
   "public_apikey" => $keys_data['public_key'],
   "success_url" => "https://shop.swatch.com/es_ar/", 
   "cancel_url" => "https://swatch.com/api/result",
@@ -1240,13 +1249,13 @@ $data = array();
 $query = array("expand"=>"card_data");
 
 $response = $connector->payment()->PaymentInfo($data, '873836', $query);
-$response->getCard_data()
+$response->getCard_data();
 
 ```
 
 #### Respuesta
 
-```php
+```text
 
 Array (
 	[card_number] => 450799XXXXXX4905
@@ -1337,8 +1346,8 @@ Mediante este recurso, se genera una solicitud de anulación de devolución parc
 
 $data = array();
 $response = $connector->payment()->deleteRefund($data, '574671', '164'); //574671 id de la operacion de compra, 164 id de la devolucion parcial
-$response->getResponse());
-$response->getStatus());
+$response->getResponse();
+$response->getStatus();
 
 
 ```
