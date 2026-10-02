@@ -49,7 +49,7 @@ Si el comercio quiere capturar los datos de la tarjeta desde su frontend, puede 
 ---
 
 <p align="center">
-  <a href="https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/ddw69qltg92u5-alcance">
+  <a href="https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/ddw69qltg92u5-1-introduccion">
     <img src="https://img.shields.io/badge/Documentaci%C3%B3n%20SDK%20PHP-Ir%20al%20portal%20%E2%86%92-00A3E0?style=for-the-badge" alt="Documentación SDK PHP">
   </a>
 </p>
