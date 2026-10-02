@@ -14,24 +14,24 @@ Módulo de conexión con el gateway de pago **DECIDIR2**.
 
 ## ⚙️ Cómo funciona
 
-Una transacción tiene **dos etapas**: primero se **genera un token de pago** y después se **procesa el pago**.
+El **SDK PHP** se integra en el backend del comercio y cubre todo el ciclo de pago:
 
-```
-Cliente → Checkout → SDK JavaScript → Token → Backend (SDK PHP) → Pago
-```
+- Generación de tokens de pago
+- Procesamiento de pagos en todas las verticales disponibles
+- Creación y consulta de links de pago
+- Devoluciones y anulaciones
+- Consulta del historial de transacciones
 
-| Capa | SDK | Qué hace |
+> También hay SDKs de backend para **Java**, **.NET** y **Node.js**, con las mismas funcionalidades.
+
+### 🧩 Opcional: SDK JavaScript
+
+Si el comercio quiere capturar los datos de la tarjeta desde su frontend, puede sumar la **SDK JavaScript**. Esta SDK muestra un formulario de pago, toma los datos de la tarjeta y genera el token. Después, el backend usa ese token para procesar el pago con el SDK PHP.
+
+| Modalidad | Generación del token | Procesamiento del pago |
 |---|---|---|
-| **Frontend** | JavaScript | Captura los datos de pago en el checkout y genera el token |
-| **Backend** | Java · **PHP** · .NET · Node.js | Tokens, pagos, links de pago, devoluciones, anulaciones y consultas de historial |
-
-### Escenarios de integración
-
-- **Checkout propio:** la SDK JavaScript genera el token y la SDK de backend procesa el pago.
-- **Solo backend:** la SDK de backend hace todo, incluida la generación del token.
-
-> [!NOTE]
-> La SDK JavaScript **complementa** a las SDKs de backend, no las reemplaza.
+| **Solo backend** | SDK PHP | SDK PHP |
+| **Con formulario en el frontend** *(opcional)* | SDK JavaScript | SDK PHP |
 
 ---
 
@@ -49,7 +49,7 @@ Cliente → Checkout → SDK JavaScript → Token → Backend (SDK PHP) → Pago
 ---
 
 <p align="center">
-  <a href="https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/branches/main/8eucdoynmh3ox-alcance">
+  <a href="https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/ddw69qltg92u5-alcance">
     <img src="https://img.shields.io/badge/Documentaci%C3%B3n%20SDK%20PHP-Ir%20al%20portal%20%E2%86%92-00A3E0?style=for-the-badge" alt="Documentación SDK PHP">
   </a>
 </p>
