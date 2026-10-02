@@ -8,7 +8,7 @@ Módulo de conexión con el gateway de pago **DECIDIR2**.
 > ### 📘 La documentación completa está en el portal de Payway
 > Este README es solo una introducción. Ahí vas a encontrar guías de integración, ejemplos y la referencia completa de la API.
 >
-> ### 👉 [Ir a la documentación del SDK PHP](https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/branches/main/8eucdoynmh3ox-alcance)
+> ### 👉 [Ir a la documentación del SDK PHP](https://documentacion-ventasonline.payway.com.ar/docs/sdk-s/ddw69qltg92u5-1-introduccion)
 
 ---
 
