@@ -40,7 +40,7 @@ class Response extends \Decidir\Data\AbstractData {
                     return $this->get($property, $objectType);
 
                 default:
-                    throw new Exception('Method ' . $methodName . ' not exists');
+                    throw new \Exception('Method ' . $methodName . ' not exists');
             }
         }
     }

@@ -4,6 +4,7 @@ namespace Decidir\Data;
 
 abstract class AbstractData {
 	protected $dataResponse = array();
+	protected $FieldName;
 	private $field_required;
 	private $field_optional;
 	
