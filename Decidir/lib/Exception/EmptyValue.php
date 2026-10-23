@@ -5,7 +5,7 @@ class EmptyValue extends \Decidir\Exception\SdkException {
 	
 	public function __construct($field) {
 		$message = "Campo: " . $field . " no puede estar vacio.";
-		$code = null;//99977;
+		$code = 0;//99977;
 		parent::__construct($message, $code, $field);
 	}
 }

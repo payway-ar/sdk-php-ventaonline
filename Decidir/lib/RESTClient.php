@@ -11,6 +11,8 @@ class RESTClient{
 	private $action = NULL;
 	public $jsonData = NULL;
 	public $service = NULL;
+	public $developer = NULL;
+	public $grouper = NULL;
 
     const DECIDIR_ENDPOINT_DESA = "http://decidir.payway-dev.tanzu.intra";
 	const DECIDIR_ENDPOINT_QA = "http://decidir.payway-qa.tanzu.intra";
@@ -29,15 +31,15 @@ class RESTClient{
             $this->endpoint = self::DECIDIR_ENDPOINT_DESA;
         } elseif($mode == "test") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_TEST;
-		} elseif ($mode == "qa") {	
+		} elseif ($mode == "qa") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_QA;
-		} elseif ($mode == "prod") {	
+		} elseif ($mode == "prod") {
 			$this->endpoint = self::DECIDIR_ENDPOINT_PROD;
 		}
 	}
 
 	public function setUrl($url){
-		
+
 		if($url != 'validate' && $url !== 'forms'){
 			if ($url == 'checkout-payment-button/link'
 				|| $url == 'checkout-payment-button/get-history'
@@ -54,10 +56,10 @@ class RESTClient{
 				return;
 			}
 			$this->url = $this->endpoint.'/api/v2/'.$url;
-			
+
 			//Para testing local es probable que se requiera modificar el concatenado del URL..
 			//$this->endpoint = $this->endpoint.$url;
-		}else{	
+		}else{
 			$this->url = $this->endpoint.'/web/'.$url;
 		}
 
@@ -138,14 +140,14 @@ class RESTClient{
 			array_push($header_http, 'X-Consumer-Username: '. $this->formKey);
 		}else{
 			array_push($header_http, 'apikey: '. $this->key);
-		}	
+		}
 
 		$curl = curl_init();
 		$curl_post_data = array();
 
 		switch($method){
 			case "POST":
-					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);	
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 					break;
 
 			case "GET":
@@ -153,7 +155,7 @@ class RESTClient{
 					break;
 
 			case "PUT":
-					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);	
+					curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
             		break;
 
 			case "DELETE":
@@ -186,7 +188,6 @@ class RESTClient{
         if($codeResponse == 204) {
                 $response = '{"status":"success"}';
         }
-		curl_close($curl);
 
 		return json_decode($response, true);
 	}

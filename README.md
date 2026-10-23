@@ -12,6 +12,11 @@ Módulo de conexión con el gateway de pago **DECIDIR2**.
 
 ---
 
+## 📋 Requisitos
+
+- PHP 8.3 o superior (probado con 8.3, 8.4 y 8.5; compatible con 8.6)
+- Extensiones `curl` y `json`
+
 ## ⚙️ Cómo funciona
 
 El **SDK PHP** se integra en el backend del comercio y cubre todo el ciclo de pago:

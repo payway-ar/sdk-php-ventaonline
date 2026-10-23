@@ -40,7 +40,7 @@ class Response extends \Decidir\Data\AbstractData {
                     return $this->get($property, $objectType);
 
                 default:
-                    throw new Exception('Method ' . $methodName . ' not exists');
+                    throw new \Exception('Method ' . $methodName . ' not exists');
             }
         }
     }
@@ -51,7 +51,7 @@ class Response extends \Decidir\Data\AbstractData {
             $obj = new \stdClass();
 
             foreach($this->dataResponse[$property] as $index => $value){
-                $obj->$index=$value;                
+                $obj->$index=$value;
             }
             $resp = $obj;
 

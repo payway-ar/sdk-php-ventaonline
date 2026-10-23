@@ -229,9 +229,6 @@ class Payment{
 
 		$jsonData = new \Decidir\DeleteRefund\Data($data);
 		return $this->serviceREST->delete("payments/".$operationId."/refunds/".$refundId, $jsonData->getData());
-		$ArrayResponse = $this->toArray($RESTResponse);
-
-		return new \Decidir\DeleteRefund\PaymentDeleteRefund($ArrayResponse);
 	}
 
 	public function setCybersource($data){

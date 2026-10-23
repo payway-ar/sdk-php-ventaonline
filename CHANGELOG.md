@@ -5,6 +5,23 @@ Todos los cambios relevantes de la SDK PHP se documentan en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/).
 Para versiones anteriores a la 2.0.9 consultar el historial de tags y commits del repositorio.
 
+## [3.0.0] - 2026-10-22
+
+### Cambiado
+
+- **Breaking:** la SDK ahora requiere PHP 8.3 o superior (compatible con PHP 8.4, 8.5 y 8.6). Se agregan `ext-curl` y `ext-json` como requisitos en `composer.json`.
+- `SdkException`: el parámetro `$data` pasa a ser opcional y `$previous` acepta `?\Throwable`; se eliminan las propiedades redeclaradas.
+
+### Corregido
+
+- Se eliminan deprecaciones de PHP 8.1 a 8.5: propiedades dinámicas, tipos nullable implícitos, `null` como código de excepción y `curl_close`.
+- `Data\Response` lanzaba una clase `Exception` inexistente en su namespace.
+- Se elimina código inalcanzable en `Payment::deleteRefund`.
+
+### Agregado
+
+- Tests con PHPUnit (`tests/`, `phpunit.xml.dist`) y workflow de CI para PHP 8.3 a 8.6.
+
 ## [2.0.10]
 
 Versión de mantenimiento: no agrega funcionalidades. El único cambio de comportamiento es el de `origin_platform` en `GenerateLink` (ver "Corregido").

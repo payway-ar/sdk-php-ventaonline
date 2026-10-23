@@ -4,6 +4,7 @@ namespace Decidir\Data;
 
 abstract class AbstractDataForms
 {
+	protected $FieldName;
 	protected $dataResponse = array();
 	private $field_required;
 

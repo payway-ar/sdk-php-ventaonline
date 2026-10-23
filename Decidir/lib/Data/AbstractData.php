@@ -6,6 +6,7 @@ abstract class AbstractData {
 	protected $dataResponse = array();
 	private $field_required;
 	private $field_optional;
+	protected $FieldName;
 	
 	public function __construct(array $data){
 		$this->dataResponse = $data;

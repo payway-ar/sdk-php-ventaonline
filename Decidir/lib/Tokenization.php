@@ -3,6 +3,7 @@ namespace Decidir;
 
 class Tokenization{
 	public $mode = NULL;
+	public $header_http = NULL;
 	public $serviceREST = NULL;
 
 	public function __construct($header_http, $mode){
