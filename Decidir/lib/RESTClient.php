@@ -13,7 +13,7 @@ class RESTClient{
 	public $service = NULL;
 
     const DECIDIR_ENDPOINT_DESA = "http://decidir.payway-dev.tanzu.intra";
-	const DECIDIR_ENDPOINT_QA = "http://decidir.payway-qa.tanzu.intra";
+	const DECIDIR_ENDPOINT_QA = "https://api.online-aws-qa.payway.com.ar";
     const DECIDIR_ENDPOINT_TEST = "https://developers.decidir.com";
     const DECIDIR_ENDPOINT_PROD = "https://ventasonline.payway.com.ar";
 	const DECIDIR_ENDPOINT_FORM_PROD = "https://live.decidir.com";
